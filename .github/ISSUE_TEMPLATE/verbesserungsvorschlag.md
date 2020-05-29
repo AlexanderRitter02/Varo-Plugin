@@ -2,16 +2,16 @@
 name: Verbesserungsvorschlag
 about: Schlage eine Idee oder neue Funktion vor
 title: Setze einen kurzen Titel
-labels: enhancement
+labels: Verbesserung
 assignees: ''
 
 ---
 
-**Bezieht sich dein Vorschlag auf ein Problem? Please describe.**
+**Bezieht sich dein Vorschlag auf ein Problem?**
 ...
 
-**Beschreibe den Vorschlag und die Umsetzung**
-...
+**Der Vorschlag**
+<!-- Beschreibe den Vorschlag ausführlich, aber deutlich -->
 
-**Eventuelle Alternativen**
-...
+**Alternativen**
+<!-- Gibt es Alternativen? -->
