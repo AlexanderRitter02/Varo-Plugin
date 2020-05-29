@@ -1,4 +1,4 @@
-## Version 0.9.2
+# Version 0.9.2
 
 #### Added
 - Coordinate post time can now be set to: DAY, HOUR
@@ -17,7 +17,7 @@
 - Improved Worlborder.getHighestBlock(), shorter
 
 
-## Version 0.9.1
+# Version 0.9.1
 
 #### Fixed
 - Coordinates are not rounded on post
