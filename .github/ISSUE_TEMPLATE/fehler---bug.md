@@ -2,7 +2,7 @@
 name: Fehler / Bug
 about: Melde einen Fehler
 title: Kurzen Titel hier einfügen
-labels: ''
+labels: Fehler
 assignees: ''
 
 ---
