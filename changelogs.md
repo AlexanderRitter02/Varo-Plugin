@@ -1,3 +1,31 @@
+# Version 1.8.0
+
+#### Added
+- **ADMIN role, either temporary or forever**
+  It excludes the player from all Varo events and allows him to fix something or watch over the game
+  Commands: `/maintainence <player>` (temporary) & `/maintainence <player> forever` (forever admin)
+- Configuration option `allow-prevent-coordinate-post` to allow/deny players to use /coordinates, so their coordinates don't get posted later
+
+#### Fixed
+- `spawn-teams-together` option not working sometimes
+- /varo.spawn does not display "Spawnpoint wurde erfolgreich überschrieben." for spawnpoints lower than the last registered spawnpoint
+- If a spectator is online, the time for all players stops
+
+#### Internals
+- Removed now unused original Calendar class
+
+
+# Version 1.7
+
+#### Added
+- `spawn-teams-together` config option for player start distribution:
+   true: teams are spawned side by side
+   false: all players are spawned randomly
+
+#### Fixed
+- `/kill` doesn't kill players with spawn protection or before the start of Varo
+
+
 # Version 0.9.2
 
 #### Added
