@@ -21,6 +21,8 @@ import de.alexanderritter.varo.commands.CMDspectators;
 import de.alexanderritter.varo.commands.CMDstart;
 import de.alexanderritter.varo.commands.CMDstop;
 import de.alexanderritter.varo.commands.Overwrite;
+import de.alexanderritter.varo.config.BorderMode;
+import de.alexanderritter.varo.config.Settings;
 import de.alexanderritter.varo.events.BeforeVaroListener;
 import de.alexanderritter.varo.events.IngameEvents;
 import de.alexanderritter.varo.events.SpectatorListener;
@@ -82,7 +84,7 @@ public class Init {
 	
 	public Settings loadSettings() {
 		FileConfiguration config = plugin.getConfig();
-		int bordermode = config.getInt("bordermode");
+		BorderMode bordermode = BorderMode.valueOf(config.getString("bordermode").toUpperCase());
 		int sessions_length = config.getInt("sessions_length");
 		int sessions_per_week = config.getInt("sessions_per_week");
 		int login_protection = config.getInt("login_protection");

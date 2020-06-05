@@ -35,6 +35,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
 
+import de.alexanderritter.varo.config.Settings;
 import de.alexanderritter.varo.events.Worldborder;
 import de.alexanderritter.varo.ingame.ChestManager;
 import de.alexanderritter.varo.ingame.PlayerManager;

@@ -1,4 +1,4 @@
-package de.alexanderritter.varo.main;
+package de.alexanderritter.varo.config;
 
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
@@ -9,10 +9,13 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import de.alexanderritter.varo.main.Varo;
+
 public class Settings {
 	
 	Varo plugin;
-	int bordermode, sessions_per_week, sessions_length, start_protection, login_protection, min_logout_distance, current_week, daytopost;
+	BorderMode bordermode;
+	int sessions_per_week, sessions_length, start_protection, login_protection, min_logout_distance, current_week, daytopost;
 	double borderShrinkPerHour;
 	boolean allowedToSpectateIfTeamAlive, friendlyfire, running;
 	World varo;
@@ -20,7 +23,7 @@ public class Settings {
 	String discordid;
 	
 	
-	public Settings(Varo plugin, int bordermode, int sessions_per_week, int sessions_length, int start_protection, int login_protection, int min_logout_distance, int current_week,
+	public Settings(Varo plugin, BorderMode bordermode, int sessions_per_week, int sessions_length, int start_protection, int login_protection, int min_logout_distance, int current_week,
 			boolean allowedToSpectateIfTeamAlive, boolean friendlyfire, boolean running, String discordid, int daytopost, double borderShrinkPerHour, Location lobby) {
 		this.plugin = plugin;
 		this.bordermode = bordermode;
@@ -66,7 +69,7 @@ public class Settings {
 		return lobby;
 	}
 	
-	public int getBorderMode() {
+	public BorderMode getBorderMode() {
 		return bordermode;	
 	}
 	

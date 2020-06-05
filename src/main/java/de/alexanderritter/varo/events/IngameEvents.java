@@ -118,13 +118,13 @@ public class IngameEvents implements Listener {
 		if(plugin.getWorldBorder().isOutsideOfBorder(p, border)) {
 			p.sendMessage(ChatColor.RED + " [WARNING] Du bist außerhalb der Worldborder");
 			switch(plugin.getSettings().getBorderMode()) {
-				case 0: // KILL
+				case KILL:
 					p.setHealth(0.0);
 					break;
-				case 1: // EDGE
+				case EDGE:
 					p.teleport(plugin.getWorldBorder().getCorrectedLocation(p.getLocation(), border));
 					break;
-				case 2: // SPAWN
+				case SPAWN:
 					p.teleport(plugin.getSettings().getVaroWorld().getSpawnLocation());
 					break;
 				default:
