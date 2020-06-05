@@ -1,5 +1,8 @@
 package de.alexanderritter.varo.main;
 
+import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.UUID;
 
 import org.bukkit.Location;
@@ -141,6 +144,20 @@ public class Settings {
 			return plugin.getConfig().getString("plugin.admins." + uuid.toString());
 		}
 		return "";	
+	}
+	
+	public boolean isCoordinatesPostTime() {
+		GregorianCalendar calendar = new GregorianCalendar();
+		calendar.setFirstDayOfWeek(GregorianCalendar.MONDAY);
+		String date = new SimpleDateFormat("EEEE, HH", Locale.US).format(calendar.getTime());
+		System.out.println("Checking COORDINATE POST, it is " + date);
+		boolean is_coord_post = false;
+		for(String datestring : plugin.getConfig().getStringList("coord-post")) {				
+			if(date.equals(datestring)) {
+				is_coord_post = true;
+			}
+		}
+		return is_coord_post;
 	}
 
 }

@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
-import java.util.Locale;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -107,11 +105,8 @@ public class PerHourChecker extends BukkitRunnable {
 		}
 	}
 	
-	public void checkCoordinatePost() {
-		String date = new SimpleDateFormat("EEEE, HH", Locale.US).format(calendar.getTime());
-		System.out.println("Checking COORDINATE POST, it is " + date);
-		
-		if(!date.equals(plugin.getConfig().getString("coord_post"))) return;
+	public void checkCoordinatePost() {		
+		if(!plugin.getSettings().isCoordinatesPostTime()) return;
 		for(UUID uuid : plugin.getRegistration().getAllUUIDs()) {
 			VaroPlayer ip = plugin.getRegistration().loadPlayer(uuid);
 			if(ip.isDead() || ip.isAdmin()) continue;

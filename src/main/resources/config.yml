@@ -6,7 +6,8 @@ borderendradius: 250
 projecttime: 672
 sessions_length: 900
 sessions_per_week: 5
-coord_post: Friday, 14
+coord-post:
+- Friday, 14
 start_protection: 60
 login_protection: 10
 min_logout_distance: 20
