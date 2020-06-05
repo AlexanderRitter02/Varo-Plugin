@@ -1,14 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.alexanderritter.varo</groupId>
-    <artifactId>VaroPlugin</artifactId>
+    <artifactId>Varo</artifactId>
     <!-- Version is used in plugin.yml -->
     <version>2.0</version>
     <packaging>jar</packaging>
 
     <!-- Plugin Information -->
     <!-- Name, Description, and URL are used in plugin.yml -->
-    <name>Varo Plugin</name>
+    <name>Varo</name>
     <description>Version of the Varo Plugin that does not require Multiverse and a seperate Lobby world</description>
     <url>https://github.com/AlexanderRitter02/varo-issues</url>
 
