@@ -252,6 +252,7 @@ public class Varo extends JavaPlugin {
 		world.setGameRuleValue("sendCommandFeedback", "false");
 		world.setGameRuleValue("showDeathMessages", "true");
 		world.setPVP(true);
+		world.getWorldBorder().setCenter(getSettings().getVaroWorld().getSpawnLocation());
 		world.getWorldBorder().setSize((double)radius*2);
 		checker.updateHour();
 		getPerHourChecker().shrinkWorldborder();
