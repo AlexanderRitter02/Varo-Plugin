@@ -92,9 +92,9 @@ public class Init {
 		int min_logout_distance = config.getInt("min_logout_distance");
 		int current_week = config.getInt("plugin.current_week");
 		
-		int endsize = plugin.getConfig().getInt("borderendradius")*2;
-		int size = plugin.getConfig().getInt("borderradius")*2;
-		int time = plugin.getConfig().getInt("projecttime"); // in hours
+		int endsize = plugin.getConfig().getInt("border.end-radius")*2;
+		int size = plugin.getConfig().getInt("border.radius")*2;
+		int time = plugin.getConfig().getInt("border.shrink-time"); // in hours
 		double borderShrinkPerHour = (double) (size-endsize)/time;
 		
 		boolean isAllowedToSpectateIfTeamAlive = config.getBoolean("spectate-allowed-if-team-alive");

@@ -1,20 +1,26 @@
 varoworld: world
 discord-id: 498457217754857482
-bordermode: EDGE
-borderradius: 5000
-borderendradius: 250
-projecttime: 672
+
 sessions_length: 900
 sessions_per_week: 5
-coord-post:
-- Friday, 14
 start_protection: 60
 login_protection: 10
 min_logout_distance: 20
+
+border:
+  mode: EDGE
+  shrink-time: 672
+  radius: 5000
+  end-radius: 250
+
+coord-post:
+- Friday, 14
+
 friendlyfire: false
 spectate-allowed-if-team-alive: true
 spawn-teams-together: true
 allow-prevent-coordinate-post: false
+
 plugin:
   running: false
   current_week: 40S

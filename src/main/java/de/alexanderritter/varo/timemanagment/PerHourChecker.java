@@ -83,7 +83,7 @@ public class PerHourChecker extends BukkitRunnable {
 		config.set("plugin.hours", hour);
 		plugin.saveConfig();	
 		
-		int endsize = plugin.getConfig().getInt("borderendradius")*2;
+		int endsize = plugin.getConfig().getInt("border.end-radius")*2;
 		double shrinkAmountPerHour = plugin.getSettings().getBorderShrinkPerHour();
 		
 		System.out.println("Worldborder diameter will be shrunken by " + (double) shrinkAmountPerHour + " blocks every " + timeinterval + " seconds (" + (double) timeinterval / 3600 + " hours).");

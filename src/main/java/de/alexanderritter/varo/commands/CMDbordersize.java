@@ -40,7 +40,7 @@ public class CMDbordersize implements CommandExecutor {
 			
 			
 			String radiusString = ChatColor.DARK_GREEN + "Radius: " + ChatColor.GREEN;
-			int endsize = plugin.getConfig().getInt("borderendradius")*2;
+			int endsize = plugin.getConfig().getInt("border.end-radius")*2;
 			if(radius <= (endsize + 500)) radiusString += ChatColor.GOLD;
 			if(radius <= endsize) radiusString += ChatColor.RED;
 			radiusString += Math.round(radius) + " Blöcke";

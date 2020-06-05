@@ -231,7 +231,7 @@ public class Varo extends JavaPlugin {
 	}
 	
 	public void prepareWorld(World world) {	
-		int radius = getConfig().getInt("borderradius");
+		int radius = getConfig().getInt("border.radius");
 		world.setTime(0);
 		world.setThundering(false);
 		world.setStorm(false);
