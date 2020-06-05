@@ -1,0 +1,51 @@
+main: ${mainClass}
+version: ${version}
+name: ${name}
+description: ${description}
+author: ${author}
+prefix: Varo
+softdepend: [DiscordSRV]
+
+commands:
+     varo.start:
+          description: Startet Varo
+          permissions: varo.start
+          aliases: [varo.begin]
+     varo.stop:
+          description: Beendet Varo
+          permission: varo.stop
+          aliases: [varo.end]
+     varo.register:
+          description: Registriert ein Team
+          permission: varo.register
+          aliases: [varo.create]
+     varo.delete:
+          description: Loesche ein Team
+          permission: varo.delete
+          aliases: [varo.unregister]
+     varo.spawn:
+          description: Registriere die Spawns fuers Varo
+          permission: varo.spawn.player
+     varo.revive:
+          description: Belebe einen Spieler wieder
+          permission: varo.revive
+          aliases: []
+     coordinates:
+          description: Postet deine Koordinaten
+     overwrite:
+          description: overwrite
+     bordersize:
+          description: Show the size of the worldborder
+          aliases: [border]
+     varo.setlobby:
+          description: Sets coordinates for the location where all players are before and after the game
+          permission: varo.spawn.lobby
+     spectators:
+          description: Lists all current spectators
+     modifyconfig:
+          permission: varo.config
+          description: Allows ingame-editing of config values
+     maintainence:
+          description: Stoppt alle Varo Funktionalität für einen Spieler, um Wartungsarbeiten durchzufuehren
+          permission: varo.admin.maintainence
+          

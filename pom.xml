@@ -1,0 +1,101 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>de.alexanderritter.varo</groupId>
+    <artifactId>VaroPlugin</artifactId>
+    <!-- Version is used in plugin.yml -->
+    <version>2.0</version>
+    <packaging>jar</packaging>
+
+    <!-- Plugin Information -->
+    <!-- Name, Description, and URL are used in plugin.yml -->
+    <name>Varo Plugin</name>
+    <description>Version of the Varo Plugin that does not require Multiverse and a seperate Lobby world</description>
+    <url>https://github.com/AlexanderRitter02/varo-issues</url>
+
+    <licenses>
+        <license>
+            <name>Zlib License</name>
+            <url>https://github.com/AlexanderRitter02/varo-issues/blob/master/LICENSE</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+                <name>Alexander Ritter</name>
+                <url>https://github.com/AlexanderRitter02</url>
+        </developer>
+    </developers>
+
+    <properties>
+        <!--  Author and MainClass are used in plugin.yml -->
+        <author>Alexander Ritter</author>
+        <mainClass>de.alexanderritter.varo.main.Varo</mainClass>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.8-R0.1-SNAPSHOT</version>
+        </dependency>
+		<dependency>
+			<groupId>com.discordsrv</groupId>
+			<artifactId>discordsrv</artifactId>
+			<version>1.19.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.spigot</groupId>
+			<artifactId>spigot-1.8.8</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/dependencies/spigot-1.8.8.jar</systemPath>
+		</dependency>
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
+        </repository>
+		<repository>
+			<id>Scarsz-Nexus</id>
+			<url>https://nexus.scarsz.me/content/groups/public/</url>
+		</repository>
+    </repositories>
+
+    <build>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <defaultGoal>clean install</defaultGoal>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <!-- Keeping filtering at true here reduces plugin.yml redundancy! -->
+                <filtering>true</filtering>
+                <includes>
+                    <include>plugin.yml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <!-- Keep filtering at false for other resources to prevent bad magic -->
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                    <exclude>plugin.yml</exclude>
+                </excludes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

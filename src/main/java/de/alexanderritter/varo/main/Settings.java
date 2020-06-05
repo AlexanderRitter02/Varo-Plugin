@@ -1,0 +1,146 @@
+package de.alexanderritter.varo.main;
+
+import java.util.UUID;
+
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.configuration.file.FileConfiguration;
+
+public class Settings {
+	
+	Varo plugin;
+	int bordermode, sessions_per_week, sessions_length, start_protection, login_protection, min_logout_distance, current_week, daytopost;
+	double borderShrinkPerHour;
+	boolean allowedToSpectateIfTeamAlive, friendlyfire, running;
+	World varo;
+	Location lobby;
+	String discordid;
+	
+	
+	public Settings(Varo plugin, int bordermode, int sessions_per_week, int sessions_length, int start_protection, int login_protection, int min_logout_distance, int current_week,
+			boolean allowedToSpectateIfTeamAlive, boolean friendlyfire, boolean running, String discordid, int daytopost, double borderShrinkPerHour, Location lobby) {
+		this.plugin = plugin;
+		this.bordermode = bordermode;
+		this.sessions_per_week = sessions_per_week;
+		this.sessions_length = sessions_length;
+		this.start_protection = start_protection;
+		this.login_protection = login_protection;
+		this.min_logout_distance = min_logout_distance;
+		this.current_week = current_week;
+		this.allowedToSpectateIfTeamAlive = allowedToSpectateIfTeamAlive;
+		this.friendlyfire = friendlyfire;	
+		this.running = running;
+		this.discordid = discordid;
+		this.daytopost = daytopost;
+		this.borderShrinkPerHour = borderShrinkPerHour;
+		if(lobby != null) {
+			this.lobby = lobby;
+		} else {
+			System.out.println("BUKKIT: VARO: THere is no Lobby location");
+		}
+		
+	}
+	
+	public World getVaroWorld() {
+		return varo;
+	}
+	
+	public void setVaroWorld(World varo) {
+		this.varo = varo;
+	}
+	
+	public void setLobby(Location lobby) {
+		FileConfiguration config = plugin.getConfig();
+		config.set("lobby.world", lobby.getWorld().getName());
+		config.set("lobby.x", lobby.getBlockX());
+		config.set("lobby.y", lobby.getBlockY());
+		config.set("lobby.z", lobby.getBlockZ());
+		plugin.saveConfig();
+		this.lobby = lobby;
+	}
+	
+	public Location getLobby() {
+		return lobby;
+	}
+	
+	public int getBorderMode() {
+		return bordermode;	
+	}
+	
+	public double getBorderShrinkPerHour() {
+		// Blocks the border needs to be moved per hour
+		return borderShrinkPerHour;
+	}
+
+	public int getSessionsPerWeek() {
+		return sessions_per_week;
+	}
+
+	public int getSessionsLength() {
+		return sessions_length;
+	}
+	
+	public int getStartProtection() {
+		return start_protection;
+	}
+	
+	public int getLoginProtection() {
+		return login_protection;
+	}
+	
+	public int getMinLogoutDistance() {
+		return min_logout_distance;
+	}
+
+	public int getCurrentWeek() {
+		return current_week;
+	}
+
+	public void setCurrentWeek(int current_week) {
+		this.current_week = current_week; // TODO TESTs
+		plugin.getConfig().set("plugin.current_week", Integer.valueOf(current_week));
+		plugin.saveConfig();
+	}
+	
+	public boolean isAllowedSpectateIfTeamAlive() {
+		return allowedToSpectateIfTeamAlive;
+	}
+
+	public boolean isFriendlyfire() {
+		return friendlyfire;
+	}
+	
+	public boolean isRunning() {
+		return running;
+	}
+
+	public void setRunning(boolean running) {
+		this.running = running;
+		plugin.getConfig().set("plugin.running", Boolean.valueOf(running));
+		plugin.saveConfig();
+	}
+	
+	public String getDiscordChannelId() {
+		return discordid;
+	}
+
+	public int getDayToPost() {
+		return daytopost;
+	}
+	
+	public boolean shouldTeamsSpawnTogether() {
+		return plugin.getConfig().getBoolean("spawn-teams-together");
+	}
+	
+	public boolean allowPreventCoordinatePost() {
+		return plugin.getConfig().getBoolean("allow-prevent-coordinate-post");
+	}
+	
+	public String isAdmin(UUID uuid) {
+		if(plugin.getConfig().getString("plugin.admins." + uuid.toString()) != null) {
+			return plugin.getConfig().getString("plugin.admins." + uuid.toString());
+		}
+		return "";	
+	}
+
+}

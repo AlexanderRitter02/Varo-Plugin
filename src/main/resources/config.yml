@@ -1,0 +1,20 @@
+varoworld: world
+discord-id: 498457217754857482
+bordermode: 1
+borderradius: 5000
+borderendradius: 250
+projecttime: 672
+sessions_length: 900
+sessions_per_week: 5
+coord_post: Friday, 14
+start_protection: 60
+login_protection: 10
+min_logout_distance: 20
+friendlyfire: false
+spectate-allowed-if-team-alive: true
+spawn-teams-together: true
+allow-prevent-coordinate-post: false
+plugin:
+  running: false
+  current_week: 40S
+  hours: 0

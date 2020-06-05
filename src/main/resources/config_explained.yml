@@ -1,0 +1,55 @@
+# Name der Weltordners auf dem Server, in der Regel "world"
+varoworld: world
+
+# Discord-Channel, in den Tode und Koordinaten gepostet werden
+discord-id: 498457217754857482
+
+# Was passiert, wenn ein Spieler außerhalb der Worldborder ist
+# 0=KILL
+# 1=tp zum Rand
+# 2=tp zum Spawn
+bordermode: 1
+
+# Radius (!NICHT Durchmesser!) der Worlborder
+borderradius: 5000
+
+# Radius, den die Border am Ende erreichen soll (Minimum)
+borderendradius: 250
+
+# Zeit, bis die Border in der Mitte ankommt (in Stunden) - also bis zum fi
+projecttime: 672
+
+# Länge einer Session (in Sekunden)
+sessions_length: 900
+
+# Sessions pro Woche
+sessions_per_week: 5
+
+# || VERALTET || Option, die erstaunlicherweise gar nichts macht (wurde durch darauffolgende ersetzt)
+coord_post_day: 5
+
+# Tag, an dem die Koordinaten gepostet werden
+# Format: Tag, Stunde
+# ACHTUNG: Immer in Englisch und Komma und Leerzeichen wie im Beispiel
+coord_post: Friday, 14
+
+# Schutzzeit nach Start des Varos (in Sekunden)
+start_protection: 60
+
+# Schutzzeit nach einem Login (in Sekunden)
+login_protection: 10
+
+# Minimale Entfernung, die man von einem Gegner haben muss, damit die Session nicht verlängert wird (in Blöcken)
+min_logout_distance: 20
+
+# PvP im Team an=true aus=false
+friendlyfire: false
+
+# Kann man spectaten, wenn dein Teammate noch lebt
+spectate-allowed-if-team-alive: true
+
+# Interne Optionen nicht ändern
+plugin:
+  running: false
+  current_week: 40S
+  hours: 0
