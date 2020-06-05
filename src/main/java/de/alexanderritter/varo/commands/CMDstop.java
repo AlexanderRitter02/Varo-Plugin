@@ -35,13 +35,16 @@ public class CMDstop implements CommandExecutor {
 			HandlerList.unregisterAll(plugin); // alle Listener beenden
 			Bukkit.getServer().getScheduler().cancelAllTasks(); // Schutzzeit und andere Scheduler beenden
 			plugin.initializeGametime(); // TODO why?
+			
 			for(Player online : Bukkit.getOnlinePlayers()) {
 				online.teleport(plugin.getSettings().getLobby());
 				online.setPlayerListName(ChatColor.GRAY + "[Lobby] " + online.getName());
 				online.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
-				online.setGameMode(GameMode.ADVENTURE);
-				online.sendMessage(Varo.prefix + ChatColor.GREEN + "Varo wurde von einem Admin beendet!");					
+				online.setGameMode(GameMode.ADVENTURE);				
 			}
+			
+			Bukkit.broadcastMessage(Varo.prefix + ChatColor.RED + "Varo wurde von einem Admin beendet!");
+			plugin.sendDiscordMessage("```diff\n- Varo wurde von einem Admin beendet!\n```");
 			
 			ArrayList<UUID> removeSpec = new ArrayList<>();
 			for(UUID uuid : PlayerManager.spectators) {

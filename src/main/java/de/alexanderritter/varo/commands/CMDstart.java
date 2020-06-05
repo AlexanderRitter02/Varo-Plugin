@@ -100,7 +100,8 @@ public class CMDstart implements CommandExecutor {
 					
 					countdown = new Countdown(plugin, 10);
 					countdown.start(time);
-					sender.sendMessage(ChatColor.GREEN + "Varo startet!");							
+					Bukkit.broadcastMessage(Varo.prefix + ChatColor.GREEN + "Varo startet in " + time + " Sekunden, viel Erfolg an alle Teams!");
+					plugin.sendDiscordMessage("```css\n+ Varo startet in " + time + " Sekunden, viel Erfolg an alle Teams!\n```");
 				} else sender.sendMessage(ChatColor.RED + "Varo läuft bereits!");
 			} else sender.sendMessage(ChatColor.RED + "Der Countdown läuft schon. Benutze /varo.start break, um ihn zu stoppen");
 		}		
