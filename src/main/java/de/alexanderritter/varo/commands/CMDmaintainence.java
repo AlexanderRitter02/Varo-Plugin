@@ -52,7 +52,7 @@ public class CMDmaintainence implements CommandExecutor {
 			plugin.getConfig().set("plugin.admins." + uuid.toString(), "admin_forever");
 			plugin.saveConfig();						
 			sender.sendMessage(ChatColor.GREEN + args[0] + " ist nun " + ChatColor.DARK_RED + "für immer " + ChatColor.GREEN + "Admin");
-			Bukkit.broadcastMessage(ChatColor.DARK_RED + args[0] + " ist nun ein Admin");
+			
 		}
 		
 		return true;
