@@ -34,6 +34,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
 
+import de.alexanderritter.varo.config.ConfigUpgrade;
 import de.alexanderritter.varo.config.Settings;
 import de.alexanderritter.varo.events.Worldborder;
 import de.alexanderritter.varo.ingame.ChestManager;
@@ -85,6 +86,8 @@ public class Varo extends JavaPlugin {
 	private void createConfigs() throws IOException {
 		
 		getDataFolder().mkdir();
+		if(new File(getDataFolder(), "config.yml").exists()) new ConfigUpgrade(this);
+		getConfig().set("plugin.version", getDescription().getVersion());
 		getConfig().options().copyDefaults(true);
 		saveConfig();
 		

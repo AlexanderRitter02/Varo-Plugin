@@ -75,6 +75,7 @@
                 <filtering>true</filtering>
                 <includes>
                     <include>plugin.yml</include>
+                    <include>config.yml</include>
                 </includes>
             </resource>
             <resource>
@@ -84,6 +85,7 @@
                 <excludes>
                     <exclude>**/*.java</exclude>
                     <exclude>plugin.yml</exclude>
+                    <exclude>config.yml</exclude>
                 </excludes>
             </resource>
         </resources>
