@@ -24,7 +24,7 @@ public class CMDbordersize implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!cmd.getName().equalsIgnoreCase("bordersize")) return false;
 		if(args.length != 0) return false;
-		double radius = Bukkit.getWorlds().get(0).getWorldBorder().getSize() / 2;		
+		double radius = Bukkit.getWorlds().get(0).getWorldBorder().getSize() / 2;
 		
 		if(!(sender instanceof Player)) {
 			
@@ -34,10 +34,9 @@ public class CMDbordersize implements CommandExecutor {
 		} else {
 			
 			Player p = (Player) sender;
-			WorldBorder border = p.getWorld().getWorldBorder();			
+			WorldBorder border = p.getWorld().getWorldBorder();
 			Location loc = p.getLocation();
 			Location center = border.getCenter();
-			
 			
 			String radiusString = ChatColor.DARK_GREEN + "Radius: " + ChatColor.GREEN;
 			int endsize = plugin.getConfig().getInt("border.end-radius")*2;
@@ -45,12 +44,11 @@ public class CMDbordersize implements CommandExecutor {
 			if(radius <= endsize) radiusString += ChatColor.RED;
 			radiusString += Math.round(radius) + " Blöcke";
 			
-			
 			int distX_positive = Math.abs(center.getBlockX() + (int) radius - loc.getBlockX());
 			int distX_negative = Math.abs(center.getBlockX() - (int) radius - loc.getBlockX());
 			int distZ_positive = Math.abs(center.getBlockZ() + (int) radius - loc.getBlockZ());
 			int distZ_negative = Math.abs(center.getBlockZ() - (int) radius - loc.getBlockZ());
-	
+			
 			int shortestDistance = Math.min(Math.min(distX_positive, distX_negative), Math.min(distZ_positive, distZ_negative));
 			
 			String distString = ChatColor.DARK_GREEN  + "Entfernung: " + ChatColor.GREEN;
@@ -58,8 +56,7 @@ public class CMDbordersize implements CommandExecutor {
 			if(shortestDistance <= 500) distString += ChatColor.RED;
 			distString += shortestDistance + " Blöcke";
 			
-			
-			double hours = shortestDistance / plugin.getSettings().getBorderShrinkPerHour();			
+			double hours = shortestDistance / plugin.getSettings().getBorderShrinkPerHour();
 			String hourString = ChatColor.DARK_GREEN + "Zeit bis zu dir: " + ChatColor.GREEN;
 			if(hours <= 24*7) hourString += ChatColor.GOLD;
 			if(hours <= 24*2) hourString += ChatColor.RED;
@@ -70,10 +67,9 @@ public class CMDbordersize implements CommandExecutor {
 				hourString += df.format(hours / 24) + " Tage";
 			}
 			
-			
-			
 			sender.sendMessage(ChatColor.DARK_GREEN + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "Worldborder Informationen");
 			sender.sendMessage(ChatColor.DARK_GREEN + "----------------------");
+			sender.sendMessage(ChatColor.DARK_GREEN + "Zentrum (Spawn): " + ChatColor.DARK_AQUA + "x: "+ center.getBlockX() + ", z: " + center.getBlockZ());
 			sender.sendMessage(radiusString);
 			sender.sendMessage(distString);
 			sender.sendMessage(hourString);
