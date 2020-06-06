@@ -84,7 +84,7 @@ public class Init {
 	
 	public Settings loadSettings() {
 		FileConfiguration config = plugin.getConfig();
-		BorderMode bordermode = BorderMode.valueOf(config.getString("bordermode").toUpperCase());
+		BorderMode bordermode = BorderMode.valueOf(config.getString("border.mode").toUpperCase());
 		int sessions_length = config.getInt("sessions_length");
 		int sessions_per_week = config.getInt("sessions_per_week");
 		int login_protection = config.getInt("login_protection");
