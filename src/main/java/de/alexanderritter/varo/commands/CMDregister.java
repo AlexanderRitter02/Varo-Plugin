@@ -27,7 +27,7 @@ public class CMDregister implements CommandExecutor {
 		if(!command.getName().equalsIgnoreCase("varo.register")) return false;
 		if(args.length < 3) return false;
 				
-		sender.sendMessage(ChatColor.GREEN + "Registrierung l�uft...");
+		sender.sendMessage(ChatColor.GREEN + "Registrierung läuft...");
 		String team = args[0];
 		ChatColor color = Colors.getColorfromString(args[1]);
 				
@@ -49,17 +49,17 @@ public class CMDregister implements CommandExecutor {
 					plugin.getRegistration().deleteTeam(team);
 					sender.sendMessage(ChatColor.RED + "Der Spieler " + player + " existiert nicht!");
 					sender.sendMessage(ChatColor.RED + "Registration von Team " + team + " fehlgschlagen!");
-					return false;						
+					return true;
 				} else if(plugin.getRegistration().getAllUUIDs().contains(UUIDs.getUUID(player))) {
 					plugin.getRegistration().deleteTeam(team);
 					sender.sendMessage(ChatColor.RED + "Der Spieler " + player + " ist schon in einem anderen Team registriert!");
 					sender.sendMessage(ChatColor.RED + "Registration von Team " + team + " fehlgschlagen!");
-					return false;							
+					return true;
 				}
 				plugin.getRegistration().registerPlayer(player, team, color);
 				
-			} catch (IOException e) {						
-				e.printStackTrace();						
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 		sender.sendMessage(ChatColor.GREEN + "Team " + team + " wurde erfolgreich registriert");
