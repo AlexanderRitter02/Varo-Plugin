@@ -162,5 +162,9 @@ public class Settings {
 		}
 		return is_coord_post;
 	}
+	
+	public HUDOption getDefaultHUDOption() {
+		return HUDOption.valueOf(plugin.getConfig().getString("default-hud", "SCOREBOARD").toUpperCase());
+	}
 
 }

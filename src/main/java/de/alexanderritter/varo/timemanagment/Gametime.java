@@ -30,7 +30,6 @@ public class Gametime extends BukkitRunnable {
 	    	VaroPlayer ip = iter.next();
 	    	if(Bukkit.getPlayer(ip.getUuid()) == null || PlayerManager.spectators.contains(ip.getUuid()) || ip.isAdmin()) continue;
 	    	Player p = Bukkit.getPlayer(ip.getUuid());
-			ip.updateScoreboard(ip.getTime() - 1);
 			ip.setTime(ip.getTime() - 1);
 			switch(ip.getTime()) {
 			case 600: case 300:

@@ -13,6 +13,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import de.alexanderritter.varo.api.UUIDs;
+import de.alexanderritter.varo.config.HUDOption;
 import de.alexanderritter.varo.main.Varo;
 
 public class Registration {
@@ -34,7 +35,7 @@ public class Registration {
 		players.set(id + ".recent_time", Integer.valueOf(plugin.getSettings().getSessionsLength()));
 		players.set(id + ".postedcoords", Boolean.valueOf(false));
 		players.set(id + ".color", color.name());
-		plugin.savePlayerConfig(players);		
+		plugin.savePlayerConfig(players);
 	}
 	
 	
@@ -88,16 +89,17 @@ public class Registration {
 			admin = true;
 			System.out.println("Player " + Bukkit.getPlayer(uuid) + " is now an ADMIN");
 		}
-		VaroPlayer ip = new VaroPlayer(plugin, name, team, uuid, time, sessions, dead, color, admin);
+		HUDOption hudoption = HUDOption.valueOf(players.getString(id + ".hud", plugin.getSettings().getDefaultHUDOption().toString()));
+		VaroPlayer ip = new VaroPlayer(plugin, name, team, uuid, time, sessions, dead, color, admin, hudoption);
 		return ip;
-	}	
+	}
 	public VaroPlayer loadPlayer(Player p) {
 		return loadPlayer(p.getUniqueId());
 	}
 	public VaroPlayer loadPlayer(String name) {
 		YamlConfiguration players = plugin.getPlayerConfig();
 		for(String id : players.getKeys(false)) {
-			if(players.getString(id + ".name").equalsIgnoreCase(name)) return loadPlayer(UUID.fromString(id));		
+			if(players.getString(id + ".name").equalsIgnoreCase(name)) return loadPlayer(UUID.fromString(id));
 		}
 		return null;
 	}

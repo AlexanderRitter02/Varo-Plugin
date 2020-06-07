@@ -11,6 +11,9 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
+import de.alexanderritter.varo.api.Actionbar;
+import de.alexanderritter.varo.api.TabList;
+import de.alexanderritter.varo.config.HUDOption;
 import de.alexanderritter.varo.main.Varo;
 
 public class VaroPlayer {
@@ -27,9 +30,10 @@ public class VaroPlayer {
 	boolean spectator = false;
 	boolean admin = false;
 	ChatColor color;
+	HUDOption hudoption;
 	Scoreboard scoreboard;
 	
-	public VaroPlayer(Varo plugin, String name, String team, UUID uuid, int time, int sessions, boolean dead, ChatColor color, boolean admin) {
+	public VaroPlayer(Varo plugin, String name, String team, UUID uuid, int time, int sessions, boolean dead, ChatColor color, boolean admin, HUDOption hudoption) {
 		this.plugin = plugin;
 		this.name = name;
 		this.team = team;
@@ -42,13 +46,14 @@ public class VaroPlayer {
 		this.color = color;
 		this.admin = admin;
 		if(dead) spectator = true;
+		this.hudoption = hudoption;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {		
+	public void setName(String name) {
 		this.name = name;
 	}
 
@@ -67,8 +72,29 @@ public class VaroPlayer {
 	public int getTime() {
 		return time;
 	}
+	
+	public String getTimeString() {
+		String min = String.valueOf(time / 60);
+		String sec = String.valueOf(time % 60);
+		if(min.length() == 1) min = "0" + min;
+		if(sec.length() == 1) sec = "0" + sec;
+		return ChatColor.YELLOW + min + ":" + sec;
+	}
 
 	public void setTime(int time) {
+		switch(hudoption) {
+		case SCOREBOARD:
+			updateScoreboard(time);
+			break;
+		case ACTIONBAR:
+			updateActionbar(time);
+			break;
+		case TAB:
+			updateTabList(time);
+			break;
+		default:
+			break;
+		}
 		this.time = time;
 	}
 
@@ -133,29 +159,42 @@ public class VaroPlayer {
 		return scoreboard;
 	}
 	
+	public void setHUDOption(HUDOption hudoption) {
+		Bukkit.getPlayer(uuid).setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+		new TabList("", "").send(Bukkit.getPlayer(uuid));
+		new Actionbar("").send(Bukkit.getPlayer(uuid));
+		this.hudoption = hudoption;
+		setTime(time);
+	}
+	
+	public void updateActionbar(int time) {
+		Actionbar actionbar = new Actionbar(getTimeString() + " - " + color + "#" + team + " - "  + ChatColor.GOLD + getSessions() + ChatColor.GREEN + " Sessions");
+		actionbar.send(Bukkit.getPlayer(uuid));
+	}
+	
+	public void updateTabList(int time) {
+		String header = color + "#" + getTeam() + ChatColor.YELLOW + " - " + getTimeString();
+		String footer = ChatColor.GREEN + "Sessions: " + ChatColor.GOLD + getSessions();
+		TabList tablist = new TabList(header, footer);
+		tablist.send(Bukkit.getPlayer(uuid));
+	}
+	
 	public void setupScoreboard() {
+		if(hudoption != HUDOption.SCOREBOARD) return;
 		scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
 		Team sc_team = scoreboard.registerNewTeam(team);
 		sc_team.addEntry(name);
 		Objective obj = scoreboard.registerNewObjective(name, "dummy");
-		String min = String.valueOf(time / 60);
-		String sek = String.valueOf(time % 60);
-		if(min.length() == 1) min = "0" + min;
-		if(sek.length() == 1) sek = "0" + sek;
-		obj.setDisplayName(ChatColor.YELLOW + min + ":" + sek);
+		obj.setDisplayName(getTimeString());
 		obj.getScore(color + "#" + team).setScore(2);
 		obj.getScore(ChatColor.GREEN + "Sessions: "  + ChatColor.GOLD + getSessions()).setScore(1);
 		obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-		Bukkit.getPlayer(uuid).setScoreboard(scoreboard);		
+		Bukkit.getPlayer(uuid).setScoreboard(scoreboard);
 	}
 	
 	public void updateScoreboard(int time) {
-		String minuten = String.valueOf(time / 60);
-		String sekunden = String.valueOf( time % 60);
-		if(minuten.length() == 1) minuten = "0" + minuten;
-		if(sekunden.length() == 1) sekunden = "0" + sekunden;
 		if(scoreboard == null) return;
-		scoreboard.getObjective(name).setDisplayName(ChatColor.YELLOW + minuten + ":" + sekunden);
+		scoreboard.getObjective(name).setDisplayName(getTimeString());
 	}
 	
 	public void save() {
@@ -167,7 +206,10 @@ public class VaroPlayer {
 		players.set(id + ".recent_time", Integer.valueOf(time));
 		players.set(id + ".dead", Boolean.valueOf(dead));
 		players.set(id + ".color", color.name());
-		plugin.savePlayerConfig(players);		
+		if(hudoption != plugin.getSettings().getDefaultHUDOption()) {
+			players.set(id + ".hud", hudoption);
+		}	
+		plugin.savePlayerConfig(players);
 	}
 	
 	public boolean isSpectator() {

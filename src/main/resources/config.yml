@@ -20,6 +20,7 @@ friendlyfire: false
 spectate-allowed-if-team-alive: true
 spawn-teams-together: true
 allow-prevent-coordinate-post: false
+default-hud: SCOREBOARD
 
 plugin:
   running: false
