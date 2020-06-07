@@ -48,4 +48,5 @@ commands:
      maintainence:
           description: Stoppt alle Varo Funktionalität für einen Spieler, um Wartungsarbeiten durchzufuehren
           permission: varo.admin.maintainence
-          
+     varo.hud:
+          description: Decide where you want team, session and time info (HUD) to be displayed

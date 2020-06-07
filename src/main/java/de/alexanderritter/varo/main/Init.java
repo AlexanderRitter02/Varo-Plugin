@@ -11,6 +11,7 @@ import org.bukkit.plugin.PluginManager;
 import de.alexanderritter.varo.commands.CMDbordersize;
 import de.alexanderritter.varo.commands.CMDcoordinates;
 import de.alexanderritter.varo.commands.CMDdelete;
+import de.alexanderritter.varo.commands.CMDhud;
 import de.alexanderritter.varo.commands.CMDmaintainence;
 import de.alexanderritter.varo.commands.CMDmodifyconfig;
 import de.alexanderritter.varo.commands.CMDregister;
@@ -79,6 +80,7 @@ public class Init {
 		((PluginCommand) plugin.getCommand("spectators").setUsage(ChatColor.RED + "Syntax: /spectators")).setExecutor(new CMDspectators());
 		((PluginCommand) plugin.getCommand("modifyconfig").setUsage(ChatColor.RED + "Syntax: /modifyconfig <attribute> <value>")).setExecutor(new CMDmodifyconfig(plugin));
 		((PluginCommand) plugin.getCommand("maintainence").setUsage(ChatColor.RED + "Syntax: /maintainence <player>\nFür Admins, die nicht am Varo teilnehmen: /maintainence <player> forever")).setExecutor(new CMDmaintainence(plugin));
+		((PluginCommand) plugin.getCommand("varo.hud").setUsage(ChatColor.RED + "Syntax: /varo.hud <SCOREBOARD | ACTIONBAR | TAB | CHAT>")).setExecutor(new CMDhud());
 		plugin.getCommand("overwrite").setExecutor(new Overwrite(plugin));
 	}
 	
