@@ -207,7 +207,7 @@ public class VaroPlayer {
 		players.set(id + ".dead", Boolean.valueOf(dead));
 		players.set(id + ".color", color.name());
 		if(hudoption != plugin.getSettings().getDefaultHUDOption()) {
-			players.set(id + ".hud", hudoption);
+			players.set(id + ".hud", String.valueOf(hudoption));
 		}	
 		plugin.savePlayerConfig(players);
 	}
