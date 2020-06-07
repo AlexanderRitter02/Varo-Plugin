@@ -32,7 +32,8 @@ public class Gametime extends BukkitRunnable {
 	    	Player p = Bukkit.getPlayer(ip.getUuid());
 			ip.setTime(ip.getTime() - 1);
 			switch(ip.getTime()) {
-			case 600: case 300:
+			default:
+				if(ip.getTime() % 300 != 0) break; // Only every 5 Minutes
 				p.sendMessage(Varo.prefix + ChatColor.GRAY + "Du hast noch " + ChatColor.GOLD + ip.getTime()/60 + ChatColor.GRAY + " Minuten Zeit");
 				break;
 			case 60:
