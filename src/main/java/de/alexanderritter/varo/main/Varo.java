@@ -293,14 +293,11 @@ public class Varo extends JavaPlugin {
 		String worldUUID = UUIDs.convertFromTrimmed(mosthex + leasthex);
 		
 		String world = Bukkit.getWorld(UUID.fromString(worldUUID)).getName();
-		double x = Math.round(Double.valueOf(pos.getString(0))*100)/100.00;
-		double y = Math.round(Double.valueOf(pos.getString(1))*100)/100.00;
-		double z = Math.round(Double.valueOf(pos.getString(2))*100)/100.00;
+		int x = Double.valueOf(pos.getString(0)).intValue();
+		int y = Double.valueOf(pos.getString(1)).intValue();
+		int z = Double.valueOf(pos.getString(2)).intValue();
 		
-		sendDiscordMessage("```http\n " + "Team " + ip.getTeam() +
-				" hat seine Koordinaten gepostet: " + x + ", " + y + ", " + z + " ("+ world + ") \n ```");
-		Bukkit.broadcastMessage("Team " + ip.getTeam() + 
-				" hat seine Koordinaten gepostet: " + x + ", " + y + ", " + z + " ("+ world + ")");
+		sendCoordinateMessage(ip, x, y, z, world);
 	}
 	
 	private void sendCoordinateMessage(VaroPlayer ip, int x, int y, int z, String world) {
