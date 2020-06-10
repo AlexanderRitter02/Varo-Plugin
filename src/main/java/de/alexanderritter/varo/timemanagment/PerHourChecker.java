@@ -1,9 +1,5 @@
 package de.alexanderritter.varo.timemanagment;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.math.BigInteger;
 import java.util.GregorianCalendar;
 import java.util.UUID;
 
@@ -15,13 +11,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import de.alexanderritter.varo.api.UUIDs;
 import de.alexanderritter.varo.ingame.PlayerManager;
 import de.alexanderritter.varo.ingame.VaroPlayer;
 import de.alexanderritter.varo.main.Varo;
-import net.minecraft.server.v1_8_R3.NBTCompressedStreamTools;
-import net.minecraft.server.v1_8_R3.NBTTagCompound;
-import net.minecraft.server.v1_8_R3.NBTTagList;
 
 public class PerHourChecker extends BukkitRunnable {
 	
@@ -111,40 +103,15 @@ public class PerHourChecker extends BukkitRunnable {
 			VaroPlayer ip = plugin.getRegistration().loadPlayer(uuid);
 			if(ip.isDead() || ip.isAdmin()) continue;
 			if(ip.hasPostedCoords()) continue;
-			System.out.println("Posting coordinates of " + ip.getName());
-			File nbtdat = new File(Bukkit.getWorldContainer()+File.separator+plugin.getSettings().getVaroWorld().getName()+"/playerdata/" + ip.getUuid() + ".dat");
-			if(!nbtdat.exists()) {plugin.getLogger().warning(("Skipping coordinate post for "+ip.getName()+": Has never joined the server"));continue;}
-			try {
-				NBTTagCompound playernbt = NBTCompressedStreamTools.a(new FileInputStream(nbtdat));
-				NBTTagList pos = (NBTTagList) playernbt.get("Pos");
+			Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
 				
-				BigInteger addifneg = new BigInteger("18446744073709551616");
-				long uuidmost = playernbt.getLong("WorldUUIDMost");
-				long uuidleast = playernbt.getLong("WorldUUIDLeast");
-				if(uuidmost < 0) uuidmost = addifneg.add(BigInteger.valueOf(uuidmost)).longValue();
-				if(uuidleast < 0) uuidleast = addifneg.add(BigInteger.valueOf(uuidleast)).longValue();
-				String mosthex = Long.toHexString(uuidmost);
-				String leasthex = Long.toHexString(uuidleast);
-				String worldUUID = UUIDs.convertFromTrimmed(mosthex + leasthex);
-				
-				String world = Bukkit.getWorld(UUID.fromString(worldUUID)).getName();
-				double x = Math.round(Double.valueOf(pos.getString(0))*100)/100.00;
-				double y = Math.round(Double.valueOf(pos.getString(1))*100)/100.00;
-				double z = Math.round(Double.valueOf(pos.getString(2))*100)/100.00;
-				
-				Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
-
-					@Override
-					public void run() {
-						plugin.sendDiscordMessage("```http\n " + "Team " + ip.getTeam() + 
-								" hat seine Koordinaten gepostet: " + x + ", " + y + ", " + z + " ("+ world + ") \n ```");
-						Bukkit.broadcastMessage("Team " + ip.getTeam() + 
-								" hat seine Koordinaten gepostet: " + x + ", " + y + ", " + z + " ("+ world + ")");
-					}	
-					
-				}, 500);
-				for(VaroPlayer member : plugin.getRegistration().getTeamMembers(ip.getTeam())) member.setPostedCoords(true);		
-			} catch (IOException e) {System.out.println("An error has happend during coordinate Post");e.printStackTrace();}	
+				@Override
+				public void run() {
+					plugin.postPlayerCoordinates(ip);
+				}
+			
+			}, 500);
+			for(VaroPlayer member : plugin.getRegistration().getTeamMembers(ip.getTeam())) member.setPostedCoords(true);
 		}	
 	}
 

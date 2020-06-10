@@ -1,7 +1,10 @@
 package de.alexanderritter.varo.main;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -34,6 +37,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
 
+import de.alexanderritter.varo.api.UUIDs;
 import de.alexanderritter.varo.config.ConfigUpgrade;
 import de.alexanderritter.varo.config.Settings;
 import de.alexanderritter.varo.events.Worldborder;
@@ -45,6 +49,9 @@ import de.alexanderritter.varo.timemanagment.Gametime;
 import de.alexanderritter.varo.timemanagment.PerHourChecker;
 import de.alexanderritter.varo.timemanagment.StartProtection;
 import github.scarsz.discordsrv.util.DiscordUtil;
+import net.minecraft.server.v1_8_R3.NBTCompressedStreamTools;
+import net.minecraft.server.v1_8_R3.NBTTagCompound;
+import net.minecraft.server.v1_8_R3.NBTTagList;
 
 public class Varo extends JavaPlugin {
 	
@@ -249,6 +256,57 @@ public class Varo extends JavaPlugin {
 				Zombie.class, PigZombie.class, Enderman.class, Endermite.class, Creeper.class, Witch.class, Silverfish.class, 
 				Slime.class, Ghast.class, MagmaCube.class, Guardian.class, Arrow.class, Wither.class, EnderDragon.class))
 		{entity.remove();}
+	}
+	
+	public void postPlayerCoordinates(VaroPlayer ip){
+		
+		if(Bukkit.getPlayer(ip.getUuid()) != null) {
+			Player p = Bukkit.getPlayer(ip.getUuid());
+			String world = p.getWorld().getName();
+			Integer x = p.getLocation().getBlockX();
+			Integer y = p.getLocation().getBlockY();
+			Integer z = p.getLocation().getBlockZ();
+			sendCoordinateMessage(ip, x, y, z, world);
+			return;
+		}
+		
+		File nbtdat = new File(Bukkit.getWorldContainer()+ File.separator + getSettings().getVaroWorld().getName() + "/playerdata/" + ip.getUuid() + ".dat");
+		if(!nbtdat.exists()) {getLogger().warning(("Skipping coordinate post for "+ ip.getName() +": Has never joined the server"));return;}
+
+		NBTTagCompound playernbt;
+		try {
+			playernbt = NBTCompressedStreamTools.a(new FileInputStream(nbtdat));
+		} catch (IOException e) {
+			getLogger().severe(("An error has happend during coordinate post"));
+			e.printStackTrace();
+			return;
+		}
+		
+		NBTTagList pos = (NBTTagList) playernbt.get("Pos");
+		BigInteger addifneg = new BigInteger("18446744073709551616");
+		long uuidmost = playernbt.getLong("WorldUUIDMost");
+		long uuidleast = playernbt.getLong("WorldUUIDLeast");
+		if(uuidmost < 0) uuidmost = addifneg.add(BigInteger.valueOf(uuidmost)).longValue();
+		if(uuidleast < 0) uuidleast = addifneg.add(BigInteger.valueOf(uuidleast)).longValue();
+		String mosthex = Long.toHexString(uuidmost);
+		String leasthex = Long.toHexString(uuidleast);
+		String worldUUID = UUIDs.convertFromTrimmed(mosthex + leasthex);
+		
+		String world = Bukkit.getWorld(UUID.fromString(worldUUID)).getName();
+		double x = Math.round(Double.valueOf(pos.getString(0))*100)/100.00;
+		double y = Math.round(Double.valueOf(pos.getString(1))*100)/100.00;
+		double z = Math.round(Double.valueOf(pos.getString(2))*100)/100.00;
+		
+		sendDiscordMessage("```http\n " + "Team " + ip.getTeam() +
+				" hat seine Koordinaten gepostet: " + x + ", " + y + ", " + z + " ("+ world + ") \n ```");
+		Bukkit.broadcastMessage("Team " + ip.getTeam() + 
+				" hat seine Koordinaten gepostet: " + x + ", " + y + ", " + z + " ("+ world + ")");
+	}
+	
+	private void sendCoordinateMessage(VaroPlayer ip, int x, int y, int z, String world) {
+		Bukkit.broadcastMessage(Varo.prefix + ChatColor.GREEN + "Team " + ip.getColor() + ip.getTeam() + ChatColor.GREEN + " hat seine Koordinaten gepostet: "
+				+ ChatColor.GOLD + x + ", " + y + ", " + z + " ("+ world + ")");
+		sendDiscordMessage("```http\n " + "Team " + ip.getTeam() + " hat seine Koordinaten gepostet: " + x + ", " + y + ", " + z + " ("+ world + ") \n ```");
 	}
 	
 }
