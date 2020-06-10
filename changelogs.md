@@ -1,3 +1,29 @@
+# Version 2.0.0
+
+#### Added
+- **HUD options**:  
+Change where varo info gets displayed per player: `/varo.hud <scoreboard | actionbar | tab | chat>`  
+Set a default in the config with `hud-default`.
+- Display **spawn coordinates** with `/border`
+- Coordinates can be posted **more than one time** per week
+- Discord messages for `/varo.start` and `/varo.stop`
+- Your config.yml will update automatically now, no need to change values manually
+
+
+#### Changed
+- Gamerules and difficulty won't be overwritten
+- Border center is now being set to worldspawn
+- Border config options are more readable now, renamed `projecttime` to `border.shrink-time`
+
+#### Fixed
+- No remaining time being broadcast to player if session length is over 15 minutes
+- Adding admin being broadcast to all online players
+- Command syntax is sent in `/varo.register` when registering fails even if the command is right
+
+
+#### Internals
+- Use BorderMode and HUDoption enums
+
 # Version 1.8.0
 
 #### Added
