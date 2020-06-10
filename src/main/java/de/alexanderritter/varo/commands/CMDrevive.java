@@ -48,6 +48,11 @@ public class CMDrevive implements CommandExecutor {
 					if(dead) {
 						
 						players.set(uuid + ".dead", Boolean.valueOf(false));
+						for(UUID other_player : plugin.getRegistration().getAllUUIDs()) {
+							VaroPlayer other_ip = plugin.getRegistration().loadPlayer(other_player);
+							if(other_ip.getKillCount() <= 0) continue;
+							other_ip.removeKill(uuid);
+						}
 						
 						if(Bukkit.getPlayer(UUID.fromString(uuid)) != null) {
 							

@@ -9,7 +9,6 @@ import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
@@ -57,15 +56,7 @@ public class CMDstop implements CommandExecutor {
 			}
 			PlayerManager.spectators = new ArrayList<UUID>();
 			
-			YamlConfiguration players = plugin.getPlayerConfig();
-			for(String id : players.getKeys(false)) {
-				players.set(id + ".sessions", plugin.getSettings().getSessionsPerWeek());
-				players.set(id + ".recent_time", plugin.getSettings().getSessionsLength());
-				players.set(id + ".postedcoords", Boolean.valueOf(false));
-				players.set(id + ".dead", Boolean.valueOf(false));
-			}
-			plugin.savePlayerConfig(players);
-			
+			plugin.reset();		
 			Bukkit.getPluginManager().registerEvents(new BeforeVaroListener(plugin), plugin);
 			
 		} else sender.sendMessage(ChatColor.RED + "Varo ist noch nicht gestartet. Benutze /varo.start, um Varo zu starten");

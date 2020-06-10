@@ -241,6 +241,10 @@ public class IngameEvents implements Listener {
 				// TODO Add Message on how to use spectator
 			}
 		}, 40);
+		if(p.getKiller() == null) return;
+		Player killer = p.getKiller();
+		if(PlayerManager.getIngamePlayer(killer) == null) return;
+		PlayerManager.getIngamePlayer(killer).addKill(p.getUniqueId().toString());
 	}
 
 	@EventHandler

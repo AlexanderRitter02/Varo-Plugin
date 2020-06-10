@@ -177,9 +177,11 @@ public class Varo extends JavaPlugin {
 		YamlConfiguration players = getPlayerConfig();
 		for(String id : players.getKeys(false)) {
 			players.set(id + ".dead", Boolean.valueOf(false));
+			players.set(id + ".sessions", getSettings().getSessionsPerWeek());
 			players.set(id + ".postedcoords", Boolean.valueOf(false));
-			players.set(id + ".recent_time", Integer.valueOf(getSettings().getSessionsLength()));
-			if(players.get(id + ".reviving") != null) players.set(id + ".reviving", null);
+			players.set(id + ".recent_time", getSettings().getSessionsLength());
+			players.set(id + ".kills", null);
+			players.set(id + ".reviving", null);
 		}
 		savePlayerConfig(players);
 		YamlConfiguration chests = getChestConfig();

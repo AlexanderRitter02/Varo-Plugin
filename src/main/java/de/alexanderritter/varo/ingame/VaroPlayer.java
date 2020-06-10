@@ -1,5 +1,6 @@
 package de.alexanderritter.varo.ingame;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -222,6 +223,28 @@ public class VaroPlayer {
 	
 	public boolean isAdmin() {
 		return admin;
+	}
+	
+	public void addKill(String killed_uuid) {
+		YamlConfiguration players = plugin.getPlayerConfig();
+		String id = uuid.toString();
+		List<String> kills = players.getStringList(id + ".kills");
+		kills.add(killed_uuid);
+		players.set(id + ".kills", kills);
+		plugin.savePlayerConfig(players);
+	}
+	
+	public void removeKill(String killed_uuid) {
+		YamlConfiguration players = plugin.getPlayerConfig();
+		String id = uuid.toString();
+		List<String> kills = players.getStringList(id + ".kills");
+		kills.remove(killed_uuid);
+		players.set(id + ".kills", kills);
+		plugin.savePlayerConfig(players);
+	}
+	
+	public int getKillCount() {
+		return plugin.getPlayerConfig().getStringList(uuid.toString() + ".kills").size();
 	}
 
 }
