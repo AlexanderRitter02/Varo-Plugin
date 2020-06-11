@@ -20,10 +20,12 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.BrewEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -260,9 +262,20 @@ public class IngameEvents implements Listener {
 	}
 	
 	@EventHandler
+	public void onUse(PlayerInteractEvent e) {
+		if(e.getAction() == Action.PHYSICAL || e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) return;
+		if(!e.hasItem() || e.getItem() == null) return;
+		if(!(e.getItem().getType() == Material.EYE_OF_ENDER || e.getItem().getType() == Material.HOPPER_MINECART)) return;
+		Player p = e.getPlayer();
+		e.setUseItemInHand(org.bukkit.event.Event.Result.DENY);
+		p.playSound(p.getLocation(), Sound.VILLAGER_NO, 1, 1);
+		p.sendMessage(ChatColor.RED + "Du darfst dieses Item nicht benutzen!");
+	}
+	
+	@EventHandler
 	public void onCraft(CraftItemEvent e) {
 		Material result = e.getRecipe().getResult().getType();
-		if(result == Material.HOPPER_MINECART || result == Material.EYE_OF_ENDER) {
+		if(result == Material.HOPPER_MINECART) {
 			e.setCancelled(true);
 			Player p = (Player) e.getWhoClicked();
 			p.closeInventory();
