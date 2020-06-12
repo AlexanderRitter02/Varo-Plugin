@@ -21,6 +21,7 @@ import de.alexanderritter.varo.commands.CMDspawn;
 import de.alexanderritter.varo.commands.CMDspectators;
 import de.alexanderritter.varo.commands.CMDstart;
 import de.alexanderritter.varo.commands.CMDstop;
+import de.alexanderritter.varo.commands.CMDstrike;
 import de.alexanderritter.varo.commands.Overwrite;
 import de.alexanderritter.varo.config.BorderMode;
 import de.alexanderritter.varo.config.Settings;
@@ -81,6 +82,7 @@ public class Init {
 		((PluginCommand) plugin.getCommand("modifyconfig").setUsage(ChatColor.RED + "Syntax: /modifyconfig <attribute> <value>")).setExecutor(new CMDmodifyconfig(plugin));
 		((PluginCommand) plugin.getCommand("maintainence").setUsage(ChatColor.RED + "Syntax: /maintainence <player>\nFür Admins, die nicht am Varo teilnehmen: /maintainence <player> forever")).setExecutor(new CMDmaintainence(plugin));
 		((PluginCommand) plugin.getCommand("varo.hud").setUsage(ChatColor.RED + "Syntax: /varo.hud <SCOREBOARD | ACTIONBAR | TAB | CHAT>")).setExecutor(new CMDhud());
+		((PluginCommand) plugin.getCommand("varo.strike").setUsage(ChatColor.RED + "Syntax: /varo.strike <add|remove|list> <player> ...")).setExecutor(new CMDstrike(plugin));
 		plugin.getCommand("overwrite").setExecutor(new Overwrite(plugin));
 	}
 	

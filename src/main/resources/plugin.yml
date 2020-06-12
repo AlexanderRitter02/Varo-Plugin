@@ -50,3 +50,6 @@ commands:
           permission: varo.admin.maintainence
      varo.hud:
           description: Decide where you want team, session and time info (HUD) to be displayed
+     varo.strike:
+          permission: varo.strike
+          description: Add a strike to a player and punish him

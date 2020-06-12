@@ -243,6 +243,26 @@ public class VaroPlayer {
 		plugin.savePlayerConfig(players);
 	}
 	
+	public void addStrike(String reason) {
+		YamlConfiguration players = plugin.getPlayerConfig();
+		List<String> strikes = players.getStringList(uuid.toString() + ".strikes");
+		strikes.add(reason);
+		players.set(uuid.toString() + ".strikes", strikes);
+		plugin.savePlayerConfig(players);
+	}
+	
+	public void removeStrike(int index) {
+		YamlConfiguration players = plugin.getPlayerConfig();
+		List<String> strikes = players.getStringList(uuid.toString() + ".strikes");
+		strikes.remove(index);
+		players.set(uuid.toString() + ".strikes", strikes);
+		plugin.savePlayerConfig(players);
+	}
+	
+	public List<String> getStrikes() {
+		return plugin.getPlayerConfig().getStringList(uuid.toString() + ".strikes");
+	}
+	
 	public int getKillCount() {
 		return plugin.getPlayerConfig().getStringList(uuid.toString() + ".kills").size();
 	}
