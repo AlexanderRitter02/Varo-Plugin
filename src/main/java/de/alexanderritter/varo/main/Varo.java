@@ -1,14 +1,12 @@
 package de.alexanderritter.varo.main;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.math.BigInteger;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Arrow;
@@ -37,7 +35,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
 
-import de.alexanderritter.varo.api.UUIDs;
+import de.alexanderritter.varo.api.AdvancedOfflinePlayer;
 import de.alexanderritter.varo.config.ConfigUpgrade;
 import de.alexanderritter.varo.config.Settings;
 import de.alexanderritter.varo.events.Worldborder;
@@ -49,9 +47,6 @@ import de.alexanderritter.varo.timemanagment.Gametime;
 import de.alexanderritter.varo.timemanagment.PerHourChecker;
 import de.alexanderritter.varo.timemanagment.StartProtection;
 import github.scarsz.discordsrv.util.DiscordUtil;
-import net.minecraft.server.v1_8_R3.NBTCompressedStreamTools;
-import net.minecraft.server.v1_8_R3.NBTTagCompound;
-import net.minecraft.server.v1_8_R3.NBTTagList;
 
 public class Varo extends JavaPlugin {
 	
@@ -262,48 +257,26 @@ public class Varo extends JavaPlugin {
 		
 		if(Bukkit.getPlayer(ip.getUuid()) != null) {
 			Player p = Bukkit.getPlayer(ip.getUuid());
-			String world = p.getWorld().getName();
-			Integer x = p.getLocation().getBlockX();
-			Integer y = p.getLocation().getBlockY();
-			Integer z = p.getLocation().getBlockZ();
-			sendCoordinateMessage(ip, x, y, z, world);
+			sendCoordinateMessage(ip, p.getLocation().getBlock().getLocation());
 			return;
 		}
 		
-		File nbtdat = new File(Bukkit.getWorldContainer()+ File.separator + getSettings().getVaroWorld().getName() + "/playerdata/" + ip.getUuid() + ".dat");
-		if(!nbtdat.exists()) {getLogger().warning(("Skipping coordinate post for "+ ip.getName() +": Has never joined the server"));return;}
-
-		NBTTagCompound playernbt;
+		AdvancedOfflinePlayer offlinePlayer;
 		try {
-			playernbt = NBTCompressedStreamTools.a(new FileInputStream(nbtdat));
+			offlinePlayer = new AdvancedOfflinePlayer(this, ip.getUuid());
 		} catch (IOException e) {
-			getLogger().severe(("An error has happend during coordinate post"));
+			getLogger().warning(("Skipping coordinate post for "+ ip.getName() +": Has never joined the server"));
 			e.printStackTrace();
 			return;
 		}
 		
-		NBTTagList pos = (NBTTagList) playernbt.get("Pos");
-		BigInteger addifneg = new BigInteger("18446744073709551616");
-		long uuidmost = playernbt.getLong("WorldUUIDMost");
-		long uuidleast = playernbt.getLong("WorldUUIDLeast");
-		if(uuidmost < 0) uuidmost = addifneg.add(BigInteger.valueOf(uuidmost)).longValue();
-		if(uuidleast < 0) uuidleast = addifneg.add(BigInteger.valueOf(uuidleast)).longValue();
-		String mosthex = Long.toHexString(uuidmost);
-		String leasthex = Long.toHexString(uuidleast);
-		String worldUUID = UUIDs.convertFromTrimmed(mosthex + leasthex);
-		
-		String world = Bukkit.getWorld(UUID.fromString(worldUUID)).getName();
-		int x = Double.valueOf(pos.getString(0)).intValue();
-		int y = Double.valueOf(pos.getString(1)).intValue();
-		int z = Double.valueOf(pos.getString(2)).intValue();
-		
-		sendCoordinateMessage(ip, x, y, z, world);
+		sendCoordinateMessage(ip, offlinePlayer.getLocationInt());
 	}
 	
-	private void sendCoordinateMessage(VaroPlayer ip, int x, int y, int z, String world) {
+	private void sendCoordinateMessage(VaroPlayer ip, Location pos) {
 		Bukkit.broadcastMessage(Varo.prefix + ChatColor.GREEN + "Team " + ip.getColor() + ip.getTeam() + ChatColor.GREEN + " hat seine Koordinaten gepostet: "
-				+ ChatColor.GOLD + x + ", " + y + ", " + z + " ("+ world + ")");
-		sendDiscordMessage("```http\n " + "Team " + ip.getTeam() + " hat seine Koordinaten gepostet: " + x + ", " + y + ", " + z + " ("+ world + ") \n ```");
+				+ ChatColor.GOLD + pos.getBlockX() + ", " + pos.getBlockY() + ", " + pos.getBlockZ() + " ("+ pos.getWorld().getName() + ")");
+		sendDiscordMessage("```http\n " + "Team " + ip.getTeam() + " hat seine Koordinaten gepostet: " + pos.getBlockX() + ", " + pos.getBlockY() + ", " + pos.getBlockZ() + " ("+ pos.getWorld().getName() + ") \n ```");
 	}
 	
 }
