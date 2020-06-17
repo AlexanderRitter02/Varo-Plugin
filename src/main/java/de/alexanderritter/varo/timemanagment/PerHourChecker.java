@@ -78,8 +78,9 @@ public class PerHourChecker extends BukkitRunnable {
 		int endsize = plugin.getConfig().getInt("border.end-radius")*2;
 		double shrinkAmountPerHour = plugin.getSettings().getBorderShrinkPerHour();
 		
-		System.out.println("Worldborder diameter will be shrunken by " + (double) shrinkAmountPerHour + " blocks every " + timeinterval + " seconds (" + (double) timeinterval / 3600 + " hours).");
+		plugin.getLogger().info("Worldborder diameter will be shrunken by " + (double) shrinkAmountPerHour + " blocks every " + timeinterval + " seconds (" + (double) timeinterval / 3600 + " hours).");
 		
+		String bordermsg = "";
 		for(World world : Bukkit.getWorlds()) {
 			WorldBorder border = world.getWorldBorder();
 			
@@ -88,13 +89,14 @@ public class PerHourChecker extends BukkitRunnable {
 				return;
 			}
 			if(instant > 0) {
-				plugin.getLogger().warning("Worldborder was shrunken by " + instant + " times after a restart: -" + instant*shrinkAmountPerHour + " blocks");
+				bordermsg = "Worldborder was shrunken by " + instant + " times after a restart: -" + instant*shrinkAmountPerHour + " blocks\n";
 				border.setSize(border.getSize() - (instant * shrinkAmountPerHour));
 			}
-			plugin.getLogger().info("Worldborder is shrinking from " + border.getSize() + " to " + (border.getSize() - shrinkAmountPerHour) + " in the next hour");
+			bordermsg += "Worldborder is shrinking from " + border.getSize() + " to " + (border.getSize() - shrinkAmountPerHour) + " in the next hour";
 			border.setSize(border.getSize() - shrinkAmountPerHour, timeinterval);
 		}
 		instant = 0;
+		plugin.getLogger().info(bordermsg);
 	}
 	
 	public void checkCoordinatePost() {		
