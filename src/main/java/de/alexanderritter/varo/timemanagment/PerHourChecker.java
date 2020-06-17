@@ -34,9 +34,9 @@ public class PerHourChecker extends BukkitRunnable {
 		calendar = new GregorianCalendar();
 		calendar.setFirstDayOfWeek(GregorianCalendar.MONDAY);
 		updateWeek();
-		updateHour();
 		checkCoordinatePost();
 		shrinkWorldborder();
+		updateHour();
 	}
 	
 	public void updateWeek() {
