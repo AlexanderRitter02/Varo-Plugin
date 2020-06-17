@@ -90,11 +90,11 @@ public class PerHourChecker extends BukkitRunnable {
 			if(instant > 0) {
 				plugin.getLogger().warning("Worldborder was shrunken by " + instant + " times after a restart: -" + instant*shrinkAmountPerHour + " blocks");
 				border.setSize(border.getSize() - (instant * shrinkAmountPerHour));
-				instant = 0;
 			}
 			plugin.getLogger().info("Worldborder is shrinking from " + border.getSize() + " to " + (border.getSize() - shrinkAmountPerHour) + " in the next hour");
 			border.setSize(border.getSize() - shrinkAmountPerHour, timeinterval);
 		}
+		instant = 0;
 	}
 	
 	public void checkCoordinatePost() {		
