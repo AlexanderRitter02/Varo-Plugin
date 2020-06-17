@@ -1,5 +1,8 @@
 package de.alexanderritter.varo.events;
 
+import java.awt.Color;
+import java.io.IOException;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,12 +35,19 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.permissions.PermissionAttachment;
 
+import de.alexanderritter.varo.api.AdvancedOfflinePlayer;
+import de.alexanderritter.varo.api.ItemString;
 import de.alexanderritter.varo.ingame.PlayerManager;
 import de.alexanderritter.varo.ingame.VaroPlayer;
 import de.alexanderritter.varo.main.Varo;
 import de.alexanderritter.varo.timemanagment.LoginProtection;
+import github.scarsz.discordsrv.DiscordSRV;
+import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
+import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
+import github.scarsz.discordsrv.util.DiscordUtil;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.v1_8_R3.PacketPlayInClientCommand;
@@ -211,17 +221,19 @@ public class IngameEvents implements Listener {
 		for(Player online : Bukkit.getOnlinePlayers()) {online.playSound(p.getLocation(), Sound.AMBIENCE_THUNDER, 1, 1);}
 		plugin.sendDiscordMessage("```http\n " + ip.getName() + " ist aus Varo ausgeschieden.\n ```");
 		p.setCanPickupItems(false);
+		ip.setDead(true);
+		ip.save();
+		PlayerManager.removeIngamePlayer(p);
+		PlayerManager.addSpectator(p);
+		p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+		
 		Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
 			@Override
 			public void run() {
-				ip.setDead(true);
-				ip.save();
-				PlayerManager.removeIngamePlayer(p);
 				
 			    PacketPlayInClientCommand packet = new PacketPlayInClientCommand(EnumClientCommand.PERFORM_RESPAWN);
 			    ((CraftPlayer)p).getHandle().playerConnection.a(packet);
 			    
-				p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 				p.teleport(plugin.getSettings().getVaroWorld().getSpawnLocation());
 				
 				String title_msg = "Du bist gestorben";
@@ -238,15 +250,36 @@ public class IngameEvents implements Listener {
 				p.setPlayerListName(ChatColor.GRAY + "[Spectator] " + p.getName());
 				p.sendMessage(ChatColor.RED + "Du bist gestorben!\n" + "Somit bist du aus Varo ausgeschieden.\n");
 				p.setCanPickupItems(true);
-				PlayerManager.addSpectator(p);
+				
 				p.teleport(plugin.getSettings().getLobby());
 				// TODO Add Message on how to use spectator
 			}
 		}, 40);
-		if(p.getKiller() == null) return;
-		Player killer = p.getKiller();
-		if(PlayerManager.getIngamePlayer(killer) == null) return;
-		PlayerManager.getIngamePlayer(killer).addKill(p.getUniqueId().toString());
+		
+		if(p.getKiller() != null) {
+			Player killerPlayer = p.getKiller();
+			if(PlayerManager.getIngamePlayer(killerPlayer) == null) return;
+			VaroPlayer killer = PlayerManager.getIngamePlayer(killerPlayer);
+			killer.addKill(p.getUniqueId().toString());
+		}
+		
+		if(plugin.getRegistration().getAliveTeams().size() != 1) return;
+		String team = plugin.getRegistration().getAliveTeams().get(0);
+		for(VaroPlayer winner : plugin.getRegistration().getTeamMembers(team)) {
+			if(Bukkit.getPlayer(winner.getUuid()) != null) {
+				sendDiscordWinEmbed(winner, Bukkit.getPlayer(winner.getUuid()).getInventory());
+			} else {
+				AdvancedOfflinePlayer op;
+				try {
+					op = new AdvancedOfflinePlayer(plugin, winner.getUuid());
+					sendDiscordWinEmbed(winner, op.getInventory());
+				} catch (IOException e1) {
+					plugin.getLogger().severe("Couldn't get inventory for " + winner.getName() + ", he never logged onto the server");
+				}
+			}
+			Bukkit.broadcastMessage(Varo.prefix + winner.getColor() + winner.getName() + " hat das Varo gewonnen (#" + winner.getTeam() + "). Gratuliere!");
+		}
+			
 	}
 
 	@EventHandler
@@ -353,6 +386,52 @@ public class IngameEvents implements Listener {
 	    	}
 	    }
 		return list;
+	}
+	
+	public void sendDiscordWinEmbed(VaroPlayer ip, PlayerInventory inv) {
+		TextChannel channel = DiscordUtil.getTextChannelById(plugin.getSettings().getDiscordChannelId());
+		
+		ItemString helmet = new ItemString(inv.getHelmet());
+		ItemString chestplate = new ItemString(inv.getChestplate());
+		ItemString leggings = new ItemString(inv.getLeggings());
+		ItemString boots = new ItemString(inv.getBoots());
+		
+		
+		ItemString sword = new ItemString("No sword in hotbar");
+		ItemString bow = new ItemString("No bow in hotbar");
+		for(int i = 0; i <= 8; i++) {
+			if(inv.getItem(i) == null) continue;
+			if(inv.getItem(i).getType().toString().contains("SWORD")) {
+				sword = new ItemString(inv.getItem(i));
+			} else if(inv.getItem(i).getType() == Material.BOW) {
+				bow = new ItemString(inv.getItem(i));
+			}
+		}
+		
+		
+		channel.sendMessage(
+		new EmbedBuilder()
+			.setTitle(ip.getName() + " hat das Varo gewonnen!", "https://de.namemc.com/profile/" + ip.getUuid())
+		    .setDescription("**@#" + ip.getTeam() + "**\n\n:medal: Ruhm und Ehre, ein Hoch auf den Sieg! :partying_face:")
+		    .setColor(new Color(1408828))
+		    .setTimestamp(OffsetDateTime.now())
+			.setThumbnail(DiscordSRV.config().getString("Experiment_EmbedAvatarUrl")
+				.replace("{uuid}", ip.getUuid().toString())
+                .replace("{uuid-nodashes}", ip.getUuid().toString().replace("-", ""))
+                .replace("{username}", ip.getName())
+                .replace("{size}", "128"))			    
+		    .addField("Rüstung", ""
+		    		+ ":small_blue_diamond: " + helmet + helmet.getEnchantments() + "\n"
+		    		+ ":small_blue_diamond: " + chestplate + chestplate.getEnchantments() + "\n"
+		    		+ ":small_blue_diamond: " + leggings + leggings.getEnchantments() + "\n"
+		    		+ ":small_blue_diamond: " + boots + boots.getEnchantments(), false)
+		    .addField("Items:",
+		    		":crossed_swords: " + sword + sword.getEnchantments() + "\n"
+		    		+ ":bow_and_arrow: " + bow + bow.getEnchantments(), false)
+		    .addField("Kills:", String.valueOf(ip.getKillCount()), true)
+		    .addField("Strikes", String.valueOf(ip.getStrikes().size()), true)
+		    .build()
+		 ).queue();
 	}
 		
 }

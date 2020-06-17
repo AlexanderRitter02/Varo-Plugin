@@ -87,7 +87,6 @@ public class Registration {
 		boolean admin = false;
 		if(plugin.getSettings().isAdmin(UUID.fromString(id)).contains("admin")) {
 			admin = true;
-			System.out.println("Player " + Bukkit.getPlayer(uuid) + " is now an ADMIN");
 		}
 		HUDOption hudoption = HUDOption.valueOf(players.getString(id + ".hud", plugin.getSettings().getDefaultHUDOption().toString()));
 		VaroPlayer ip = new VaroPlayer(plugin, name, team, uuid, time, sessions, dead, color, admin, hudoption);
@@ -173,6 +172,16 @@ public class Registration {
 			if(plugin.getPlayerConfig().getString(uuid + ".team").equalsIgnoreCase(team)) members.add(plugin.getRegistration().loadPlayer(uuid));
 		}
 		return members;
+	}
+	
+	public ArrayList<String> getAliveTeams() {
+		ArrayList<String> teams = new ArrayList<String>();
+		for(UUID uuid : getAllUUIDs()) {
+			VaroPlayer ip = loadPlayer(uuid);
+			if(ip.isDead() || ip.isAdmin() || ip.isSpectator()) continue;
+			if(!teams.contains(ip.getTeam())) teams.add(ip.getTeam());
+		}
+		return teams;
 	}
 
 }
