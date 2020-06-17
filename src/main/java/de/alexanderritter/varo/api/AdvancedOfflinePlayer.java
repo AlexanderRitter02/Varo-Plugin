@@ -10,11 +10,10 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
-import org.bukkit.inventory.Inventory;
+import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftInventoryPlayer;
+import org.bukkit.inventory.PlayerInventory;
 
 import de.alexanderritter.varo.main.Varo;
-import net.minecraft.server.v1_8_R3.ItemStack;
 import net.minecraft.server.v1_8_R3.NBTCompressedStreamTools;
 import net.minecraft.server.v1_8_R3.NBTTagCompound;
 import net.minecraft.server.v1_8_R3.NBTTagList;
@@ -47,21 +46,11 @@ public class AdvancedOfflinePlayer {
 		return new Location(world, x, y, z);
 	}
 	
-	public Inventory getInventory() {
-		System.out.println("1: " + playernbt.get("Inventory"));
+	public PlayerInventory getInventory() {
 		if(playernbt.get("Inventory") instanceof NBTTagList) {
-			System.out.println("2: Is a NBTTagList");
-			NBTTagList inventoryList = (NBTTagList) playernbt.get("Inventory");
-			System.out.println("3: " + inventoryList);
-			Inventory inventory = Bukkit.createInventory(null, 108);
-			for(int i = 0; i < inventoryList.size(); i++) {
-				if(inventoryList.get(i) instanceof NBTTagCompound) {
-					ItemStack test = ItemStack.createStack(inventoryList.get(i));
-					org.bukkit.inventory.ItemStack itemstack = CraftItemStack.asBukkitCopy(test);
-					inventory.setItem(inventoryList.get(i).getByte("Slot"), itemstack);
-				}
-			}
-			return inventory;
+			net.minecraft.server.v1_8_R3.PlayerInventory inv = new net.minecraft.server.v1_8_R3.PlayerInventory(null);
+			inv.b((NBTTagList) playernbt.get("Inventory"));
+			return new CraftInventoryPlayer(inv);
 		}
 		return null;
 	}
