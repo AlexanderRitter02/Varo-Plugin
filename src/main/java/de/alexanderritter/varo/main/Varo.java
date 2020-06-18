@@ -201,6 +201,7 @@ public class Varo extends JavaPlugin {
 			
 			PlayerManager.addIngamePlayer(online, getRegistration().loadPlayer(online));
 			if(!serverreload) continue;
+			if(PlayerManager.getIngamePlayer(online).isAdmin()) continue;
 			Bukkit.getScheduler().runTaskLater(this, new Runnable() {
 				@Override
 				public void run() {
