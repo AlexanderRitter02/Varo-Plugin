@@ -39,7 +39,7 @@ public class CMDstop implements CommandExecutor {
 				online.teleport(plugin.getSettings().getLobby());
 				online.setPlayerListName(ChatColor.GRAY + "[Lobby] " + online.getName());
 				online.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
-				online.setGameMode(GameMode.ADVENTURE);				
+				online.setGameMode(GameMode.ADVENTURE);
 			}
 			
 			Bukkit.broadcastMessage(Varo.prefix + ChatColor.RED + "Varo wurde von einem Admin beendet!");
@@ -47,7 +47,7 @@ public class CMDstop implements CommandExecutor {
 			
 			ArrayList<UUID> removeSpec = new ArrayList<>();
 			for(UUID uuid : PlayerManager.spectators) {
-				removeSpec.add(uuid);				
+				removeSpec.add(uuid);
 			}
 			for(UUID uuid : removeSpec) {
 				if(Bukkit.getPlayer(uuid) != null) {
@@ -56,7 +56,7 @@ public class CMDstop implements CommandExecutor {
 			}
 			PlayerManager.spectators = new ArrayList<UUID>();
 			
-			plugin.reset();		
+			plugin.reset();
 			Bukkit.getPluginManager().registerEvents(new BeforeVaroListener(plugin), plugin);
 			
 		} else sender.sendMessage(ChatColor.RED + "Varo ist noch nicht gestartet. Benutze /varo.start, um Varo zu starten");

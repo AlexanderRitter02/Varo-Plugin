@@ -73,7 +73,7 @@ public class PerHourChecker extends BukkitRunnable {
 		
 		FileConfiguration config = plugin.getConfig();
 		config.set("plugin.hours", hour);
-		plugin.saveConfig();	
+		plugin.saveConfig();
 		
 		int endsize = plugin.getConfig().getInt("border.end-radius")*2;
 		double shrinkAmountPerHour = plugin.getSettings().getBorderShrinkPerHour();
@@ -99,7 +99,7 @@ public class PerHourChecker extends BukkitRunnable {
 		plugin.getLogger().info(bordermsg);
 	}
 	
-	public void checkCoordinatePost() {		
+	public void checkCoordinatePost() {
 		if(!plugin.getSettings().isCoordinatesPostTime()) return;
 		for(UUID uuid : plugin.getRegistration().getAllUUIDs()) {
 			VaroPlayer ip = plugin.getRegistration().loadPlayer(uuid);
@@ -114,7 +114,7 @@ public class PerHourChecker extends BukkitRunnable {
 			
 			}, 500);
 			for(VaroPlayer member : plugin.getRegistration().getTeamMembers(ip.getTeam())) member.setPostedCoords(true);
-		}	
+		}
 	}
 
 }

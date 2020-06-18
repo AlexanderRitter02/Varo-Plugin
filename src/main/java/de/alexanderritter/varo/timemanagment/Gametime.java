@@ -38,13 +38,13 @@ public class Gametime extends BukkitRunnable {
 				break;
 			case 60:
 				p.sendMessage(Varo.prefix + ChatColor.GRAY + "Du hast noch " + ChatColor.GOLD + 1 + ChatColor.GRAY + " Minute Zeit");
-				break;			 
+				break; 
 			case 30: case 15: 
 				if(!ip.getEnemyNear()) {
 					for(Player online : Bukkit.getOnlinePlayers()) {
 						if(!online.equals(p)) {
 							online.sendMessage(Varo.prefix + ChatColor.GRAY + "Der Spieler " + ip.getColor() + ip.getName() + ChatColor.GRAY + " wird in " + ip.getTime() + " Sekunden gekickt!");
-						}										
+						}
 					}
 				}
 				p.sendMessage(Varo.prefix + ChatColor.GRAY + "Noch " + ChatColor.GOLD + ip.getTime() + ChatColor.GRAY + " Sekunden");
@@ -52,7 +52,7 @@ public class Gametime extends BukkitRunnable {
 			case 10: case 5: case 3: case 2:
 				if(!ip.getEnemyNear()) {
 					p.sendMessage(Varo.prefix + ChatColor.GRAY + "Noch " + ChatColor.GOLD + ip.getTime() + ChatColor.GRAY + " Sekunden");
-				}				
+				}
 				break;
 			case 1:
 				if(!ip.getEnemyNear()) {

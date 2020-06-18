@@ -89,7 +89,7 @@ public class Countdown extends BukkitRunnable {
 				VaroPlayer ip = PlayerManager.getIngamePlayer(p);
 				ip.setupScoreboard();
 				String name = p.getName();
-				if(name.length() > 16){
+				if(name.length() > 16) {
 					name = p.getName().substring(0, 16);
 				}
 				p.setPlayerListName(ip.getColor() + name);

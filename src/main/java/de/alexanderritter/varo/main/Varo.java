@@ -71,7 +71,7 @@ public class Varo extends JavaPlugin {
 	public void onEnable() {
 		try {createConfigs();} catch (IOException e) {e.printStackTrace();}
 		settings = init.loadSettings();
-		if(!init.init()) return;		
+		if(!init.init()) return;
 		registration = new Registration(this);
 		checker = new PerHourChecker(this);
 		initializeGametime();
@@ -79,9 +79,9 @@ public class Varo extends JavaPlugin {
 	}
 	
 	public void onDisable() {
-		if(checker != null) checker.updateHour();		
+		if(checker != null) checker.updateHour();
 		for(Player online : Bukkit.getOnlinePlayers()) {
-			try {PlayerManager.getIngamePlayer(online).save();} catch(NullPointerException e) {}	
+			try {PlayerManager.getIngamePlayer(online).save();} catch(NullPointerException e) {}
 		}
 	}
 	
@@ -103,7 +103,7 @@ public class Varo extends JavaPlugin {
 		
 		savePlayerConfig(YamlConfiguration.loadConfiguration(playerConfigFile));
 		saveSpawnConfig(YamlConfiguration.loadConfiguration(spawnConfigFile));
-		saveChestConfig(YamlConfiguration.loadConfiguration(chestConfigFile));	
+		saveChestConfig(YamlConfiguration.loadConfiguration(chestConfigFile));
 		
 	}
 	
@@ -172,7 +172,7 @@ public class Varo extends JavaPlugin {
 			prepareWorld(world);
 		}
 		
-		if(getSettings().getStartProtection() > 0) new StartProtection(this, getSettings().getStartProtection()).start();		
+		if(getSettings().getStartProtection() > 0) new StartProtection(this, getSettings().getStartProtection()).start();
 	}
 	
 	public void reset() {
@@ -209,12 +209,12 @@ public class Varo extends JavaPlugin {
 				}
 			}, 1);
 		}
-		for(VaroPlayer ip : PlayerManager.getAllIngamePlayers()) {	
+		for(VaroPlayer ip : PlayerManager.getAllIngamePlayers()) {
 			if(Bukkit.getPlayer(ip.getUuid()) == null) continue;
 			Player p = Bukkit.getPlayer(ip.getUuid());
 			ip.setupScoreboard();
 			String name = p.getName();
-			if(name.length() > 16){
+			if(name.length() > 16) {
 				name = p.getName().substring(0, 16);
 			}
 			p.setPlayerListName(ip.getColor() + name);
@@ -237,7 +237,7 @@ public class Varo extends JavaPlugin {
 		p.getInventory().setArmorContents(new ItemStack[p.getInventory().getArmorContents().length]);
 	}
 	
-	public void prepareWorld(World world) {	
+	public void prepareWorld(World world) {
 		int radius = getConfig().getInt("border.radius");
 		world.setTime(0);
 		world.setThundering(false);
@@ -254,7 +254,7 @@ public class Varo extends JavaPlugin {
 		{entity.remove();}
 	}
 	
-	public void postPlayerCoordinates(VaroPlayer ip){
+	public void postPlayerCoordinates(VaroPlayer ip) {
 		
 		if(Bukkit.getPlayer(ip.getUuid()) != null) {
 			Player p = Bukkit.getPlayer(ip.getUuid());

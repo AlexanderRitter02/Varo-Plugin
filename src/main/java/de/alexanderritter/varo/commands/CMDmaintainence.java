@@ -28,7 +28,7 @@ public class CMDmaintainence implements CommandExecutor {
 		
 		UUID uuid = null;
 		try {
-			uuid = UUIDs.getUUID(args[0]);			
+			uuid = UUIDs.getUUID(args[0]);
 		} catch (IOException e) {
 			sender.sendMessage(ChatColor.RED + "Der Spieler " + args[0] + " existiert nicht oder Mojangs Auth-Server sind down");
 			return true;
@@ -41,8 +41,8 @@ public class CMDmaintainence implements CommandExecutor {
 				p.kickPlayer(ChatColor.DARK_GREEN + "Für die nächste Session bist du temporär Admin. \nVerwende das nur, um etwas zu fixen und logge dich danach wieder aus");
 			}
 			plugin.getConfig().set("plugin.admins." + uuid.toString(), "admin_temp");
-			plugin.saveConfig();						
-			sender.sendMessage(ChatColor.GREEN + args[0] + " ist nun temporär Admin");	
+			plugin.saveConfig();
+			sender.sendMessage(ChatColor.GREEN + args[0] + " ist nun temporär Admin");
 			
 		} else if (args.length == 2 && args[1].equalsIgnoreCase("forever")) {
 			if(Bukkit.getPlayer(uuid) != null) {
@@ -50,7 +50,7 @@ public class CMDmaintainence implements CommandExecutor {
 				p.kickPlayer(ChatColor.DARK_RED + "Du bist nun Admin und überwachst das Spiel. Danke! \n" + ChatColor.RED + "Melde das sofort, falls du am Varo teilnehmen willst.");
 			}
 			plugin.getConfig().set("plugin.admins." + uuid.toString(), "admin_forever");
-			plugin.saveConfig();						
+			plugin.saveConfig();
 			sender.sendMessage(ChatColor.GREEN + args[0] + " ist nun " + ChatColor.DARK_RED + "für immer " + ChatColor.GREEN + "Admin");
 			
 		}

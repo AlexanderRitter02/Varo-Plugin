@@ -27,8 +27,8 @@ public class UUIDs {
 		String jsonString = sb.toString();
 		JsonElement json = new JsonParser().parse(jsonString);
 		reader.close();
-		if(!json.isJsonObject()) return null;	
-		return json.getAsJsonObject();	
+		if(!json.isJsonObject()) return null;
+		return json.getAsJsonObject();
 	}
 	
 	public static UUID getUUID(String name) throws IOException {

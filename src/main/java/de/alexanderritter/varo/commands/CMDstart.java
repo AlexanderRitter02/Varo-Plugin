@@ -49,7 +49,7 @@ public class CMDstart implements CommandExecutor {
 					ArrayList<Player> players_for_start = new ArrayList<>();
 					int id = 1;
 					
-					for(Player online : Bukkit.getOnlinePlayers()) {players_for_start.add(online);}					
+					for(Player online : Bukkit.getOnlinePlayers()) {players_for_start.add(online);}
 					if(players_for_start.size() > plugin.getSpawnConfig().getKeys(false).size()) {
 						sender.sendMessage(ChatColor.RED + "Es sind mehr Spieler vorhanden als es Spawns gibt!");
 						return true;
@@ -77,7 +77,7 @@ public class CMDstart implements CommandExecutor {
 									players_for_start.remove(Bukkit.getPlayer(teammember.getUuid()));
 									id++;
 								}
-							}	
+							}
 						}
 						
 					} else {
@@ -85,7 +85,7 @@ public class CMDstart implements CommandExecutor {
 						// Spawne alle Spieler zufällig
 						while(!players_for_start.isEmpty()) {
 							int random_player = new Random().nextInt(players_for_start.size());
-							if(plugin.getRegistration().getSpawn(id) == null) {				
+							if(plugin.getRegistration().getSpawn(id) == null) {
 								sender.sendMessage(ChatColor.RED + "Es ist noch kein Spawn registriert / die Spawns sind nicht in der richtigen Reihenfolge."
 										+ "Bitte benutze /varo.spawn");
 								return true;
@@ -104,7 +104,7 @@ public class CMDstart implements CommandExecutor {
 					plugin.sendDiscordMessage("```css\n+ Varo startet in " + time + " Sekunden, viel Erfolg an alle Teams!\n```");
 				} else sender.sendMessage(ChatColor.RED + "Varo läuft bereits!");
 			} else sender.sendMessage(ChatColor.RED + "Der Countdown läuft schon. Benutze /varo.start break, um ihn zu stoppen");
-		}		
+		}
 		return true;
 	}
 }

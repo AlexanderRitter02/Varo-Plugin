@@ -58,7 +58,7 @@ public class StartProtection extends BukkitRunnable {
 			break;
 		default:
 			break;
-		}	
+		}
 	}
 
 }

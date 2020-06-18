@@ -42,12 +42,12 @@ public class TeamChest implements Listener {
 		Block block = e.getClickedBlock();
 		if(block.getType() != Material.CHEST) return;
 		Location chest = block.getLocation();
-		if(!allowToOpen(chest, e.getPlayer())) e.setCancelled(true);	
+		if(!allowToOpen(chest, e.getPlayer())) e.setCancelled(true);
 	}
 	
 	@EventHandler
 	public void onPlaceSign(BlockPlaceEvent e) {
-		if(!(e.getBlockPlaced().getType() == Material.WALL_SIGN)) return;	
+		if(!(e.getBlockPlaced().getType() == Material.WALL_SIGN)) return;
 		if(!(e.getBlockAgainst().getState() instanceof Chest)) return;
 		Chest chest = (Chest) e.getBlockAgainst().getState();
 		InventoryHolder ih = ((InventoryHolder) chest).getInventory().getHolder();
@@ -66,11 +66,11 @@ public class TeamChest implements Listener {
 			message.addExtra(between);
 			TextComponent no = new TextComponent(ChatColor.DARK_RED + "Nein");
 			no.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/overwrite delete" + ip.getName()));
-			message.addExtra(no);			
+			message.addExtra(no);
 			
 			p.spigot().sendMessage(message);
-			Overwrite.addRequest(p, e.getBlockPlaced().getLocation());			
-			PacketPlayOutCloseWindow pack = new PacketPlayOutCloseWindow();		
+			Overwrite.addRequest(p, e.getBlockPlaced().getLocation());
+			PacketPlayOutCloseWindow pack = new PacketPlayOutCloseWindow();
 			((CraftPlayer)p).getHandle().playerConnection.sendPacket(pack);
 			return;
 		}
@@ -88,12 +88,12 @@ public class TeamChest implements Listener {
 			public void run() {
 				Sign sign = (Sign) e.getBlockPlaced().getState();
 				sign.setLine(1, ip.getColor() + "#" + ip.getTeam());
-				sign.update();	
+				sign.update();
 				
 			}
 		}, 5);
 			
-		PacketPlayOutCloseWindow pack = new PacketPlayOutCloseWindow();		
+		PacketPlayOutCloseWindow pack = new PacketPlayOutCloseWindow();
 		((CraftPlayer)p).getHandle().playerConnection.sendPacket(pack);
 		
 		p.sendMessage(Varo.prefix + ChatColor.GREEN + "Teamkiste erstellt");

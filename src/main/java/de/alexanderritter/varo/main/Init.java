@@ -41,12 +41,12 @@ public class Init {
 		this.path = path;
 	}
 	
-	public boolean init() {		
-		String varoworld = plugin.getConfig().getString("varoworld");		
-		if(Bukkit.getWorld(varoworld) != null) {	
+	public boolean init() {
+		String varoworld = plugin.getConfig().getString("varoworld");
+		if(Bukkit.getWorld(varoworld) != null) {
 			plugin.getLogger().info("Die Welt mit dem Namen " + varoworld + " wurde erfolgreich geladen");
-			plugin.getSettings().setVaroWorld(Bukkit.getWorld(varoworld));		
-		} else {		
+			plugin.getSettings().setVaroWorld(Bukkit.getWorld(varoworld));
+		} else {
 			plugin.getLogger().severe("Eine Welt mit dem Namen " + varoworld + " existiert nicht!");
 			Bukkit.getPluginManager().disablePlugin(plugin);
 			return false;
@@ -58,7 +58,7 @@ public class Init {
 	}
 	
 	public void registerEvents() {
-		PluginManager pm = Bukkit.getPluginManager();		
+		PluginManager pm = Bukkit.getPluginManager();
 		if(plugin.getSettings().isRunning()) {
 			pm.registerEvents(new IngameEvents(plugin), plugin);
 			pm.registerEvents(new TeamChest(plugin), plugin);
@@ -77,7 +77,7 @@ public class Init {
 		((PluginCommand) plugin.getCommand("varo.revive").setUsage(ChatColor.RED + "Syntax: /varo.revive <Spieler>")).setExecutor(new CMDrevive(plugin));
 		((PluginCommand) plugin.getCommand("varo.setlobby").setUsage(ChatColor.RED + "Syntax: /varo.setlobby")).setExecutor(new CMDsetlobby(plugin));
 		((PluginCommand) plugin.getCommand("coordinates").setUsage(ChatColor.RED + "Syntax: /coordinates")).setExecutor(new CMDcoordinates(plugin));
-		((PluginCommand) plugin.getCommand("bordersize").setUsage(ChatColor.RED + "Syntax: /bordersize")).setExecutor(new CMDbordersize(plugin));		
+		((PluginCommand) plugin.getCommand("bordersize").setUsage(ChatColor.RED + "Syntax: /bordersize")).setExecutor(new CMDbordersize(plugin));
 		((PluginCommand) plugin.getCommand("spectators").setUsage(ChatColor.RED + "Syntax: /spectators")).setExecutor(new CMDspectators());
 		((PluginCommand) plugin.getCommand("modifyconfig").setUsage(ChatColor.RED + "Syntax: /modifyconfig <attribute> <value>")).setExecutor(new CMDmodifyconfig(plugin));
 		((PluginCommand) plugin.getCommand("maintainence").setUsage(ChatColor.RED + "Syntax: /maintainence <player>\nFür Admins, die nicht am Varo teilnehmen: /maintainence <player> forever")).setExecutor(new CMDmaintainence(plugin));

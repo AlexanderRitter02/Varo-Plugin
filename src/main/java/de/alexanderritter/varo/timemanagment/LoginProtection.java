@@ -28,14 +28,14 @@ public class LoginProtection extends BukkitRunnable {
 
 	@Override
 	public void run() {
-		if(sec <= 0) {		
+		if(sec <= 0) {
 			p.sendMessage(Varo.prefix + ChatColor.GREEN + "Du kannst dich nun bewegen");
 			ip.setLoginProtect(false);
 			lpl.unregister();
 			cancel();
 		}
 		if(sec > 0) p.sendMessage(Varo.prefix + ChatColor.GRAY + "Du kannst dich in " + sec + " Sekunden bewegen!");
-		sec--;				
+		sec--;
 	}
 
 }

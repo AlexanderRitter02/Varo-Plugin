@@ -41,7 +41,7 @@ public class SpectatorListener implements Listener {
 	}
 	
 	@EventHandler
-	public void onJoin(PlayerJoinEvent e) {	
+	public void onJoin(PlayerJoinEvent e) {
 		Player p = e.getPlayer();
 		p.setAllowFlight(true);
 		if(plugin.getRegistration().loadPlayer(p).isDead()) {
@@ -61,7 +61,7 @@ public class SpectatorListener implements Listener {
 				p.hidePlayer(online);
 			}
 		}
-		p.setPlayerListName(ChatColor.GRAY + "[Spectator] " + p.getName());		
+		p.setPlayerListName(ChatColor.GRAY + "[Spectator] " + p.getName());
 	}
 	
 	@EventHandler
@@ -85,7 +85,7 @@ public class SpectatorListener implements Listener {
 						if(Bukkit.getPlayer(member.getUuid()) == null) continue;
 						inv.addItem(createPlayerSkull(member.getName()));
 					}
-				} else {					
+				} else {
 					while(Bukkit.getOnlinePlayers().size() > invSize) invSize += 9;
 					inv = Bukkit.createInventory(null, invSize, "Teleport to Player");
 					for(Player online : Bukkit.getOnlinePlayers()) inv.addItem(createPlayerSkull(online.getName()));
@@ -105,7 +105,7 @@ public class SpectatorListener implements Listener {
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent e) {
 		if(!PlayerManager.spectators.contains(e.getWhoClicked().getUniqueId())) return;
-		Player p = (Player) e.getWhoClicked();		
+		Player p = (Player) e.getWhoClicked();
 		ItemStack clicked = e.getCurrentItem();
 		
 		if(e.getInventory().getName().equalsIgnoreCase("Teleport to Player")) {
@@ -117,7 +117,7 @@ public class SpectatorListener implements Listener {
 				} else {
 					p.sendMessage(Varo.prefix + ChatColor.DARK_RED + "Du konntest nicht teleportiert werden, " + ChatColor.RED + clicked.getItemMeta().getDisplayName() + ChatColor.DARK_RED + " ist nicht mehr online.");
 					p.closeInventory();
-				}			
+				}
 			}
 		}
 		e.setCancelled(true);
@@ -214,6 +214,6 @@ public class SpectatorListener implements Listener {
 		if(!(e.getTarget() instanceof Player)) return;
 		if(!PlayerManager.spectators.contains(e.getTarget().getUniqueId())) return;
 		e.setCancelled(true);
-	}	
+	}
 	
 }

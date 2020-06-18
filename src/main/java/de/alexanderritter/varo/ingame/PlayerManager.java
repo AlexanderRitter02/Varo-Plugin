@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 public class PlayerManager {
 	
 	public static ArrayList<UUID> spectators = new ArrayList<>();
-	private static HashMap<UUID, VaroPlayer> ingame_players = new HashMap<>();	
+	private static HashMap<UUID, VaroPlayer> ingame_players = new HashMap<>();
 	
 	public static void addIngamePlayer(Player p, VaroPlayer ip) {
 		ingame_players.put(p.getUniqueId(), ip);
@@ -45,7 +45,7 @@ public class PlayerManager {
 	}
 	
 	public static void addSpectator(Player p) {
-		if(!spectators.contains(p.getUniqueId())) spectators.add(p.getUniqueId());	
+		if(!spectators.contains(p.getUniqueId())) spectators.add(p.getUniqueId());
 		p.setGameMode(GameMode.ADVENTURE);
 		p.setAllowFlight(true);
 		p.getInventory().clear();
@@ -57,7 +57,7 @@ public class PlayerManager {
 				p.showPlayer(online);
 			} else {
 				online.hidePlayer(p);
-			}			
+			}
 		}
 	}
 	

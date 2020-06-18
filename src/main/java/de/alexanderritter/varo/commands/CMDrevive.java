@@ -66,7 +66,7 @@ public class CMDrevive implements CommandExecutor {
 							
 						} else {
 							// Offline Player
-							players.set(uuid + ".reviving", Boolean.valueOf(true));							
+							players.set(uuid + ".reviving", Boolean.valueOf(true));
 						}
 						
 						plugin.sendDiscordMessage("```css\n Der Spieler " + args[0] + " wurde wiederbelebt. Viel Glück!.\n ```");

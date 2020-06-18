@@ -4,7 +4,7 @@ import org.bukkit.ChatColor;
 
 public class Colors {
 	
-	public static ChatColor getColorfromString(String input) {		
+	public static ChatColor getColorfromString(String input) {
 		switch(input.toLowerCase()) {
 		case "&0": case "§0": case "schwarz": case "black":
 			return ChatColor.BLACK;

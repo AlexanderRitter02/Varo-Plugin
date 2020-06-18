@@ -108,7 +108,7 @@ public class IngameEvents implements Listener {
 				plugin.saveConfig();
 				p.teleport(p.getLocation().getWorld().getSpawnLocation());
 			}
-			p.setGameMode(GameMode.SPECTATOR);			
+			p.setGameMode(GameMode.SPECTATOR);
 			String title_msg = "Du bist nun im Admin Modus";
 			String subtitle_msg = "Nicht zum eigenen Vorteil verwenden";
 			IChatBaseComponent chatTitle = ChatSerializer.a("{\"text\": \"" + title_msg + "\",color:" + ChatColor.DARK_GREEN.name().toLowerCase() + "}");

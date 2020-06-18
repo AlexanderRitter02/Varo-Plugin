@@ -37,7 +37,7 @@ public class Overwrite implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if(!command.getName().equalsIgnoreCase("overwrite")) return false;
 		if(!(sender instanceof Player)) return false;
-		if(args.length == 0) {		
+		if(args.length == 0) {
 		Player p = (Player) sender;
 		if(!players.keySet().contains(p)) {p.sendMessage(ChatColor.RED + "Du hast zurzeit keine Teamchest-Anfragen"); return false;}
 		
@@ -81,12 +81,12 @@ public class Overwrite implements CommandExecutor {
 			public void run() {
 				Sign signedit = (Sign) loc.getBlock().getState();
 				signedit.setLine(1, ip.getColor() + "#" + ip.getTeam());
-				signedit.update();	
+				signedit.update();
 				
 			}
 		}, 5);
 			
-		PacketPlayOutCloseWindow pack = new PacketPlayOutCloseWindow();		
+		PacketPlayOutCloseWindow pack = new PacketPlayOutCloseWindow();
 		((CraftPlayer)p).getHandle().playerConnection.sendPacket(pack);
 		players.remove(p);
 		

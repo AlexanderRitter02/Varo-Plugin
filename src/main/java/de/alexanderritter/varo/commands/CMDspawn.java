@@ -45,7 +45,7 @@ public class CMDspawn implements CommandExecutor {
 			if (spawns.isConfigurationSection(String.valueOf(id))) {
 				p.sendMessage(Varo.prefix + ChatColor.GREEN + "Spawnpoint mit ID " + ChatColor.DARK_AQUA + String.valueOf(id) + ChatColor.GREEN + " wurde erfolgreich �berschrieben.");
 			} else {
-				p.sendMessage(Varo.prefix + ChatColor.GREEN + "Spawnpoint mit ID " + ChatColor.DARK_AQUA + String.valueOf(id) + ChatColor.GREEN + " wurde erfolgreich erstellt.");					
+				p.sendMessage(Varo.prefix + ChatColor.GREEN + "Spawnpoint mit ID " + ChatColor.DARK_AQUA + String.valueOf(id) + ChatColor.GREEN + " wurde erfolgreich erstellt.");
 			}
 			
 			plugin.getRegistration().registerSpawn(p.getLocation().getBlock().getLocation(), id);

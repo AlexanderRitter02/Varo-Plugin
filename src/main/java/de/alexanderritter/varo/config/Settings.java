@@ -34,7 +34,7 @@ public class Settings {
 		this.min_logout_distance = min_logout_distance;
 		this.current_week = current_week;
 		this.allowedToSpectateIfTeamAlive = allowedToSpectateIfTeamAlive;
-		this.friendlyfire = friendlyfire;	
+		this.friendlyfire = friendlyfire;
 		this.running = running;
 		this.discordid = discordid;
 		this.daytopost = daytopost;
@@ -70,7 +70,7 @@ public class Settings {
 	}
 	
 	public BorderMode getBorderMode() {
-		return bordermode;	
+		return bordermode;
 	}
 	
 	public double getBorderShrinkPerHour() {
@@ -146,7 +146,7 @@ public class Settings {
 		if(plugin.getConfig().getString("plugin.admins." + uuid.toString()) != null) {
 			return plugin.getConfig().getString("plugin.admins." + uuid.toString());
 		}
-		return "";	
+		return "";
 	}
 	
 	public boolean isCoordinatesPostTime() {
@@ -155,7 +155,7 @@ public class Settings {
 		String date = new SimpleDateFormat("EEEE, HH", Locale.US).format(calendar.getTime());
 		System.out.println("Checking COORDINATE POST, it is " + date);
 		boolean is_coord_post = false;
-		for(String datestring : plugin.getConfig().getStringList("coord-post")) {				
+		for(String datestring : plugin.getConfig().getStringList("coord-post")) {
 			if(date.equals(datestring)) {
 				is_coord_post = true;
 			}

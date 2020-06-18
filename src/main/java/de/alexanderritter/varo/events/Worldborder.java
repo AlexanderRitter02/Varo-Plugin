@@ -48,7 +48,7 @@ public class Worldborder {
 			x = maxX - knockback;
 		
 		if(z <= minZ) {
-			z = minZ + knockback;		
+			z = minZ + knockback;
 		} else if (z >= maxZ) {
 			z = maxZ - knockback;
 		}
@@ -80,7 +80,7 @@ public class Worldborder {
 	private double getHighestBlock(World world, double x, double z) {
 		int maxHeight = 255;
 		if(world.getEnvironment().equals(Environment.NETHER)) maxHeight = 125;
-		while(maxHeight > 0){
+		while(maxHeight > 0) {
 			Location possible = new Location(world, x, maxHeight, z);
 			if(possible.getBlock().getType() != Material.AIR &&
 					possible.getBlock().getType() != Material.LAVA &&
@@ -91,7 +91,7 @@ public class Worldborder {
 				}
 			maxHeight--;
 		}
-		return 0.0;	   
+		return 0.0;   
 	}
 	
 }
