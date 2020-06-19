@@ -1,6 +1,34 @@
 # Version 2.0.0
 
 #### Added
+- **Kill tracker:** Kills are now saved and counted ([#26][i26])
+- **Strike tracker:**  Use `/varo.strike <add|remove|list> <player>` to give out strikes (punishment is still manual) ([#27][i27])
+- **Varo winmessage:**  Broadcast on Discord includes kill and strike stats as well as armor and weapon info. ([#13][i13])
+
+#### Changed
+- You can craft ender eyes now
+- Offline coordinate posts use whole numbers
+
+#### Fixed
+- Worldborder not getting appropriately shrunken by missed time after server was down
+- Worldborder in the nether/end never getting missed time shrunken
+- Shrink console message appears for each world instead of just one for all borders ([#25][i25])
+- Temporary admin position is overwritten when `/reload`-ing the server ([#8][i8])
+
+#### Internals
+- Create utility class `AdvancedOfflinePlayer.java`
+- Remove code duplication in coordinate posts
+
+[i8]: https://github.com/AlexanderRitter02/Varo-Plugin/issues/8
+[i13]: https://github.com/AlexanderRitter02/Varo-Plugin/issues/13
+[i25]: https://github.com/AlexanderRitter02/Varo-Plugin/issues/25
+[i26]: https://github.com/AlexanderRitter02/Varo-Plugin/issues/26
+[i27]: https://github.com/AlexanderRitter02/Varo-Plugin/issues/27
+
+
+# Version 2.0.0
+
+#### Added
 - **HUD options**:  
 Change where varo info gets displayed per player: `/varo.hud <scoreboard | actionbar | tab | chat>`  
 Set a default in the config with `hud-default`.
