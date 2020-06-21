@@ -75,7 +75,7 @@ public class Gametime extends BukkitRunnable {
 	    if(!playerstobekicked.isEmpty()) {
 	    	for(VaroPlayer ip : playerstobekicked) {
 	    		ip.setTime(plugin.getSettings().getSessionsLength());
-				ip.setSessions(ip.getSessions() - 1);
+				ip.removeSession();
 				ip.save();
 				String name = ip.getName();
 				int sessions = ip.getSessions();

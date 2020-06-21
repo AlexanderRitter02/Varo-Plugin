@@ -34,9 +34,23 @@ public class PerHourChecker extends BukkitRunnable {
 		calendar = new GregorianCalendar();
 		calendar.setFirstDayOfWeek(GregorianCalendar.MONDAY);
 		updateWeek();
+		updateDay();
 		checkCoordinatePost();
 		shrinkWorldborder();
 		updateHour();
+	}
+	
+	public void updateDay() {
+		int day = calendar.get(GregorianCalendar.DAY_OF_YEAR);
+		if(plugin.getConfig().getInt("plugin.day", 0) == day) return;
+		YamlConfiguration players = plugin.getPlayerConfig();
+		for(String id : players.getKeys(false)) {
+			players.set(id + ".sessions_today", null);
+		}
+		plugin.savePlayerConfig(players);
+		plugin.getConfig().set("plugin.day", day);
+		plugin.saveConfig();
+		for(VaroPlayer ip : PlayerManager.getAllIngamePlayers()) ip.setSessionsPlayedToday(0);
 	}
 	
 	public void updateWeek() {
@@ -45,6 +59,7 @@ public class PerHourChecker extends BukkitRunnable {
 		YamlConfiguration players = plugin.getPlayerConfig();
 		for(String id : players.getKeys(false)) {
 			players.set(id + ".sessions", plugin.getSettings().getSessionsPerWeek());
+			players.set(id + ".sessions_today", null);
 			players.set(id + ".recent_time", plugin.getSettings().getSessionsLength());
 			players.set(id + ".postedcoords", Boolean.valueOf(false));
 		}

@@ -76,7 +76,13 @@ public class IngameEvents implements Listener {
 		if(plugin.getRegistration().getAllUUIDs().contains(p.getUniqueId())) {
 			VaroPlayer ip = plugin.getRegistration().loadPlayer(p);
 			if(ip.isAdmin()) {PlayerManager.addIngamePlayer(p, ip); return;}
-			if(ip.getSessions() <= 0) {e.disallow(Result.KICK_BANNED, ChatColor.RED + "Du hast keine Sessions mehr in dieser Woche!"); return;}
+			if(ip.getSessions() <= 0) {
+				e.disallow(Result.KICK_BANNED, ChatColor.RED + "Du hast keine Sessions mehr in dieser Woche!"); return;
+			}
+			if(ip.getSessionsPlayedToday() >= plugin.getSettings().getMaxSessionsPerDay()) {
+				e.disallow(Result.KICK_BANNED, ChatColor.RED + "Du kannst maximal " + plugin.getSettings().getMaxSessionsPerDay() + " Sessions pro Tag spielen!");
+				return;
+			}
 			if(ip.isDead()) {
 				PermissionAttachment attachment = p.addAttachment(plugin);
 				permissions.put(p.getUniqueId(), attachment);

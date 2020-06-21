@@ -15,7 +15,7 @@ public class Settings {
 	
 	Varo plugin;
 	BorderMode bordermode;
-	int sessions_per_week, sessions_length, start_protection, login_protection, min_logout_distance, current_week, daytopost;
+	int sessions_per_week, sessions_length, sessions_per_day, start_protection, login_protection, min_logout_distance, current_week, daytopost;
 	double borderShrinkPerHour;
 	boolean allowedToSpectateIfTeamAlive, friendlyfire, running;
 	World varo;
@@ -23,12 +23,13 @@ public class Settings {
 	String discordid;
 	
 	
-	public Settings(Varo plugin, BorderMode bordermode, int sessions_per_week, int sessions_length, int start_protection, int login_protection, int min_logout_distance, int current_week,
+	public Settings(Varo plugin, BorderMode bordermode, int sessions_per_week, int sessions_length, int sessions_per_day, int start_protection, int login_protection, int min_logout_distance, int current_week,
 			boolean allowedToSpectateIfTeamAlive, boolean friendlyfire, boolean running, String discordid, int daytopost, double borderShrinkPerHour, Location lobby) {
 		this.plugin = plugin;
 		this.bordermode = bordermode;
 		this.sessions_per_week = sessions_per_week;
 		this.sessions_length = sessions_length;
+		this.sessions_per_day = sessions_per_day;
 		this.start_protection = start_protection;
 		this.login_protection = login_protection;
 		this.min_logout_distance = min_logout_distance;
@@ -165,6 +166,11 @@ public class Settings {
 	
 	public HUDOption getDefaultHUDOption() {
 		return HUDOption.valueOf(plugin.getConfig().getString("default-hud", "SCOREBOARD").toUpperCase());
+	}
+
+	public int getMaxSessionsPerDay() {
+		if(sessions_per_day == 0) return Integer.MAX_VALUE;
+		return sessions_per_day;
 	}
 
 }

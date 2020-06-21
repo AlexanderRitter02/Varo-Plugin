@@ -3,6 +3,7 @@ discord-id: 498457217754857482
 
 sessions_length: 900
 sessions_per_week: 5
+sessions_per_day: 1
 start_protection: 60
 login_protection: 10
 min_logout_distance: 20
@@ -25,4 +26,5 @@ default-hud: SCOREBOARD
 plugin:
   running: false
   current_week: 40S
+  day: 0
   hours: 0

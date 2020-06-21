@@ -25,6 +25,7 @@ public class VaroPlayer {
 	UUID uuid;
 	int time;
 	int sessions;
+	int sessions_today;
 	boolean dead;
 	boolean enemy_near;
 	boolean login_protected;
@@ -34,13 +35,14 @@ public class VaroPlayer {
 	HUDOption hudoption;
 	Scoreboard scoreboard;
 	
-	public VaroPlayer(Varo plugin, String name, String team, UUID uuid, int time, int sessions, boolean dead, ChatColor color, boolean admin, HUDOption hudoption) {
+	public VaroPlayer(Varo plugin, String name, String team, UUID uuid, int time, int sessions, int sessions_today, boolean dead, ChatColor color, boolean admin, HUDOption hudoption) {
 		this.plugin = plugin;
 		this.name = name;
 		this.team = team;
 		this.uuid = uuid;
 		this.time = time;
 		this.sessions = sessions;
+		this.sessions_today = sessions_today;
 		this.dead = dead;
 		this.enemy_near = false;
 		this.login_protected = false;
@@ -105,6 +107,19 @@ public class VaroPlayer {
 
 	public void setSessions(int sessions) {
 		this.sessions = sessions;
+	}
+	
+	public void removeSession() {
+		setSessions(sessions - 1);
+		sessions_today += 1;
+	}
+	
+	public int getSessionsPlayedToday() {
+		return sessions_today;
+	}
+	
+	public void setSessionsPlayedToday(int sessions_today) {
+		this.sessions_today = sessions_today;
 	}
 
 	public boolean isDead() {
@@ -204,6 +219,7 @@ public class VaroPlayer {
 		players.set(id + ".name", name);
 		players.set(id + ".team", team);
 		players.set(id + ".sessions", Integer.valueOf(sessions));
+		players.set(id + ".sessions_today", Integer.valueOf(sessions_today));
 		players.set(id + ".recent_time", Integer.valueOf(time));
 		players.set(id + ".dead", Boolean.valueOf(dead));
 		players.set(id + ".color", color.name());

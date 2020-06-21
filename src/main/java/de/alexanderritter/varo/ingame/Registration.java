@@ -82,6 +82,7 @@ public class Registration {
 		String team = players.getString(id + ".team");
 		boolean dead = players.getBoolean(id + ".dead");
 		int sessions = players.getInt(id + ".sessions");
+		int sessions_today = players.getInt(id + ".sessions_today", 0);
 		int time = players.getInt(id + ".recent_time");
 		ChatColor color = ChatColor.valueOf(players.getString(id + ".color"));
 		boolean admin = false;
@@ -89,7 +90,7 @@ public class Registration {
 			admin = true;
 		}
 		HUDOption hudoption = HUDOption.valueOf(players.getString(id + ".hud", plugin.getSettings().getDefaultHUDOption().toString()));
-		VaroPlayer ip = new VaroPlayer(plugin, name, team, uuid, time, sessions, dead, color, admin, hudoption);
+		VaroPlayer ip = new VaroPlayer(plugin, name, team, uuid, time, sessions, sessions_today, dead, color, admin, hudoption);
 		return ip;
 	}
 	public VaroPlayer loadPlayer(Player p) {

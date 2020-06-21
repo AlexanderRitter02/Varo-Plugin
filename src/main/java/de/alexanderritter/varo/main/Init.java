@@ -91,6 +91,7 @@ public class Init {
 		BorderMode bordermode = BorderMode.valueOf(config.getString("border.mode").toUpperCase());
 		int sessions_length = config.getInt("sessions_length");
 		int sessions_per_week = config.getInt("sessions_per_week");
+		int sessions_per_day = config.getInt("sessions_per_day", config.getInt("sessions_per_week"));
 		int login_protection = config.getInt("login_protection");
 		int start_protection = config.getInt("start_protection");
 		int min_logout_distance = config.getInt("min_logout_distance");
@@ -110,7 +111,7 @@ public class Init {
 		if(config.get("lobby") != null) {
 			lobby = new Location(Bukkit.getWorld(config.getString("lobby.world")), config.getInt("lobby.x"), config.getInt("lobby.y"), config.getInt("lobby.z"));
 		}
-		return new Settings(plugin, bordermode, sessions_per_week, sessions_length, start_protection, login_protection, 
+		return new Settings(plugin, bordermode, sessions_per_week, sessions_length, sessions_per_day, start_protection, login_protection, 
 				min_logout_distance, current_week, isAllowedToSpectateIfTeamAlive, friendlyfire, running, discordid, daytopost, borderShrinkPerHour, lobby);
 	}
 	
