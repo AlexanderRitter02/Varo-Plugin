@@ -8,7 +8,6 @@ import org.bukkit.World;
 import org.bukkit.WorldBorder;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import de.alexanderritter.varo.ingame.PlayerManager;
@@ -65,7 +64,7 @@ public class PerHourChecker extends BukkitRunnable {
 		}
 		plugin.savePlayerConfig(players);
 		plugin.getSettings().setCurrentWeek(week);
-		for(Player p : Bukkit.getOnlinePlayers()) PlayerManager.getIngamePlayer(p).setSessions(plugin.getSettings().getSessionsPerWeek());
+		for(VaroPlayer ip : PlayerManager.getAllIngamePlayers()) ip.setSessions(plugin.getSettings().getSessionsPerWeek());
 	}
 	
 	public void updateHour() {
