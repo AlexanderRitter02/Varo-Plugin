@@ -197,24 +197,27 @@ public class IngameEvents implements Listener {
 	@EventHandler
 	public void onDamage(EntityDamageByEntityEvent e) {
 		if(!(e.getEntity() instanceof Player)) return;
+		if(plugin.getSettings().isFriendlyfire()) return;
 		Player p = (Player) e.getEntity();
 		if(PlayerManager.getIngamePlayer(p) == null) return;
-		Entity damager = e.getDamager();
-		if(damager instanceof Player) {
-			if(PlayerManager.getIngamePlayer((Player) damager) == null) {e.setCancelled(true); return;}
-			if(plugin.getSettings().isFriendlyfire()) return;
-			if(PlayerManager.getIngamePlayer(p).getTeam().equalsIgnoreCase(PlayerManager.getIngamePlayer((Player) damager).getTeam())) {
-				e.setCancelled(true);
-			}
-		} else if(damager instanceof Projectile) {
-			Projectile projectile = (Projectile) damager;
+		
+		Player damager;
+		Entity damagerEntity = e.getDamager();
+		if(damagerEntity instanceof Player) {
+			damager = (Player) damagerEntity;
+		} else if(damagerEntity instanceof Projectile) {
+			Projectile projectile = (Projectile) damagerEntity;
 			if(!(projectile.getShooter() instanceof Player)) return;
-			Player shooter = (Player) projectile.getShooter();
-			if(PlayerManager.getIngamePlayer(shooter) == null) {e.setCancelled(true); return;}
-			if(plugin.getSettings().isFriendlyfire()) return;
-			if(PlayerManager.getIngamePlayer(p).getTeam().equalsIgnoreCase(PlayerManager.getIngamePlayer(shooter).getTeam())) {
-				e.setCancelled(true);
-			}
+			damager = (Player) projectile.getShooter();
+		} else return;
+		
+		
+		if(plugin.getSettings().isBoostingAllowed()) {
+			if((damager == p || e.getDamage() <= 1.5) && p.getHealth() - e.getFinalDamage() > 0) return;
+		}
+		
+		if(PlayerManager.getIngamePlayer(damager) == null || PlayerManager.getIngamePlayer(p).getTeam().equalsIgnoreCase(PlayerManager.getIngamePlayer(damager).getTeam())) {
+			e.setCancelled(true);
 		}
 	}
 	

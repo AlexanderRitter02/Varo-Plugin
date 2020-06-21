@@ -103,7 +103,8 @@ public class Init {
 		double borderShrinkPerHour = (double) (size-endsize)/time;
 		
 		boolean isAllowedToSpectateIfTeamAlive = config.getBoolean("spectate-allowed-if-team-alive");
-		boolean friendlyfire = config.getBoolean("friendlyfire");
+		boolean friendlyfire = config.getBoolean("friendlyfire.enabled");
+		boolean friendlyfire_boost = config.getBoolean("friendlyfire.allow-boost");
 		boolean running = config.getBoolean("plugin.running");
 		String discordid = config.getString("discord-id");
 		int daytopost = config.getInt("coord_post_day");
@@ -112,7 +113,7 @@ public class Init {
 			lobby = new Location(Bukkit.getWorld(config.getString("lobby.world")), config.getInt("lobby.x"), config.getInt("lobby.y"), config.getInt("lobby.z"));
 		}
 		return new Settings(plugin, bordermode, sessions_per_week, sessions_length, sessions_per_day, start_protection, login_protection, 
-				min_logout_distance, current_week, isAllowedToSpectateIfTeamAlive, friendlyfire, running, discordid, daytopost, borderShrinkPerHour, lobby);
+				min_logout_distance, current_week, isAllowedToSpectateIfTeamAlive, friendlyfire, friendlyfire_boost, running, discordid, daytopost, borderShrinkPerHour, lobby);
 	}
 	
 	public void loadChests() {

@@ -17,14 +17,14 @@ public class Settings {
 	BorderMode bordermode;
 	int sessions_per_week, sessions_length, sessions_per_day, start_protection, login_protection, min_logout_distance, current_week, daytopost;
 	double borderShrinkPerHour;
-	boolean allowedToSpectateIfTeamAlive, friendlyfire, running;
+	boolean allowedToSpectateIfTeamAlive, friendlyfire, friendlyfire_boost, running;
 	World varo;
 	Location lobby;
 	String discordid;
 	
 	
 	public Settings(Varo plugin, BorderMode bordermode, int sessions_per_week, int sessions_length, int sessions_per_day, int start_protection, int login_protection, int min_logout_distance, int current_week,
-			boolean allowedToSpectateIfTeamAlive, boolean friendlyfire, boolean running, String discordid, int daytopost, double borderShrinkPerHour, Location lobby) {
+			boolean allowedToSpectateIfTeamAlive, boolean friendlyfire, boolean friendlyfire_boost, boolean running, String discordid, int daytopost, double borderShrinkPerHour, Location lobby) {
 		this.plugin = plugin;
 		this.bordermode = bordermode;
 		this.sessions_per_week = sessions_per_week;
@@ -36,6 +36,7 @@ public class Settings {
 		this.current_week = current_week;
 		this.allowedToSpectateIfTeamAlive = allowedToSpectateIfTeamAlive;
 		this.friendlyfire = friendlyfire;
+		this.friendlyfire_boost = friendlyfire_boost;
 		this.running = running;
 		this.discordid = discordid;
 		this.daytopost = daytopost;
@@ -115,6 +116,10 @@ public class Settings {
 
 	public boolean isFriendlyfire() {
 		return friendlyfire;
+	}
+	
+	public boolean isBoostingAllowed() {
+		return friendlyfire_boost;
 	}
 	
 	public boolean isRunning() {
