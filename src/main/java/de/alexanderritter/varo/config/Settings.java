@@ -16,7 +16,7 @@ public class Settings {
 	
 	Varo plugin;
 	BorderMode bordermode;
-	int sessions_per_week, sessions_length, sessions_per_day, start_protection, login_protection, min_logout_distance, current_week, daytopost;
+	int sessions_per_week, sessions_length, sessions_per_day, start_protection, login_protection, min_logout_distance, current_week;
 	double borderShrinkPerHour;
 	boolean allowedToSpectateIfTeamAlive, friendlyfire, friendlyfire_boost, running;
 	World varo;
@@ -26,7 +26,7 @@ public class Settings {
 	
 	
 	public Settings(Varo plugin, BorderMode bordermode, int sessions_per_week, int sessions_length, int sessions_per_day, int start_protection, int login_protection, int min_logout_distance, int current_week,
-			boolean allowedToSpectateIfTeamAlive, boolean friendlyfire, boolean friendlyfire_boost, boolean running, String discordid, int daytopost, double borderShrinkPerHour, Location lobby, 
+			boolean allowedToSpectateIfTeamAlive, boolean friendlyfire, boolean friendlyfire_boost, boolean running, String discordid, double borderShrinkPerHour, Location lobby, 
 			List<String> disallowedUseOnly, List<String> disallowedGeneral) {
 		this.plugin = plugin;
 		this.bordermode = bordermode;
@@ -42,7 +42,6 @@ public class Settings {
 		this.friendlyfire_boost = friendlyfire_boost;
 		this.running = running;
 		this.discordid = discordid;
-		this.daytopost = daytopost;
 		this.borderShrinkPerHour = borderShrinkPerHour;
 		if(lobby != null) {
 			this.lobby = lobby;
@@ -138,10 +137,6 @@ public class Settings {
 	
 	public String getDiscordChannelId() {
 		return discordid;
-	}
-
-	public int getDayToPost() {
-		return daytopost;
 	}
 	
 	public boolean shouldTeamsSpawnTogether() {

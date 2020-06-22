@@ -109,7 +109,6 @@ public class Init {
 		boolean friendlyfire_boost = config.getBoolean("friendlyfire.allow-boost");
 		boolean running = config.getBoolean("plugin.running");
 		String discordid = config.getString("discord-id");
-		int daytopost = config.getInt("coord_post_day");
 		Location lobby = null;
 		if(config.get("lobby") != null) {
 			lobby = new Location(Bukkit.getWorld(config.getString("lobby.world")), config.getInt("lobby.x"), config.getInt("lobby.y"), config.getInt("lobby.z"));
@@ -117,7 +116,7 @@ public class Init {
 		List<String> disallowedUseOnly = config.getStringList("disallowed-items.use-only");
 		List<String> disallowedGeneral = config.getStringList("disallowed-items.general");
 		return new Settings(plugin, bordermode, sessions_per_week, sessions_length, sessions_per_day, start_protection, login_protection, 
-				min_logout_distance, current_week, isAllowedToSpectateIfTeamAlive, friendlyfire, friendlyfire_boost, running, discordid, daytopost, borderShrinkPerHour, lobby, disallowedUseOnly, disallowedGeneral);
+				min_logout_distance, current_week, isAllowedToSpectateIfTeamAlive, friendlyfire, friendlyfire_boost, running, discordid, borderShrinkPerHour, lobby, disallowedUseOnly, disallowedGeneral);
 	}
 	
 	public void loadChests() {
