@@ -56,7 +56,9 @@ public class CMDbordersize implements CommandExecutor {
 			if(shortestDistance <= 500) distString += ChatColor.RED;
 			distString += shortestDistance + " Blöcke";
 			
-			double hours = shortestDistance / plugin.getSettings().getBorderShrinkPerHour();
+			System.out.println(shortestDistance);
+			
+			double hours = shortestDistance / (plugin.getSettings().getBorderShrinkPerHour() / 2);
 			String hourString = ChatColor.DARK_GREEN + "Zeit bis zu dir: " + ChatColor.GREEN;
 			if(hours <= 24*7) hourString += ChatColor.GOLD;
 			if(hours <= 24*2) hourString += ChatColor.RED;

@@ -80,7 +80,7 @@ public class Settings {
 	}
 	
 	public double getBorderShrinkPerHour() {
-		// Blocks the border needs to be moved per hour
+		// Blocks the border needs to be moved per hour (diameter)
 		return borderShrinkPerHour;
 	}
 
