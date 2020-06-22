@@ -49,13 +49,16 @@ public class ConfigUpgrade {
 	
 	private void update() {
 		
-		// < 1.7
+		// <= 1.7
 		config.set("coord_post_day", null); // This was already unused in 1.7
 		
-		// < 1.8
+		// <= 1.8
 		moveConfigOption("borderradius", "border.radius");
 		moveConfigOption("borderendradius", "border.end-radius");
 		moveConfigOption("projecttime", "border.shrink-time");
+		
+		// <= 2.1
+		moveConfigOption("friendlyfire", "friendlyfire.enabled");
 		
 		if(old_config.isSet("bordermode")) {
 			String bordermode = BorderMode.values()[old_config.getInt("bordermode")].toString();
