@@ -91,9 +91,9 @@ public class Init {
 	public Settings loadSettings() {
 		FileConfiguration config = plugin.getConfig();
 		BorderMode bordermode = BorderMode.valueOf(config.getString("border.mode").toUpperCase());
-		int sessions_length = config.getInt("sessions_length");
-		int sessions_per_week = config.getInt("sessions_per_week");
-		int sessions_per_day = config.getInt("sessions_per_day", config.getInt("sessions_per_week"));
+		int sessions_length = config.getInt("sessions.length");
+		int sessions_per_week = config.getInt("sessions.per-week");
+		int sessions_per_day = config.getInt("sessions.day-limit", sessions_per_week);
 		int login_protection = config.getInt("login_protection");
 		int start_protection = config.getInt("start_protection");
 		int min_logout_distance = config.getInt("min_logout_distance");

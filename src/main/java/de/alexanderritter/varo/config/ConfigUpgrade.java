@@ -59,6 +59,9 @@ public class ConfigUpgrade {
 		
 		// <= 2.1
 		moveConfigOption("friendlyfire", "friendlyfire.enabled");
+		moveConfigOption("sessions_length", "sessions.length");
+		moveConfigOption("sessions_per_week", "sessions.per-week");
+		moveConfigOption("sessions_per_day", "sessions.day-limit");
 		
 		if(old_config.isSet("bordermode")) {
 			String bordermode = BorderMode.values()[old_config.getInt("bordermode")].toString();
