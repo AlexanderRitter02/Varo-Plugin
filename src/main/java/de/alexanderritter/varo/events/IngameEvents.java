@@ -293,37 +293,35 @@ public class IngameEvents implements Listener {
 
 	@EventHandler
 	public void onEat(PlayerItemConsumeEvent e) {
+		String itemString = e.getItem().getData().toString().split("(?<=\\))")[0];
+		if(!(plugin.getSettings().getDisallowedItemsToUse().contains(itemString) || plugin.getSettings().getDisallowedItemsToUse().contains(itemString.split("\\(")[0]))) return;
+		e.setCancelled(true);
 		Player p = e.getPlayer();
-		if(PlayerManager.getIngamePlayer(p) == null) return;
-		if(e.getItem().getType() == Material.GOLDEN_APPLE) {
-			if(e.getItem().getDurability() != 1) return;
-			e.setCancelled(true);
-			p.playSound(p.getLocation(), Sound.VILLAGER_NO, 1, 1);
-			p.sendMessage(ChatColor.RED + "Du darfst keinen OP-Apfel essen!");
-		}
+		p.playSound(p.getLocation(), Sound.VILLAGER_NO, 1, 1);
+		p.sendMessage(ChatColor.RED + "Du darfst dieses Item nicht essen!");
 	}
 	
 	@EventHandler
 	public void onUse(PlayerInteractEvent e) {
 		if(e.getAction() == Action.PHYSICAL || e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) return;
 		if(!e.hasItem() || e.getItem() == null) return;
-		if(!(e.getItem().getType() == Material.EYE_OF_ENDER || e.getItem().getType() == Material.HOPPER_MINECART)) return;
-		Player p = e.getPlayer();
+		String itemString = e.getItem().getData().toString().split("(?<=\\))")[0];
+		if(!(plugin.getSettings().getDisallowedItemsToUse().contains(itemString) || plugin.getSettings().getDisallowedItemsToUse().contains(itemString.split("\\(")[0]))) return;
 		e.setUseItemInHand(org.bukkit.event.Event.Result.DENY);
+		Player p = e.getPlayer();
 		p.playSound(p.getLocation(), Sound.VILLAGER_NO, 1, 1);
 		p.sendMessage(ChatColor.RED + "Du darfst dieses Item nicht benutzen!");
 	}
 	
 	@EventHandler
 	public void onCraft(CraftItemEvent e) {
-		Material result = e.getRecipe().getResult().getType();
-		if(result == Material.HOPPER_MINECART) {
-			e.setCancelled(true);
-			Player p = (Player) e.getWhoClicked();
-			p.closeInventory();
-			p.playSound(p.getLocation(), Sound.VILLAGER_NO, 1, 1);
-			p.sendMessage(ChatColor.RED + "Du darfst dieses Item nicht craften!");
-		}
+		String itemString = e.getRecipe().getResult().getData().toString().split("(?<=\\))")[0];
+		if(!(plugin.getSettings().getDisallowedItemsGeneral().contains(itemString) || plugin.getSettings().getDisallowedItemsGeneral().contains(itemString.split("\\(")[0]))) return;
+		e.setCancelled(true);
+		Player p = (Player) e.getWhoClicked();
+		p.closeInventory();
+		p.playSound(p.getLocation(), Sound.VILLAGER_NO, 1, 1);
+		p.sendMessage(ChatColor.RED + "Du darfst dieses Item nicht craften!");
 	}
 	
 	@EventHandler

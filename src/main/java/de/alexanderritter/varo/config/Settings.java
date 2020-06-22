@@ -2,6 +2,7 @@ package de.alexanderritter.varo.config;
 
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -21,10 +22,12 @@ public class Settings {
 	World varo;
 	Location lobby;
 	String discordid;
+	List<String> disallowedUseOnly, disallowedGeneral;
 	
 	
 	public Settings(Varo plugin, BorderMode bordermode, int sessions_per_week, int sessions_length, int sessions_per_day, int start_protection, int login_protection, int min_logout_distance, int current_week,
-			boolean allowedToSpectateIfTeamAlive, boolean friendlyfire, boolean friendlyfire_boost, boolean running, String discordid, int daytopost, double borderShrinkPerHour, Location lobby) {
+			boolean allowedToSpectateIfTeamAlive, boolean friendlyfire, boolean friendlyfire_boost, boolean running, String discordid, int daytopost, double borderShrinkPerHour, Location lobby, 
+			List<String> disallowedUseOnly, List<String> disallowedGeneral) {
 		this.plugin = plugin;
 		this.bordermode = bordermode;
 		this.sessions_per_week = sessions_per_week;
@@ -46,7 +49,8 @@ public class Settings {
 		} else {
 			System.out.println("BUKKIT: VARO: THere is no Lobby location");
 		}
-		
+		this.disallowedUseOnly = disallowedUseOnly;
+		this.disallowedGeneral = disallowedGeneral;
 	}
 	
 	public World getVaroWorld() {
@@ -176,6 +180,16 @@ public class Settings {
 	public int getMaxSessionsPerDay() {
 		if(sessions_per_day == 0) return Integer.MAX_VALUE;
 		return sessions_per_day;
+	}
+	
+	public List<String> getDisallowedItemsToUse() {
+		List<String> disallowedUse = disallowedUseOnly;
+		disallowedUse.addAll(disallowedGeneral);
+		return disallowedUse;
+	}
+	
+	public List<String> getDisallowedItemsGeneral() {
+		return disallowedGeneral;
 	}
 
 }

@@ -26,6 +26,13 @@ spawn-teams-together: true
 allow-prevent-coordinate-post: false
 default-hud: SCOREBOARD
 
+disallowed-items:
+  general:
+    - GOLDEN_APPLE(1)
+    - HOPPER_MINECART
+  use-only:
+    - EYE_OF_ENDER
+
 plugin:
   running: false
   current_week: 0

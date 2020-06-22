@@ -1,5 +1,7 @@
 package de.alexanderritter.varo.main;
 
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -112,8 +114,10 @@ public class Init {
 		if(config.get("lobby") != null) {
 			lobby = new Location(Bukkit.getWorld(config.getString("lobby.world")), config.getInt("lobby.x"), config.getInt("lobby.y"), config.getInt("lobby.z"));
 		}
+		List<String> disallowedUseOnly = config.getStringList("disallowed-items.use-only");
+		List<String> disallowedGeneral = config.getStringList("disallowed-items.general");
 		return new Settings(plugin, bordermode, sessions_per_week, sessions_length, sessions_per_day, start_protection, login_protection, 
-				min_logout_distance, current_week, isAllowedToSpectateIfTeamAlive, friendlyfire, friendlyfire_boost, running, discordid, daytopost, borderShrinkPerHour, lobby);
+				min_logout_distance, current_week, isAllowedToSpectateIfTeamAlive, friendlyfire, friendlyfire_boost, running, discordid, daytopost, borderShrinkPerHour, lobby, disallowedUseOnly, disallowedGeneral);
 	}
 	
 	public void loadChests() {
