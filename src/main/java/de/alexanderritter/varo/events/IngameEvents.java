@@ -290,16 +290,6 @@ public class IngameEvents implements Listener {
 		}
 			
 	}
-
-	@EventHandler
-	public void onEat(PlayerItemConsumeEvent e) {
-		String itemString = e.getItem().getData().toString().split("(?<=\\))")[0];
-		if(!(plugin.getSettings().getDisallowedItemsToUse().contains(itemString) || plugin.getSettings().getDisallowedItemsToUse().contains(itemString.split("\\(")[0]))) return;
-		e.setCancelled(true);
-		Player p = e.getPlayer();
-		p.playSound(p.getLocation(), Sound.VILLAGER_NO, 1, 1);
-		p.sendMessage(ChatColor.RED + "Du darfst dieses Item nicht essen!");
-	}
 	
 	@EventHandler
 	public void onUse(PlayerInteractEvent e) {
