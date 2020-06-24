@@ -25,6 +25,7 @@ public class PerHourChecker extends BukkitRunnable {
 		timeinterval = 60*60; //60*60 seconds
 		calendar = new GregorianCalendar();
 		calendar.setFirstDayOfWeek(GregorianCalendar.MONDAY);
+		shrinkWorldborder();
 		this.runTaskTimer(plugin, 0, timeinterval*20);
 	}
 
@@ -32,11 +33,11 @@ public class PerHourChecker extends BukkitRunnable {
 	public void run() {
 		calendar = new GregorianCalendar();
 		calendar.setFirstDayOfWeek(GregorianCalendar.MONDAY);
+		updateHour();
 		updateWeek();
 		updateDay();
 		checkCoordinatePost();
 		shrinkWorldborder();
-		updateHour();
 	}
 	
 	public void updateDay() {
