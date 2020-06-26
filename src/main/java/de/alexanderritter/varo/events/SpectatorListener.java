@@ -46,7 +46,6 @@ public class SpectatorListener implements Listener {
 		p.setAllowFlight(true);
 		if(plugin.getRegistration().loadPlayer(p).isDead()) {
 			PlayerManager.addSpectator(p);
-			
 		} else {
 			if(plugin.getPlayerConfig().get(p.getUniqueId()  + ".reviving") != null) {
 				YamlConfiguration yml = plugin.getPlayerConfig();
@@ -61,7 +60,6 @@ public class SpectatorListener implements Listener {
 				p.hidePlayer(online);
 			}
 		}
-		p.setPlayerListName(ChatColor.GRAY + "[Spectator] " + p.getName());
 	}
 	
 	@EventHandler

@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -46,6 +47,7 @@ public class PlayerManager {
 	
 	public static void addSpectator(Player p) {
 		if(!spectators.contains(p.getUniqueId())) spectators.add(p.getUniqueId());
+		p.setPlayerListName(ChatColor.GRAY + "[Spectator] " + p.getName());
 		p.setGameMode(GameMode.ADVENTURE);
 		p.setAllowFlight(true);
 		p.getInventory().clear();
