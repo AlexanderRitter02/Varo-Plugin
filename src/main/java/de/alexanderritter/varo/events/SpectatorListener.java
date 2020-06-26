@@ -55,9 +55,9 @@ public class SpectatorListener implements Listener {
 				
 				p.teleport(plugin.getSettings().getVaroWorld().getSpawnLocation());
 			}
-			// Hide all existent spectators from the new joining player	
+			// Hide all existent spectators from the new joining player
 			for(Player online : Bukkit.getServer().getOnlinePlayers()) {
-				if(!PlayerManager.spectators.contains(online.getUniqueId())) return;
+				if(!PlayerManager.spectators.contains(online.getUniqueId())) continue;
 				p.hidePlayer(online);
 			}
 		}
