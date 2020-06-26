@@ -244,9 +244,6 @@ public class IngameEvents implements Listener {
 		p.setCanPickupItems(false);
 		ip.setDead(true);
 		ip.save();
-		PlayerManager.removeIngamePlayer(p);
-		PlayerManager.addSpectator(p);
-		p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 		
 		Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
 			@Override
@@ -273,6 +270,10 @@ public class IngameEvents implements Listener {
 				p.setCanPickupItems(true);
 				
 				p.teleport(plugin.getSettings().getLobby());
+				
+				PlayerManager.removeIngamePlayer(p);
+				PlayerManager.addSpectator(p);
+				p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 				// TODO Add Message on how to use spectator
 			}
 		}, 40);
