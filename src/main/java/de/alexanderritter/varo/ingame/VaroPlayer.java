@@ -241,6 +241,10 @@ public class VaroPlayer {
 		return admin;
 	}
 	
+	public boolean isTempAdmin() {
+		return plugin.getPlayerConfig().getBoolean(uuid + ".admin.temp", false);
+	}
+	
 	public void addKill(String killed_uuid) {
 		YamlConfiguration players = plugin.getPlayerConfig();
 		String id = uuid.toString();

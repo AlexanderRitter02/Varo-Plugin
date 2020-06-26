@@ -16,6 +16,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -118,12 +119,14 @@ public class IngameEvents implements Listener {
 		if(PlayerManager.getIngamePlayer(p) == null) return;
 		VaroPlayer ip = PlayerManager.getIngamePlayer(p);
 		if(ip.isAdmin()) {
-			if(plugin.getSettings().isAdmin(p.getUniqueId()).equals("admin_temp")) {
-				plugin.getConfig().set("plugin.admins." + p.getUniqueId() + "_loc.world", p.getLocation().getWorld().getName());
-				plugin.getConfig().set("plugin.admins." + p.getUniqueId() + "_loc.x", p.getLocation().getX());
-				plugin.getConfig().set("plugin.admins." + p.getUniqueId() + "_loc.y", p.getLocation().getY());
-				plugin.getConfig().set("plugin.admins." + p.getUniqueId() + "_loc.z", p.getLocation().getZ());
-				plugin.saveConfig();
+			if(ip.isTempAdmin()) {
+				YamlConfiguration players = plugin.getPlayerConfig();
+				String id = ip.getUuid().toString();
+				players.set(id + ".admin.world", p.getLocation().getWorld().getName());
+				players.set(id + ".admin.x", p.getLocation().getX());
+				players.set(id + ".admin.y", p.getLocation().getY());
+				players.set(id + ".admin.z", p.getLocation().getZ());
+				plugin.savePlayerConfig(players);
 				p.teleport(p.getLocation().getWorld().getSpawnLocation());
 			}
 			p.setGameMode(GameMode.SPECTATOR);
@@ -171,22 +174,31 @@ public class IngameEvents implements Listener {
 		Player p = e.getPlayer();
 		permissions.remove(p.getUniqueId());
 		e.setQuitMessage(null);
-		if(PlayerManager.getIngamePlayer(p) == null) return;
+		if(PlayerManager.getIngamePlayer(p) == null) {
+			System.out.println(p.getName() + " is NULL");
+			return;
+		}
 		VaroPlayer ip = PlayerManager.getIngamePlayer(p);
 		if(ip.isAdmin()) {
-			if(plugin.getSettings().isAdmin(p.getUniqueId()).equals("admin_temp")) {
-				plugin.getConfig().set("plugin.admins." + p.getUniqueId(), null);
-				plugin.saveConfig();
-				String locString = "plugin.admins." + p.getUniqueId() + "_loc.";
-				World world = Bukkit.getWorld(plugin.getConfig().getString(locString + "world"));
-				double x = plugin.getConfig().getDouble(locString + "x");
-				double y = plugin.getConfig().getDouble(locString + "y");
-				double z = plugin.getConfig().getDouble(locString + "z");
+			System.out.println(p.getName() + " is Admin");
+			if(ip.isTempAdmin()) {
+				System.out.println(p.getName() + " is TEMP-Admin");
+				YamlConfiguration playerConfig = plugin.getPlayerConfig();
+				
+				String locString = ip.getUuid().toString() + ".admin.";
+				World world = Bukkit.getWorld(playerConfig.getString(locString + "world"));
+				double x = playerConfig.getDouble(locString + "x");
+				double y = playerConfig.getDouble(locString + "y");
+				double z = playerConfig.getDouble(locString + "z");
 				Location old_loc = new Location(world, x, y, z);
 				p.teleport(old_loc);
 				p.setGameMode(GameMode.SURVIVAL);
+				
+				ip.setAdmin(false);
+				playerConfig.set(ip.getUuid() + ".admin", null);
+				plugin.savePlayerConfig(playerConfig);
+				
 			}
-			ip.setAdmin(false);
 			return;
 		}
 		

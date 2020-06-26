@@ -85,10 +85,7 @@ public class Registration {
 		int sessions_today = players.getInt(id + ".sessions_today", 0);
 		int time = players.getInt(id + ".recent_time");
 		ChatColor color = ChatColor.valueOf(players.getString(id + ".color"));
-		boolean admin = false;
-		if(plugin.getSettings().isAdmin(UUID.fromString(id)).contains("admin")) {
-			admin = true;
-		}
+		boolean admin = players.isConfigurationSection(id + ".admin");
 		HUDOption hudoption = HUDOption.valueOf(players.getString(id + ".hud", plugin.getSettings().getDefaultHUDOption().toString()));
 		VaroPlayer ip = new VaroPlayer(plugin, name, team, uuid, time, sessions, sessions_today, dead, color, admin, hudoption);
 		return ip;

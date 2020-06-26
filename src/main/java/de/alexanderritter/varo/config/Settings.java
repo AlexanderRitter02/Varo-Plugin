@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.UUID;
 
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -145,13 +144,6 @@ public class Settings {
 	
 	public boolean allowPreventCoordinatePost() {
 		return plugin.getConfig().getBoolean("allow-prevent-coordinate-post");
-	}
-	
-	public String isAdmin(UUID uuid) {
-		if(plugin.getConfig().getString("plugin.admins." + uuid.toString()) != null) {
-			return plugin.getConfig().getString("plugin.admins." + uuid.toString());
-		}
-		return "";
 	}
 	
 	public boolean isCoordinatesPostTime() {
