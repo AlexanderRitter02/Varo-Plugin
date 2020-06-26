@@ -73,26 +73,39 @@ public class IngameEvents implements Listener {
 		plugin.getPerHourChecker().updateWeek();
 		Player p = e.getPlayer();
 		if(plugin.getRegistration().getAllUUIDs().contains(p.getUniqueId())) {
+			
 			VaroPlayer ip = plugin.getRegistration().loadPlayer(p);
-			if(ip.isAdmin()) {PlayerManager.addIngamePlayer(p, ip); return;}
-			if(ip.getSessions() <= 0) {
-				e.disallow(Result.KICK_BANNED, ChatColor.RED + "Du hast keine Sessions mehr in dieser Woche!"); return;
-			}
-			if(ip.getSessionsPlayedToday() >= plugin.getSettings().getMaxSessionsPerDay()) {
-				e.disallow(Result.KICK_BANNED, ChatColor.RED + "Du kannst maximal " + plugin.getSettings().getMaxSessionsPerDay() + " Sessions pro Tag spielen!");
-				return;
-			}
-			if(ip.isDead()) {
+			
+			if(ip.isDead() || ip.isAdmin()) {
 				PermissionAttachment attachment = p.addAttachment(plugin);
 				permissions.put(p.getUniqueId(), attachment);
 				attachment.setPermission("discordsrv.silentquit", true);
 				attachment.setPermission("discordsrv.silentjoin", true);
+			}
+			
+			if(ip.isAdmin()) {
+				PlayerManager.addIngamePlayer(p, ip);
+				return;
+			}
+			
+			if(ip.isDead()) {
 				if(!plugin.getSettings().isAllowedSpectateIfTeamAlive() && plugin.getRegistration().isTeamAlive(ip.getTeam())) e.disallow(Result.KICK_BANNED, ChatColor.RED + "Du kannst nur spectaten, wenn dein ganzes Team gestorben ist.");
 				if(plugin.getRegistration().isTeamAlive(ip.getTeam()) && !plugin.getRegistration().isTeamMemberOnline(ip.getTeam())) e.disallow(Result.KICK_BANNED, ChatColor.RED + "Du kannst nur spectaten, wenn ein Teammitglied online ist.");
 				return;
 			}
 			
+			if(ip.getSessions() <= 0) {
+				e.disallow(Result.KICK_BANNED, ChatColor.RED + "Du hast keine Sessions mehr in dieser Woche!");
+				return;
+			}
+			
+			if(ip.getSessionsPlayedToday() >= plugin.getSettings().getMaxSessionsPerDay()) {
+				e.disallow(Result.KICK_BANNED, ChatColor.RED + "Du kannst maximal " + plugin.getSettings().getMaxSessionsPerDay() + " Sessions pro Tag spielen!");
+				return;
+			}
+			
 			PlayerManager.addIngamePlayer(p, ip);
+			
 		} else e.disallow(Result.KICK_BANNED, ChatColor.RED + "Du bist nicht registriert.\nBitte informiere den Admin, falls du glaubst, dies sei ein Fehler!");
 	}
 	
