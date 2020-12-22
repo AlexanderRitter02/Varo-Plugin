@@ -198,7 +198,8 @@ public class VaroPlayer {
 	public void setupScoreboard() {
 		if(hudoption != HUDOption.SCOREBOARD) return;
 		scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-		Team sc_team = scoreboard.registerNewTeam(team);
+		String teamHash = String.valueOf(team.hashCode()); // I'm using a hash code to avoid collisions for names >16 characters, because they would be cut off
+		Team sc_team = teamHash.length() <= 16 ? scoreboard.registerNewTeam(teamHash) : scoreboard.registerNewTeam(teamHash.substring(0, 15)); // Minecraft doesn't allow names longer than 16 characters
 		sc_team.addEntry(name);
 		Objective obj = scoreboard.registerNewObjective(name, "dummy");
 		obj.setDisplayName(getTimeString());
