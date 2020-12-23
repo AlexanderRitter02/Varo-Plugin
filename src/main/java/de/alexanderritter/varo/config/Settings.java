@@ -17,16 +17,16 @@ public class Settings {
 	BorderMode bordermode;
 	int sessions_per_week, sessions_length, sessions_per_day, start_protection, login_protection, min_logout_distance, current_week;
 	double borderShrinkPerHour;
-	boolean allowedToSpectateIfTeamAlive, friendlyfire, friendlyfire_boost, running;
+	boolean allowedToSpectateIfTeamAlive, friendlyfire, friendlyfire_boost, potionsAllowed, splashPotionsAllowed, running;
 	World varo;
 	Location lobby;
 	String discordid;
-	List<String> disallowedUseOnly, disallowedGeneral;
+	List<String> disallowedUseOnly, disallowedGeneral, disallowedPotions;
 	
 	
 	public Settings(Varo plugin, BorderMode bordermode, int sessions_per_week, int sessions_length, int sessions_per_day, int start_protection, int login_protection, int min_logout_distance, int current_week,
 			boolean allowedToSpectateIfTeamAlive, boolean friendlyfire, boolean friendlyfire_boost, boolean running, String discordid, double borderShrinkPerHour, Location lobby, 
-			List<String> disallowedUseOnly, List<String> disallowedGeneral) {
+			List<String> disallowedUseOnly, List<String> disallowedGeneral, List<String> disallowedPotions, boolean potionsAllowed, boolean splashPotionsAllowed) {
 		this.plugin = plugin;
 		this.bordermode = bordermode;
 		this.sessions_per_week = sessions_per_week;
@@ -49,6 +49,9 @@ public class Settings {
 		}
 		this.disallowedUseOnly = disallowedUseOnly;
 		this.disallowedGeneral = disallowedGeneral;
+		this.disallowedPotions = disallowedPotions;
+		this.potionsAllowed = potionsAllowed;
+		this.splashPotionsAllowed = splashPotionsAllowed;
 	}
 	
 	public World getVaroWorld() {
@@ -177,6 +180,18 @@ public class Settings {
 	
 	public List<String> getDisallowedItemsGeneral() {
 		return disallowedGeneral;
+	}
+	
+	public List<String> getDisallowedPotions() {
+		return disallowedPotions;
+	}
+	
+	public boolean splashPotionsAllowed() {
+		return splashPotionsAllowed;
+	}
+
+	public boolean arePotionsAllowed() {
+		return potionsAllowed;
 	}
 
 }

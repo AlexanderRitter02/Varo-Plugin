@@ -35,6 +35,14 @@ disallowed-items:
   use-only:
     - EYE_OF_ENDER
 
+potions:
+  enabled: true
+  splash-potions: false
+  disabled-potions:
+     - STRENGTH
+     - INVISIBILITY
+     - REGENERATION
+
 plugin:
   running: false
   current_week: 0

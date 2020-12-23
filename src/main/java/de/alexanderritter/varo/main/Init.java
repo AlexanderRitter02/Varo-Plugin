@@ -115,8 +115,12 @@ public class Init {
 		}
 		List<String> disallowedUseOnly = config.getStringList("disallowed-items.use-only");
 		List<String> disallowedGeneral = config.getStringList("disallowed-items.general");
+		List<String> disallowedPotions = config.getStringList("potions.disabled-potions");
+		boolean potionsAllowed = config.getBoolean("potions.enabled");
+		boolean splashPotionsAllowed = config.getBoolean("potions.splash-potions");
 		return new Settings(plugin, bordermode, sessions_per_week, sessions_length, sessions_per_day, start_protection, login_protection, 
-				min_logout_distance, current_week, isAllowedToSpectateIfTeamAlive, friendlyfire, friendlyfire_boost, running, discordid, borderShrinkPerHour, lobby, disallowedUseOnly, disallowedGeneral);
+				min_logout_distance, current_week, isAllowedToSpectateIfTeamAlive, friendlyfire, friendlyfire_boost, running, discordid, borderShrinkPerHour, lobby, disallowedUseOnly, disallowedGeneral,
+				disallowedPotions, potionsAllowed, splashPotionsAllowed);
 	}
 	
 	public void loadChests() {

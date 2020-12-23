@@ -37,6 +37,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.permissions.PermissionAttachment;
+import org.bukkit.potion.Potion;
 
 import de.alexanderritter.varo.api.AdvancedOfflinePlayer;
 import de.alexanderritter.varo.api.ItemString;
@@ -341,56 +342,47 @@ public class IngameEvents implements Listener {
 	
 	@EventHandler
 	public void onBrewing(BrewEvent e) {
+		
+		if(!plugin.getSettings().arePotionsAllowed()) {
+			e.getBlock().breakNaturally(); // Break the brewing stand to prevent infite loop
+			e.setCancelled(true);
+			for(Player send : getNearbyPlayers(e.getBlock().getLocation(), 20)) {
+				send.playSound(send.getLocation(), Sound.VILLAGER_NO, 1, 1);
+				send.sendMessage(ChatColor.RED + "Ein Braustand in der Nähe hat versucht, einen Trank zu brauen. Tränke sind nicht erlaubt!");
+			}
+			return;
+		}
+		
+		// Getting relevant Potion data BEFORE brewing
 		Material m = e.getContents().getItem(3).getType();
+		ArrayList<ItemStack> oldContents = new ArrayList<>();
+		for(ItemStack stack : e.getContents()) {
+			if(stack == null) {
+				oldContents.add(null);
+			} else oldContents.add(new ItemStack(stack));
+		}
+		
 		Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
 			@Override
 			public void run() {
 				boolean dropped = false;
 				for(int i = 0; i < 3; i++) {
-					if(e.getContents().getItem(i) != null) {
-						if(e.getContents().getItem(i).getType() == Material.POTION) {
-							short pm = e.getContents().getItem(i).getDurability();
-							int b = Integer.parseInt((String.valueOf(pm)).substring(0, 1));
-							if(b == 1 && pm != 16) {
-								e.getContents().setItem(i, new ItemStack(Material.AIR));
-								if(dropped == false) {
-									e.getBlock().getWorld().dropItem(e.getBlock().getLocation().add(0, 1, 0), new ItemStack(m));
-									for(Player send : getNearbyPlayers(e.getBlock().getLocation(), 20)) {
-										send.playSound(send.getLocation(), Sound.VILLAGER_NO, 1, 1);
-										send.sendMessage(ChatColor.RED + "Ein Braustand in der N�he hat versucht, einen illegalen Trank zu brauen!");
-									}
-									dropped = true;
+					if(e.getContents().getItem(i) != null && e.getContents().getItem(i).getType() == Material.POTION) {
+						
+						Potion potion = Potion.fromItemStack(e.getContents().getItem(i));
+						if(potion.isSplash() && plugin.getSettings().splashPotionsAllowed()) continue;
+						if(potion.getType() == null) continue;
+						if((potion.isSplash() && !(plugin.getSettings().splashPotionsAllowed())) || plugin.getSettings().getDisallowedPotions().contains(potion.getType().toString())) {
+							// TODO Allow only blocking specific potion levels
+							e.getContents().setItem(i, new ItemStack(Material.AIR));
+							e.getBlock().getWorld().dropItem(e.getBlock().getLocation().add(0, 1, 0), oldContents.get(i));
+							if(dropped == false) {
+								e.getBlock().getWorld().dropItem(e.getBlock().getLocation().add(0, 1, 0), new ItemStack(m));
+								for(Player send : getNearbyPlayers(e.getBlock().getLocation(), 20)) {
+									send.playSound(send.getLocation(), Sound.VILLAGER_NO, 1, 1);
+									send.sendMessage(ChatColor.RED + "Ein Braustand in der Nähe hat versucht, einen illegalen Trank zu brauen!");
 								}
-							} else {
-								ArrayList<Short> strength = new ArrayList<>();
-								strength.add((short)8201);
-								strength.add((short)8233);
-								strength.add((short)8265);
-								ArrayList<Short> invisible = new ArrayList<>();
-								invisible.add((short)8206);
-								invisible.add((short)8270);
-								ArrayList<Short> regeneration = new ArrayList<>();
-								regeneration.add((short)8225);
-								regeneration.add((short)8193);
-								regeneration.add((short)8257);
-								
-								ArrayList<Short> allforbidden = strength;
-								allforbidden.addAll(invisible);
-								allforbidden.addAll(regeneration);
-								
-								for(Short sh : allforbidden) {
-									if(pm == sh) {
-										e.getContents().setItem(i, new ItemStack(Material.AIR));
-										if(dropped == false) {
-											e.getBlock().getWorld().dropItem(e.getBlock().getLocation().add(0, 1, 0), new ItemStack(m));
-											for(Player send : getNearbyPlayers(e.getBlock().getLocation(), 20)) {
-												send.playSound(send.getLocation(), Sound.VILLAGER_NO, 1, 1);
-												send.sendMessage(ChatColor.RED + "Ein Braustand in der Nähe hat versucht, einen illegalen Trank zu brauen!");
-											}
-											dropped = true;
-										}
-									}
-								}
+								dropped = true;
 							}
 						}
 					}
