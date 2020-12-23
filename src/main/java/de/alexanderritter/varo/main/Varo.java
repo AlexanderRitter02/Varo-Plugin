@@ -200,6 +200,10 @@ public class Varo extends JavaPlugin {
 		for(Player online : Bukkit.getOnlinePlayers()) {
 			PlayerManager.removeIngamePlayer(online);
 			
+			if(!getRegistration().getAllUUIDs().contains(online.getUniqueId())) {
+				online.kickPlayer(ChatColor.RED + "Du bist nicht für Varo registriert. Bye bye");
+				continue;
+			}
 			PlayerManager.addIngamePlayer(online, getRegistration().loadPlayer(online));
 			if(!serverreload) continue;
 			if(PlayerManager.getIngamePlayer(online).isAdmin()) continue;
