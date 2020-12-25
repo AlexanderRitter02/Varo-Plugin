@@ -2,6 +2,7 @@ package de.alexanderritter.varo.main;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -137,6 +138,16 @@ public class Varo extends JavaPlugin {
 	
 	public void initializeGametime() {
 		this.gametime = new Gametime(this).runTaskTimer(this, 0, 20);
+	}
+	
+	public void reloadPlayerConfig() {
+		YamlConfiguration playerConfigNew = YamlConfiguration.loadConfiguration(playerConfigFile);
+		for(UUID uuid : registration.getAllUUIDs()) {
+			uuid.toString();
+			playerConfigNew.set(uuid + ".recent_time", playerConfig.get(uuid + ".recent_time"));
+			
+		}
+		this.playerConfig = playerConfigNew;
 	}
 	
 	public YamlConfiguration getPlayerConfig() {

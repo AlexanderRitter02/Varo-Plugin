@@ -53,3 +53,6 @@ commands:
      varo.strike:
           permission: varo.strike
           description: Add a strike to a player and punish him
+     varo.reload:
+          permission: varo.reload
+          description: Reload player.yml and config.yml. May be unstable, only use for testing or if necessary.

@@ -17,6 +17,7 @@ import de.alexanderritter.varo.commands.CMDhud;
 import de.alexanderritter.varo.commands.CMDmaintainence;
 import de.alexanderritter.varo.commands.CMDmodifyconfig;
 import de.alexanderritter.varo.commands.CMDregister;
+import de.alexanderritter.varo.commands.CMDreload;
 import de.alexanderritter.varo.commands.CMDrevive;
 import de.alexanderritter.varo.commands.CMDsetlobby;
 import de.alexanderritter.varo.commands.CMDspawn;
@@ -85,6 +86,7 @@ public class Init {
 		((PluginCommand) plugin.getCommand("maintainence").setUsage(ChatColor.RED + "Syntax: /maintainence <player>\nFür Admins, die nicht am Varo teilnehmen: /maintainence <player> forever")).setExecutor(new CMDmaintainence(plugin));
 		((PluginCommand) plugin.getCommand("varo.hud").setUsage(ChatColor.RED + "Syntax: /varo.hud <SCOREBOARD | ACTIONBAR | TAB | CHAT>")).setExecutor(new CMDhud());
 		((PluginCommand) plugin.getCommand("varo.strike").setUsage(ChatColor.RED + "Syntax: /varo.strike <add|remove|list> <player> ...")).setExecutor(new CMDstrike(plugin));
+		((PluginCommand) plugin.getCommand("varo.reload").setUsage(ChatColor.RED + "Syntax: /varo.reload")).setExecutor(new CMDreload(plugin));
 		plugin.getCommand("overwrite").setExecutor(new Overwrite(plugin));
 	}
 	
