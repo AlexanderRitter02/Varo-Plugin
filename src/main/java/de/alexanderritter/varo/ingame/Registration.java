@@ -12,6 +12,8 @@ import org.bukkit.block.Block;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
+import com.google.common.base.Enums;
+
 import de.alexanderritter.varo.api.UUIDs;
 import de.alexanderritter.varo.config.HUDOption;
 import de.alexanderritter.varo.main.Varo;
@@ -84,9 +86,14 @@ public class Registration {
 		int sessions = players.getInt(id + ".sessions");
 		int sessions_today = players.getInt(id + ".sessions_today", 0);
 		int time = players.getInt(id + ".recent_time");
-		ChatColor color = ChatColor.valueOf(players.getString(id + ".color"));
 		boolean admin = players.isConfigurationSection(id + ".admin");
-		HUDOption hudoption = HUDOption.valueOf(players.getString(id + ".hud", plugin.getSettings().getDefaultHUDOption().toString()));
+		ChatColor color = Enums.getIfPresent(ChatColor.class, players.getString(id + ".color").toUpperCase()).or(ChatColor.WHITE);
+		HUDOption hudoption = Enums.getIfPresent(HUDOption.class, players.getString(id + ".hud", plugin.getSettings().getDefaultHUDOption().toString()).toUpperCase()).orNull();
+		if(hudoption == null) {
+			hudoption = HUDOption.SCOREBOARD;
+			plugin.getLogger().warning("HUDOption for player " + name + " could not be loaded. Using default SCOREBOARD option.\n"
+					+ "Please check for malformed strings in either players.yml (" + uuid + ".hud) and config.yml (default-hud)");
+		}
 		VaroPlayer ip = new VaroPlayer(plugin, name, team, uuid, time, sessions, sessions_today, dead, color, admin, hudoption);
 		return ip;
 	}
