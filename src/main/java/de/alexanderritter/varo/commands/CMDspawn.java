@@ -43,7 +43,7 @@ public class CMDspawn implements CommandExecutor {
 			}
 			
 			if (spawns.isConfigurationSection(String.valueOf(id))) {
-				p.sendMessage(Varo.prefix + ChatColor.GREEN + "Spawnpoint mit ID " + ChatColor.DARK_AQUA + String.valueOf(id) + ChatColor.GREEN + " wurde erfolgreich �berschrieben.");
+				p.sendMessage(Varo.prefix + ChatColor.GREEN + "Spawnpoint mit ID " + ChatColor.DARK_AQUA + String.valueOf(id) + ChatColor.GREEN + " wurde erfolgreich überschrieben.");
 			} else {
 				p.sendMessage(Varo.prefix + ChatColor.GREEN + "Spawnpoint mit ID " + ChatColor.DARK_AQUA + String.valueOf(id) + ChatColor.GREEN + " wurde erfolgreich erstellt.");
 			}

@@ -22,7 +22,7 @@ public class CMDdelete implements CommandExecutor {
 		String team = args[0];
 		if(plugin.getRegistration().getAllTeams().contains(team.toLowerCase())) {
 			plugin.getRegistration().deleteTeam(team);
-			sender.sendMessage(ChatColor.GREEN + "Das Team " + ChatColor.GOLD + team + ChatColor.GREEN + " wurde erfolgreich gel�scht");
+			sender.sendMessage(ChatColor.GREEN + "Das Team " + ChatColor.GOLD + team + ChatColor.GREEN + " wurde erfolgreich gelöscht");
 		} else sender.sendMessage(ChatColor.RED + "Das Team " + ChatColor.GOLD + team + ChatColor.RED + " existiert nicht");
 		return true;
 	}
