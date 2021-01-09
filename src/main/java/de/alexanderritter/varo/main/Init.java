@@ -79,7 +79,7 @@ public class Init {
 		((PluginCommand) plugin.getCommand("varo.spawn").setUsage(ChatColor.RED + "Syntax: /varo.spawn <Id>")).setExecutor(new CMDspawn(plugin));
 		((PluginCommand) plugin.getCommand("varo.revive").setUsage(ChatColor.RED + "Syntax: /varo.revive <Spieler>")).setExecutor(new CMDrevive(plugin));
 		((PluginCommand) plugin.getCommand("varo.setlobby").setUsage(ChatColor.RED + "Syntax: /varo.setlobby")).setExecutor(new CMDsetlobby(plugin));
-		((PluginCommand) plugin.getCommand("coordinates").setUsage(ChatColor.RED + "Syntax: /coordinates")).setExecutor(new CMDcoordinates(plugin));
+		((PluginCommand) plugin.getCommand("coordinates").setUsage(ChatColor.RED + "Syntax: /coordinates | (Nur für Admins: /coordinates <player>)")).setExecutor(new CMDcoordinates(plugin));
 		((PluginCommand) plugin.getCommand("bordersize").setUsage(ChatColor.RED + "Syntax: /bordersize")).setExecutor(new CMDbordersize(plugin));
 		((PluginCommand) plugin.getCommand("spectators").setUsage(ChatColor.RED + "Syntax: /spectators")).setExecutor(new CMDspectators());
 		((PluginCommand) plugin.getCommand("modifyconfig").setUsage(ChatColor.RED + "Syntax: /modifyconfig <attribute> <value>")).setExecutor(new CMDmodifyconfig(plugin));
