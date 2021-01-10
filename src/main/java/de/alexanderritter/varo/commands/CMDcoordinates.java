@@ -36,11 +36,11 @@ public class CMDcoordinates implements CommandExecutor {
 				sender.sendMessage(ChatColor.RED + "Du hast nicht die Berechtigung, für andere Spieler Koordinaten zu posten.");
 				return true;
 			}
-			String playerString = args[0];
-			VaroPlayer ip = plugin.getRegistration().loadPlayer(playerString);
+			String playerName = args[0];
+			VaroPlayer ip = plugin.getRegistration().loadPlayer(playerName);
 			if(ip != null) {
 				plugin.postPlayerCoordinates(ip);
-			} else sender.sendMessage(ChatColor.RED + "Der Spieler " + ChatColor.GOLD + playerString + ChatColor.RED + " existiert nicht oder ist nicht registriert.");
+			} else sender.sendMessage(VaroMessages.playerNotRegistered(playerName));
 		}
 		return false;
 	}

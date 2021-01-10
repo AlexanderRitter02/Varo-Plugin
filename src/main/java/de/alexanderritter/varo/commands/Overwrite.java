@@ -16,11 +16,11 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.InventoryHolder;
 
+import de.alexanderritter.varo.api.VaroMessages;
 import de.alexanderritter.varo.ingame.ChestManager;
 import de.alexanderritter.varo.ingame.PlayerManager;
 import de.alexanderritter.varo.ingame.VaroPlayer;
 import de.alexanderritter.varo.main.Varo;
-import net.md_5.bungee.api.ChatColor;
 import net.minecraft.server.v1_8_R3.PacketPlayOutCloseWindow;
 
 public class Overwrite implements CommandExecutor {
@@ -39,24 +39,24 @@ public class Overwrite implements CommandExecutor {
 		if(!(sender instanceof Player)) return false;
 		if(args.length == 0) {
 		Player p = (Player) sender;
-		if(!players.keySet().contains(p)) {p.sendMessage(ChatColor.RED + "Du hast zurzeit keine Teamchest-Anfragen"); return false;}
+		if(!players.keySet().contains(p)) {p.sendMessage(VaroMessages.noChestRequests); return false;}
 		
 		Location loc = players.get(p);
 		if(loc.getBlock().getType() != Material.WALL_SIGN) {
-			p.sendMessage(ChatColor.RED + "An der vorgeschlagenen Stelle gibt es kein Schild mehr");
+			p.sendMessage(VaroMessages.chestSignDoesntExist);
 			players.remove(p);
 			return false;}
 		org.bukkit.material.Sign sign = (org.bukkit.material.Sign) loc.getBlock().getState().getData();
 		
 		if(loc.getBlock().getRelative(sign.getAttachedFace()).getType() != Material.CHEST) {
-			p.sendMessage(ChatColor.RED + "Die Teamchest, die du vorgeschlagen hast, existiert nicht mehr");
+			p.sendMessage(VaroMessages.chestDoesntExistAnymore);
 			players.remove(p);
 			return false;}
 		Chest chest = (Chest) loc.getBlock().getRelative(sign.getAttachedFace()).getState();
 		
 		InventoryHolder ih = ((InventoryHolder) chest).getInventory().getHolder();
 		if(!(ih instanceof DoubleChest)) {
-			p.sendMessage(ChatColor.RED + "An der vorgeschlagenen Stelle gibt es keine Doppelkiste");
+			p.sendMessage(VaroMessages.doubleChestMissing);
 			loc.getBlock().breakNaturally();
 			players.remove(p);
 			return false;}
@@ -90,7 +90,7 @@ public class Overwrite implements CommandExecutor {
 		((CraftPlayer)p).getHandle().playerConnection.sendPacket(pack);
 		players.remove(p);
 		
-		p.sendMessage(Varo.prefix + ChatColor.DARK_GREEN + "Deine Teamchest wurde erfolgreich überschrieben!");
+		p.sendMessage(VaroMessages.chestOverwritten);
 		} else if(args.length == 2) {
 			if(!args[0].equalsIgnoreCase("delete")) return false;
 			Player p = Bukkit.getPlayerExact(args[1]);

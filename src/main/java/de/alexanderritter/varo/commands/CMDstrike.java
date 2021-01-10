@@ -11,6 +11,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
+import de.alexanderritter.varo.api.VaroMessages;
 import de.alexanderritter.varo.ingame.VaroPlayer;
 import de.alexanderritter.varo.main.Varo;
 import github.scarsz.discordsrv.DiscordSRV;
@@ -31,20 +32,21 @@ public class CMDstrike implements CommandExecutor {
 		if(!command.getName().equalsIgnoreCase("varo.strike")) return false;
 		if(args.length < 2) return false;
 		if(!Arrays.asList("add", "remove", "list").contains(args[0])) return false;
-		if(plugin.getRegistration().loadPlayer(args[1]) == null) {
-			sender.sendMessage(ChatColor.RED + "Der Spieler " + ChatColor.GOLD + args[1] + ChatColor.RED + " existiert nicht oder ist nicht registriert.");
+		String playerName = args[1];
+		if(plugin.getRegistration().loadPlayer(playerName) == null) {
+			sender.sendMessage(VaroMessages.playerNotRegistered(playerName));
 			return true;
 		}
-		VaroPlayer ip = plugin.getRegistration().loadPlayer(args[1]);
+		VaroPlayer ip = plugin.getRegistration().loadPlayer(playerName);
 		
 		switch(args[0]) {
 		case "list":
 			List<String> strikes = ip.getStrikes();
 			if(strikes.size() == 0) {
-				sender.sendMessage(Varo.prefix + ChatColor.RED + "Der Spieler " + args[1] + " hat keine Strikes.");
+				sender.sendMessage(VaroMessages.strikesEmpty(playerName));
 				return true;
 			}
-			sender.sendMessage(Varo.prefix + ChatColor.GREEN + "Der Spieler " + args[1] + " hat folgende Strikes: ");
+			sender.sendMessage(Varo.prefix + ChatColor.GREEN + "Der Spieler " + playerName + " hat folgende Strikes: ");
 			for(int i = 0; i < strikes.size(); i++) sender.sendMessage(ChatColor.DARK_AQUA + String.valueOf(i+1) + ": " + ChatColor.YELLOW + strikes.get(i));
 			break;
 		case "add":
@@ -53,7 +55,7 @@ public class CMDstrike implements CommandExecutor {
 				reason += args[i] + " ";
 			}
 			ip.addStrike(reason);
-			Bukkit.broadcastMessage(Varo.prefix + ChatColor.RED + args[1] + " hat einen Strike erhaten für: " + ChatColor.YELLOW + reason);
+			Bukkit.broadcastMessage(Varo.prefix + ChatColor.RED + playerName + " hat einen Strike erhaten für: " + ChatColor.YELLOW + reason);
 			sendDiscordStrikeEmbed(ip, reason, sender.getName());
 			break;
 		case "remove":
@@ -65,7 +67,7 @@ public class CMDstrike implements CommandExecutor {
 			try {
 				index = Integer.parseInt(args[2]);
 			} catch (NumberFormatException e) {
-				sender.sendMessage(Varo.nointeger);
+				sender.sendMessage(VaroMessages.nointeger);
 				return true;
 			}
 			if(index <= 0) {
@@ -73,10 +75,10 @@ public class CMDstrike implements CommandExecutor {
 				return true;
 			}
 			if(index > ip.getStrikes().size()) {
-				sender.sendMessage(ChatColor.RED + "Der Spieler " + args[1] + " besitzt keinen Strike mit Index " + index);
+				sender.sendMessage(ChatColor.RED + "Der Spieler " + playerName + " besitzt keinen Strike mit Index " + index);
 				return true;
 			}
-			sender.sendMessage(Varo.prefix + ChatColor.GREEN + "Der Strike " + ChatColor.YELLOW + ip.getStrikes().get(index - 1) + ChatColor.GREEN + " wurde von " + args[1] + " entfernt.");
+			sender.sendMessage(VaroMessages.strikeRemoved(playerName, ip.getStrikes().get(index - 1)));
 			ip.removeStrike(index - 1);
 			break;
 		}

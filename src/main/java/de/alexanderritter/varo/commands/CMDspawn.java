@@ -8,6 +8,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
+import de.alexanderritter.varo.api.VaroMessages;
 import de.alexanderritter.varo.main.Varo;
 
 public class CMDspawn implements CommandExecutor {
@@ -28,7 +29,7 @@ public class CMDspawn implements CommandExecutor {
 			try {
 				id = Integer.parseInt(args[0]);
 			} catch(NumberFormatException e) {
-				p.sendMessage(Varo.nointeger);
+				p.sendMessage(VaroMessages.nointeger);
 				return false;
 			}
 			if(id <= 0) {
@@ -43,9 +44,9 @@ public class CMDspawn implements CommandExecutor {
 			}
 			
 			if (spawns.isConfigurationSection(String.valueOf(id))) {
-				p.sendMessage(Varo.prefix + ChatColor.GREEN + "Spawnpoint mit ID " + ChatColor.DARK_AQUA + String.valueOf(id) + ChatColor.GREEN + " wurde erfolgreich überschrieben.");
+				p.sendMessage(VaroMessages.spawnOverwritten(id));
 			} else {
-				p.sendMessage(Varo.prefix + ChatColor.GREEN + "Spawnpoint mit ID " + ChatColor.DARK_AQUA + String.valueOf(id) + ChatColor.GREEN + " wurde erfolgreich erstellt.");
+				p.sendMessage(VaroMessages.spawnCreated(id));
 			}
 			
 			plugin.getRegistration().registerSpawn(p.getLocation().getBlock().getLocation(), id);

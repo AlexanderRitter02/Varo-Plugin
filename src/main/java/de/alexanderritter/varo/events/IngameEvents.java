@@ -41,6 +41,7 @@ import org.bukkit.potion.Potion;
 
 import de.alexanderritter.varo.api.AdvancedOfflinePlayer;
 import de.alexanderritter.varo.api.ItemString;
+import de.alexanderritter.varo.api.VaroMessages;
 import de.alexanderritter.varo.ingame.PlayerManager;
 import de.alexanderritter.varo.ingame.VaroPlayer;
 import de.alexanderritter.varo.main.Varo;
@@ -91,18 +92,18 @@ public class IngameEvents implements Listener {
 			}
 			
 			if(ip.isDead()) {
-				if(!plugin.getSettings().isAllowedSpectateIfTeamAlive() && plugin.getRegistration().isTeamAlive(ip.getTeam())) e.disallow(Result.KICK_BANNED, ChatColor.RED + "Du kannst nur spectaten, wenn dein ganzes Team gestorben ist.");
-				if(plugin.getRegistration().isTeamAlive(ip.getTeam()) && !plugin.getRegistration().isTeamMemberOnline(ip.getTeam())) e.disallow(Result.KICK_BANNED, ChatColor.RED + "Du kannst nur spectaten, wenn ein Teammitglied online ist.");
+				if(!plugin.getSettings().isAllowedSpectateIfTeamAlive() && plugin.getRegistration().isTeamAlive(ip.getTeam())) e.disallow(Result.KICK_BANNED, VaroMessages.spectateOnlyIfTeamDead);
+				if(plugin.getRegistration().isTeamAlive(ip.getTeam()) && !plugin.getRegistration().isTeamMemberOnline(ip.getTeam())) e.disallow(Result.KICK_BANNED, VaroMessages.spectateOnlyIfMemberOnline);
 				return;
 			}
 			
 			if(ip.getSessions() <= 0) {
-				e.disallow(Result.KICK_BANNED, ChatColor.RED + "Du hast keine Sessions mehr in dieser Woche!");
+				e.disallow(Result.KICK_BANNED, VaroMessages.noSessionsThisWeek);
 				return;
 			}
 			
 			if(ip.getSessionsPlayedToday() >= plugin.getSettings().getMaxSessionsPerDay()) {
-				e.disallow(Result.KICK_BANNED, ChatColor.RED + "Du kannst maximal " + plugin.getSettings().getMaxSessionsPerDay() + " Sessions pro Tag spielen!");
+				e.disallow(Result.KICK_BANNED, VaroMessages.maxSessionsPerDay(plugin.getSettings().getMaxSessionsPerDay()));
 				return;
 			}
 			
@@ -209,8 +210,7 @@ public class IngameEvents implements Listener {
 				for(VaroPlayer member : plugin.getRegistration().getTeamMembers(ip.getTeam())) {
 					if(!member.isSpectator() || !(plugin.getRegistration().isTeamAlive(ip.getTeam()))) continue;
 					if(Bukkit.getPlayer(member.getUuid()) == null) continue;
-					Bukkit.getPlayer(member.getUuid()).kickPlayer(ChatColor.RED + "Du wurdest gekickt, weil " + ChatColor.GOLD +  ip.getName() +  ChatColor.RED + " das Spiel verlassen hat.\n\n"
-							+ "Du kannst nur spectaten, wenn ein Teammitglied online ist.");
+					Bukkit.getPlayer(member.getUuid()).kickPlayer(VaroMessages.kickedBcPlayerLeft(ip.getName()) + "\n\n" + VaroMessages.spectateOnlyIfMemberOnline);
 				}
 			}
 		}, 10*20);
@@ -326,7 +326,7 @@ public class IngameEvents implements Listener {
 		e.setUseItemInHand(org.bukkit.event.Event.Result.DENY);
 		Player p = e.getPlayer();
 		p.playSound(p.getLocation(), Sound.VILLAGER_NO, 1, 1);
-		p.sendMessage(ChatColor.RED + "Du darfst dieses Item nicht benutzen!");
+		p.sendMessage(VaroMessages.cannotUseItem);
 	}
 	
 	@EventHandler
@@ -337,7 +337,7 @@ public class IngameEvents implements Listener {
 		Player p = (Player) e.getWhoClicked();
 		p.closeInventory();
 		p.playSound(p.getLocation(), Sound.VILLAGER_NO, 1, 1);
-		p.sendMessage(ChatColor.RED + "Du darfst dieses Item nicht craften!");
+		p.sendMessage(VaroMessages.cannotCraftItem);
 	}
 	
 	@EventHandler
@@ -348,7 +348,7 @@ public class IngameEvents implements Listener {
 			e.setCancelled(true);
 			for(Player send : getNearbyPlayers(e.getBlock().getLocation(), 20)) {
 				send.playSound(send.getLocation(), Sound.VILLAGER_NO, 1, 1);
-				send.sendMessage(ChatColor.RED + "Ein Braustand in der Nähe hat versucht, einen Trank zu brauen. Tränke sind nicht erlaubt!");
+				send.sendMessage(VaroMessages.potionsNotAllowed);
 			}
 			return;
 		}
@@ -380,7 +380,7 @@ public class IngameEvents implements Listener {
 								e.getBlock().getWorld().dropItem(e.getBlock().getLocation().add(0, 1, 0), new ItemStack(m));
 								for(Player send : getNearbyPlayers(e.getBlock().getLocation(), 20)) {
 									send.playSound(send.getLocation(), Sound.VILLAGER_NO, 1, 1);
-									send.sendMessage(ChatColor.RED + "Ein Braustand in der Nähe hat versucht, einen illegalen Trank zu brauen!");
+									send.sendMessage(VaroMessages.potionIllegal);
 								}
 								dropped = true;
 							}

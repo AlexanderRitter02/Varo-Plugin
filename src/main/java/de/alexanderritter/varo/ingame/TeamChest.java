@@ -21,6 +21,7 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.InventoryHolder;
 
+import de.alexanderritter.varo.api.VaroMessages;
 import de.alexanderritter.varo.commands.Overwrite;
 import de.alexanderritter.varo.main.Varo;
 import net.md_5.bungee.api.ChatColor;
@@ -59,12 +60,12 @@ public class TeamChest implements Listener {
 		VaroPlayer ip = PlayerManager.getIngamePlayer(p);
 		
 		if(ChestManager.getAllOwners().contains(ip.getTeam())) {
-			p.sendMessage(Varo.prefix + ChatColor.RED + "Du hast schon eine Teamchest. Soll eine neue erstellt werden?");
-			TextComponent message = new TextComponent(ChatColor.GREEN + "Ja");
+			p.sendMessage(VaroMessages.chestAlreadyExistsCreateNewOne);
+			TextComponent message = new TextComponent(VaroMessages.yes);
 			message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/overwrite"));
 			TextComponent between = new TextComponent(ChatColor.GRAY + " | ");
 			message.addExtra(between);
-			TextComponent no = new TextComponent(ChatColor.DARK_RED + "Nein");
+			TextComponent no = new TextComponent(VaroMessages.no);
 			no.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/overwrite delete" + ip.getName()));
 			message.addExtra(no);
 			
@@ -96,7 +97,7 @@ public class TeamChest implements Listener {
 		PacketPlayOutCloseWindow pack = new PacketPlayOutCloseWindow();
 		((CraftPlayer)p).getHandle().playerConnection.sendPacket(pack);
 		
-		p.sendMessage(Varo.prefix + ChatColor.GREEN + "Teamkiste erstellt");
+		p.sendMessage(VaroMessages.chestCreated);
 	}
 	
 	@EventHandler
@@ -112,7 +113,7 @@ public class TeamChest implements Listener {
 		if(owner == null) return;
 		ChestManager.removeChest(owner);
 		plugin.getRegistration().deleteChest(owner);
-		if(PlayerManager.getIngamePlayer(p).getTeam().equalsIgnoreCase(owner)) p.sendMessage(Varo.prefix + ChatColor.RED + "Du hast deine Teamchest zerstört");
+		if(PlayerManager.getIngamePlayer(p).getTeam().equalsIgnoreCase(owner)) p.sendMessage(VaroMessages.chestDestroyed);
 	}
 	
 	@EventHandler
@@ -143,7 +144,7 @@ public class TeamChest implements Listener {
 		VaroPlayer ip = PlayerManager.getIngamePlayer(p);
 		if(ip.isAdmin()) return true;
 		if(ip.getTeam().equalsIgnoreCase(team)) return true;
-		p.sendMessage(ChatColor.RED + "Diese Truhe gehört Team " + ChatColor.GOLD + "#" + team);
+		p.sendMessage(VaroMessages.chestOwnedBy(team));
 		return false;
 	}
 	

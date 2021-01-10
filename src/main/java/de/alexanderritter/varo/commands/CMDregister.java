@@ -10,13 +10,12 @@ import org.bukkit.command.CommandSender;
 
 import de.alexanderritter.varo.api.Colors;
 import de.alexanderritter.varo.api.UUIDs;
+import de.alexanderritter.varo.api.VaroMessages;
 import de.alexanderritter.varo.main.Varo;
 
 public class CMDregister implements CommandExecutor {
 	
 	Varo plugin;
-	
-	String already_registered = ChatColor.RED + "Dieses Team ist schon registriert";
 	
 	public CMDregister(Varo plugin) {
 		this.plugin = plugin;
@@ -32,7 +31,7 @@ public class CMDregister implements CommandExecutor {
 		ChatColor color = Colors.getColorfromString(args[1]);
 				
 		if(plugin.getRegistration().getAllTeams().contains(team.toLowerCase())) {
-			sender.sendMessage(already_registered);
+			sender.sendMessage(VaroMessages.teamAlreadyRegistered);
 			return false;
 		}
 				
@@ -48,12 +47,12 @@ public class CMDregister implements CommandExecutor {
 				if(UUIDs.getUUID(player) == null) {
 					plugin.getRegistration().deleteTeam(team);
 					sender.sendMessage(ChatColor.RED + "Der Spieler " + player + " existiert nicht!");
-					sender.sendMessage(ChatColor.RED + "Registration von Team " + team + " fehlgschlagen!");
+					sender.sendMessage(VaroMessages.teamRegisteringFailed(team));
 					return true;
 				} else if(plugin.getRegistration().getAllUUIDs().contains(UUIDs.getUUID(player))) {
 					plugin.getRegistration().deleteTeam(team);
-					sender.sendMessage(ChatColor.RED + "Der Spieler " + player + " ist schon in einem anderen Team registriert!");
-					sender.sendMessage(ChatColor.RED + "Registration von Team " + team + " fehlgschlagen!");
+					sender.sendMessage(VaroMessages.playerAlreadyRegisteredInAnotherTeam(player));
+					sender.sendMessage(VaroMessages.teamRegisteringFailed(team));
 					return true;
 				}
 				plugin.getRegistration().registerPlayer(player, team, color);
@@ -62,7 +61,7 @@ public class CMDregister implements CommandExecutor {
 				e.printStackTrace();
 			}
 		}
-		sender.sendMessage(ChatColor.GREEN + "Team " + team + " wurde erfolgreich registriert");
+		sender.sendMessage(VaroMessages.teamRegisteredSuccessfully(team));
 		return true;
 	}
 	

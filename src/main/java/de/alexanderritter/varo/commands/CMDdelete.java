@@ -1,10 +1,10 @@
 package de.alexanderritter.varo.commands;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
+import de.alexanderritter.varo.api.VaroMessages;
 import de.alexanderritter.varo.main.Varo;
 
 public class CMDdelete implements CommandExecutor {
@@ -22,8 +22,8 @@ public class CMDdelete implements CommandExecutor {
 		String team = args[0];
 		if(plugin.getRegistration().getAllTeams().contains(team.toLowerCase())) {
 			plugin.getRegistration().deleteTeam(team);
-			sender.sendMessage(ChatColor.GREEN + "Das Team " + ChatColor.GOLD + team + ChatColor.GREEN + " wurde erfolgreich gelöscht");
-		} else sender.sendMessage(ChatColor.RED + "Das Team " + ChatColor.GOLD + team + ChatColor.RED + " existiert nicht");
+			sender.sendMessage(VaroMessages.teamDeleted(team));
+		} else sender.sendMessage(VaroMessages.teamDoesntExist(team));
 		return true;
 	}
 	

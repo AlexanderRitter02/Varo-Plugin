@@ -12,6 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
+import de.alexanderritter.varo.api.VaroMessages;
 import de.alexanderritter.varo.events.BeforeVaroListener;
 import de.alexanderritter.varo.ingame.PlayerManager;
 import de.alexanderritter.varo.main.Varo;
@@ -29,7 +30,7 @@ public class CMDstop implements CommandExecutor {
 		if(!command.getName().equalsIgnoreCase("varo.stop")) return false;
 		if(args.length != 0) return false;
 		if(plugin.getSettings().isRunning()) {
-			sender.sendMessage(ChatColor.RED + "Varo wird beendet!");
+			sender.sendMessage(VaroMessages.varoBeingStopped);
 			plugin.getSettings().setRunning(false);
 			HandlerList.unregisterAll(plugin); // alle Listener beenden
 			Bukkit.getServer().getScheduler().cancelAllTasks(); // Schutzzeit und andere Scheduler beenden
@@ -42,7 +43,7 @@ public class CMDstop implements CommandExecutor {
 				online.setGameMode(GameMode.ADVENTURE);
 			}
 			
-			Bukkit.broadcastMessage(Varo.prefix + ChatColor.RED + "Varo wurde von einem Admin beendet!");
+			Bukkit.broadcastMessage(VaroMessages.varoStopped);
 			plugin.sendDiscordMessage("```diff\n- Varo wurde von einem Admin beendet!\n```");
 			
 			ArrayList<UUID> removeSpec = new ArrayList<>();
@@ -59,7 +60,7 @@ public class CMDstop implements CommandExecutor {
 			plugin.reset();
 			Bukkit.getPluginManager().registerEvents(new BeforeVaroListener(plugin), plugin);
 			
-		} else sender.sendMessage(ChatColor.RED + "Varo ist noch nicht gestartet. Benutze /varo.start, um Varo zu starten");
+		} else sender.sendMessage(VaroMessages.varoNotYetStarted);
 		return true;
 	}
 

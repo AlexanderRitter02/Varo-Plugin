@@ -11,6 +11,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import de.alexanderritter.varo.api.UUIDs;
+import de.alexanderritter.varo.api.VaroMessages;
 import de.alexanderritter.varo.main.Varo;
 import net.md_5.bungee.api.ChatColor;
 
@@ -36,7 +37,7 @@ public class CMDmaintainence implements CommandExecutor {
 		}
 		
 		if(!plugin.getRegistration().getAllUUIDs().contains(uuid)) {
-			sender.sendMessage(ChatColor.RED + "Der Spieler " + args[0] + " ist nicht registriert.");
+			sender.sendMessage(VaroMessages.playerNotRegistered(args[0]));
 			return true;
 		}
 		

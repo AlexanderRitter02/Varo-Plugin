@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 import com.mojang.authlib.GameProfile;
 
 import de.alexanderritter.varo.api.UUIDs;
+import de.alexanderritter.varo.api.VaroMessages;
 import de.alexanderritter.varo.ingame.PlayerManager;
 import de.alexanderritter.varo.ingame.VaroPlayer;
 import de.alexanderritter.varo.main.Varo;
@@ -38,10 +39,11 @@ public class CMDrevive implements CommandExecutor {
 		if(args.length != 1) return false;
 		
 		YamlConfiguration players = plugin.getPlayerConfig();
+		String playerName = args[0];
 				
 		try {
-			if(UUIDs.getUUID(args[0]) != null) {
-				String uuid = UUIDs.getUUID(args[0]).toString();
+			if(UUIDs.getUUID(playerName) != null) {
+				String uuid = UUIDs.getUUID(playerName).toString();
 				if(plugin.getRegistration().getAllUUIDs().contains(UUID.fromString(uuid))) {
 									
 					Boolean dead = players.getBoolean(uuid + ".dead");
@@ -69,12 +71,12 @@ public class CMDrevive implements CommandExecutor {
 							players.set(uuid + ".reviving", Boolean.valueOf(true));
 						}
 						
-						plugin.sendDiscordMessage("```css\n Der Spieler " + args[0] + " wurde wiederbelebt. Viel Glück!.\n ```");
-						sender.sendMessage(ChatColor.GREEN + "Der Spieler " + ChatColor.GOLD + args[0] + ChatColor.GREEN + " wurde erfolgreich wiederbelebt");
+						plugin.sendDiscordMessage("```css\n Der Spieler " + playerName + " wurde wiederbelebt. Viel Glück!.\n ```");
+						sender.sendMessage(VaroMessages.reviveSuccessful(playerName));
 						
-					} else sender.sendMessage(ChatColor.RED + "Der Spieler " + ChatColor.GOLD + args[0] + ChatColor.RED + " ist nicht tot. Du kannst ihn nicht wiederbeleben");
-				} else sender.sendMessage(ChatColor.RED + "Der Spieler " + ChatColor.GOLD + args[0] + ChatColor.RED + " ist nicht bei Varo registriert");
-			} else sender.sendMessage(ChatColor.RED + "Der Spieler " + ChatColor.GOLD + args[0] + ChatColor.RED + " existiert nicht");
+					} else sender.sendMessage(VaroMessages.playerNotDead(playerName));
+				} else sender.sendMessage(VaroMessages.playerNotRegistered(playerName));
+			} else sender.sendMessage(ChatColor.RED + "Der Spieler " + ChatColor.GOLD + playerName + ChatColor.RED + " existiert nicht");
 		} catch (IOException e) {e.printStackTrace();}
 				
 		plugin.savePlayerConfig(players);

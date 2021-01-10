@@ -1,12 +1,12 @@
 package de.alexanderritter.varo.commands;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import de.alexanderritter.varo.api.VaroMessages;
 import de.alexanderritter.varo.main.Varo;
 
 public class CMDsetlobby implements CommandExecutor {
@@ -25,9 +25,8 @@ public class CMDsetlobby implements CommandExecutor {
 			Player p = (Player) sender;
 			Location location = p.getLocation();
 			plugin.getSettings().setLobby(location.getBlock().getLocation()); // Getting location of block because it has full coordinates
-			p.sendMessage(Varo.prefix + ChatColor.DARK_GREEN + "Ein neuer Ort für die Lobby mit den Koordinaten " + ChatColor.GREEN
-					 + location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ() + ChatColor.DARK_GREEN + " wurde erfolgreich gesetzt.");
-		} else sender.sendMessage(ChatColor.RED + "Die Koordinaten der Lobby müssen ingame von einem Spieler festgelegt werden");
+			p.sendMessage(VaroMessages.lobbySet(location.getBlockX(), location.getBlockY(), location.getBlockZ()));
+		} else sender.sendMessage(VaroMessages.lobbyCanOnlyBeSetIngame);
 		return true;
 	}
 

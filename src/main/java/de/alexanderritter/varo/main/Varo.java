@@ -51,8 +51,7 @@ import github.scarsz.discordsrv.util.DiscordUtil;
 
 public class Varo extends JavaPlugin {
 	
-	public static final String prefix = ChatColor.AQUA + "[Varo] " + ChatColor.RESET,
-			   nointeger = ChatColor.RED + "Bitte gebe eine Integer an (positive ganze Zahl) an";
+	public static final String prefix = ChatColor.AQUA + "[Varo] " + ChatColor.RESET;
 	
 	public String path = this.getDataFolder().toString();
 	Init init = new Init(this, path);

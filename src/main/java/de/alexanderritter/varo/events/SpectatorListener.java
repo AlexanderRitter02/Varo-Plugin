@@ -1,7 +1,6 @@
 package de.alexanderritter.varo.events;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -28,6 +27,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import de.alexanderritter.varo.api.VaroMessages;
 import de.alexanderritter.varo.ingame.PlayerManager;
 import de.alexanderritter.varo.ingame.VaroPlayer;
 import de.alexanderritter.varo.main.Varo;
@@ -111,9 +111,9 @@ public class SpectatorListener implements Listener {
 				Player to = Bukkit.getPlayerExact(clicked.getItemMeta().getDisplayName());
 				if(to != null) {
 					p.teleport(to);
-					p.sendMessage(Varo.prefix + ChatColor.DARK_GREEN + "Du wurdest zu " + ChatColor.GREEN + to.getName() + ChatColor.DARK_GREEN + " teleportiert!");
+					p.sendMessage(VaroMessages.teleportedTo(to.getName()));
 				} else {
-					p.sendMessage(Varo.prefix + ChatColor.DARK_RED + "Du konntest nicht teleportiert werden, " + ChatColor.RED + clicked.getItemMeta().getDisplayName() + ChatColor.DARK_RED + " ist nicht mehr online.");
+					p.sendMessage(VaroMessages.teleportToFailed(clicked.getItemMeta().getDisplayName()));
 					p.closeInventory();
 				}
 			}

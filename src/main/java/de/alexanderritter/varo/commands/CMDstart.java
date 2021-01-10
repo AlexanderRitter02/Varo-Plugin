@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
+import de.alexanderritter.varo.api.VaroMessages;
 import de.alexanderritter.varo.ingame.PlayerManager;
 import de.alexanderritter.varo.ingame.VaroPlayer;
 import de.alexanderritter.varo.main.Varo;
@@ -41,7 +42,7 @@ public class CMDstart implements CommandExecutor {
 			try {
 				time = Integer.parseInt(args[0]);
 				if(time <= 0 ) throw new NumberFormatException();
-			} catch(NumberFormatException e) {sender.sendMessage(Varo.nointeger);return false;}
+			} catch(NumberFormatException e) {sender.sendMessage(VaroMessages.nointeger);return false;}
 					
 			if(!countdown.isRunning()) {
 				if(!plugin.getSettings().isRunning()) {
@@ -51,7 +52,7 @@ public class CMDstart implements CommandExecutor {
 					
 					for(Player online : Bukkit.getOnlinePlayers()) {players_for_start.add(online);}
 					if(players_for_start.size() > plugin.getSpawnConfig().getKeys(false).size()) {
-						sender.sendMessage(ChatColor.RED + "Es sind mehr Spieler vorhanden als es Spawns gibt!");
+						sender.sendMessage(VaroMessages.morePlayersThanSpawns);
 						return true;
 					}
 					
@@ -102,7 +103,7 @@ public class CMDstart implements CommandExecutor {
 					countdown.start(time);
 					Bukkit.broadcastMessage(Varo.prefix + ChatColor.GREEN + "Varo startet in " + time + " Sekunden, viel Erfolg an alle Teams!");
 					plugin.sendDiscordMessage("```css\n+ Varo startet in " + time + " Sekunden, viel Erfolg an alle Teams!\n```");
-				} else sender.sendMessage(ChatColor.RED + "Varo läuft bereits!");
+				} else sender.sendMessage(VaroMessages.varoAlreadyRunning);
 			} else sender.sendMessage(ChatColor.RED + "Der Countdown läuft schon. Benutze /varo.start break, um ihn zu stoppen");
 		}
 		return true;
