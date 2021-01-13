@@ -13,6 +13,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import de.alexanderritter.varo.api.VaroMessages;
+
 public class PlayerManager {
 	
 	public static ArrayList<UUID> spectators = new ArrayList<>();
@@ -47,7 +49,7 @@ public class PlayerManager {
 	
 	public static void addSpectator(Player p) {
 		if(!spectators.contains(p.getUniqueId())) spectators.add(p.getUniqueId());
-		p.setPlayerListName(ChatColor.GRAY + "[Spectator] " + p.getName());
+		p.setPlayerListName(ChatColor.GRAY + VaroMessages.spectatorPrefix + " " + p.getName());
 		p.setGameMode(GameMode.ADVENTURE);
 		p.setAllowFlight(true);
 		p.getInventory().clear();

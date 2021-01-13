@@ -2,6 +2,7 @@ package de.alexanderritter.varo.api;
 
 import org.bukkit.ChatColor;
 
+import de.alexanderritter.varo.ingame.VaroPlayer;
 import de.alexanderritter.varo.main.Varo;
 
 public class VaroMessages {
@@ -70,12 +71,26 @@ public class VaroMessages {
 	
 	
 	// Countdown and Start
+	public static String varoStartsIn(int seconds) {return Varo.prefix + ChatColor.GREEN + "Varo startet in " + seconds + " Sekunden, viel Erfolg an alle Teams!";}
+	public static String DISCORD_varoStartsIn(int seconds) {return "```css\n+ Varo startet in " + seconds + " Sekunden, viel Erfolg an alle Teams!\n```";}
 	public static String morePlayersThanSpawns = ChatColor.RED + "Es sind mehr Spieler vorhanden als es Spawns gibt!";
 	public static String varoAlreadyRunning = ChatColor.RED + "Varo läuft bereits!";
 	public static String varoBeingStopped = ChatColor.RED + "Varo wird beendet!";
 	public static String varoStopped = Varo.prefix + ChatColor.RED + "Varo wurde von einem Admin beendet!";
+	public static String DISCORD_varoStopped = "```diff\n- Varo wurde von einem Admin beendet!\n```";
 	public static String varoNotYetStarted = ChatColor.RED + "Varo ist noch nicht gestartet. Benutze /varo.start, um Varo zu starten";
 	public static String countdownNotRunningYet = ChatColor.RED + "Der Countdown läuft noch nicht.";
+	public static String countdownAlreadyRunningUseBreakToCancel = ChatColor.RED + "Der Countdown läuft schon. Benutze /varo.start break, um ihn zu stoppen";
+	public static String spawnsNotProperlySetUp = ChatColor.RED + "Es ist noch kein Spawn registriert / die Spawns sind nicht in der richtigen Reihenfolge. Bitte benutze /varo.spawn";
+	
+	// Sieg oder Ende
+	public static String wonTheGame(VaroPlayer winner) {
+		return Varo.prefix + winner.getColor() + winner.getName() + " hat das Varo gewonnen (#" + winner.getTeam() + "). Gratuliere!";
+	}
+	public static String DISCORD_wonTheGame(String player) {
+		return player + " hat das Varo gewonnen!";
+	}
+	public static String DISCORD_winPartyMessage = ":medal: Ruhm und Ehre, ein Hoch auf den Sieg! :partying_face:";
 	
 	// Schutzzeit
 	public static String protectionTimeEndsInMinutes(int minutes) {
@@ -115,11 +130,15 @@ public class VaroMessages {
 	public static String cannotUseItem = ChatColor.RED + "Du darfst dieses Item nicht benutzen!";
 	public static String potionsNotAllowed = ChatColor.RED + "Ein Braustand in der Nähe hat versucht, einen Trank zu brauen. Tränke sind nicht erlaubt!";
 	public static String potionIllegal = ChatColor.RED + "Ein Braustand in der Nähe hat versucht, einen illegalen Trank zu brauen!";
+	public static String DISCORD_playerDied(String player) {return "```http\n " + player + " ist aus Varo ausgeschieden.\n ```";}
+	public static String deathTITLE = "Du bist gestorben";
+	public static String deathSUBTITLE = "Somit bist du aus Varo ausgeschieden";
+	public static String youDied = ChatColor.RED + "Du bist gestorben!\n" + "Somit bist du aus Varo ausgeschieden.\n";
 	
 	// Spectators
 	public static String spectateOnlyIfTeamDead = ChatColor.RED + "Du kannst nur spectaten, wenn dein ganzes Team gestorben ist.";
 	public static String spectateOnlyIfMemberOnline = ChatColor.RED + "Du kannst nur spectaten, wenn ein Teammitglied online ist.";
-	public static String kickedBcPlayerLeft(String player) {return ChatColor.RED + "Du wurdest gekickt, weil " + ChatColor.GOLD +  player +  ChatColor.RED + " das Spiel verlassen hat.";}
+	public static String kickedMemberLeft(String player) {return ChatColor.RED + "Du wurdest gekickt, weil " + ChatColor.GOLD +  player +  ChatColor.RED + " das Spiel verlassen hat.";}
 	public static String teleportedTo(String player) {return Varo.prefix + ChatColor.DARK_GREEN + "Du wurdest zu " + ChatColor.GREEN + player + ChatColor.DARK_GREEN + " teleportiert!";}
 	public static String teleportToFailed(String player) {
 		return Varo.prefix + ChatColor.DARK_RED + "Du konntest nicht teleportiert werden, " + ChatColor.RED + player + ChatColor.DARK_RED + " ist nicht mehr online.";}
@@ -131,6 +150,9 @@ public class VaroMessages {
 	public static String temporaryAdminKickNotice = ChatColor.DARK_GREEN + "Für die nächste Session bist du temporär Admin. \nVerwende das nur, um etwas zu fixen und logge dich danach wieder aus";
 	public static String adminForever(String player) {return ChatColor.GREEN + player + " ist nun " + ChatColor.DARK_RED + "für immer " + ChatColor.GREEN + "Admin";}
 	public static String adminForeverKickNotice = ChatColor.DARK_RED + "Du bist nun Admin und überwachst das Spiel. Danke! \n" + ChatColor.RED + "Melde das sofort, falls du am Varo teilnehmen willst.";
+	public static String adminModeTITLE = "Du bist nun im Admin Modus";
+	public static String adminModeSUBTITLE = "Nicht zum eigenen Vorteil verwenden";
+	
 	
 	// /modifyconfig
 	public static String changedConfig(String attribute, String value) {
@@ -140,11 +162,32 @@ public class VaroMessages {
 		return "Es liegt kein Eintrag mit dem Attribut '" + attribute + "' in der config.yml vor";
 	}
 	
+	// Strikes
+	public static String strikeIndexMin1 = ChatColor.RED + "Der Index muss mindestens 1 betragen.";
+	public static String strikeReceived(String player, String reason) {
+		return Varo.prefix + ChatColor.RED + player + " hat einen Strike erhaten für: " + ChatColor.YELLOW + reason;
+	}
+	public static String strikeNotFound(String player, int index) {
+		return ChatColor.RED + "Der Spieler " + player + " besitzt keinen Strike mit Index " + index;
+	}
+	public static String playerHasTheFollowingStrikes(String player) {
+		return Varo.prefix + ChatColor.GREEN + "Der Spieler " + player + " hat folgende Strikes: ";
+	}
+	public static String DISCORD_strikeReceived(String player) {
+		return ":warning: " + player + " hat einen Strike erhalten";
+	}
+	
 	// Other
 	public static String nointeger = ChatColor.RED + "Bitte gebe eine Integer an (positive ganze Zahl) an";
 	public static String noPermissionToPostCoordinates = ChatColor.RED + "Du hast nicht die Berechtigung, für andere Spieler Koordinaten zu posten.";
 	public static String playerSettingsOnlyChangableAfterStart = ChatColor.RED + "Spieler-Einstellungen lassen sich erst nach dem Start des Varos ändern.";
 	
 	public static String reloadedPlayerYML = ChatColor.GREEN + "players.yml erfolgreich neu geladen.";
+	public static String kickBecauseNotRegistered = ChatColor.RED + "Du bist nicht registriert.\nBitte informiere den Admin, falls du glaubst, dies sei ein Fehler!";
+	public static String outsideBorder = ChatColor.RED + " [WARNING] Du bist außerhalb der Worldborder";
+	public static String chatDisabled = ChatColor.RED + "Du kannst jetzt nicht chatten";
+	
+	public static String spectatorPrefix = "[Spectator]";
+	public static String sessions = "Sessions";
 	
 }

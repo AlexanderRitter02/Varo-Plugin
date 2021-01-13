@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -67,7 +66,7 @@ public class CMDstart implements CommandExecutor {
 							VaroPlayer vp = PlayerManager.getIngamePlayer(players_for_start.get(random_player));
 							
 							if(vp == null) {
-								players_for_start.get(random_player).kickPlayer("Ähm du bist nicht registriert. Melde dich bei den Admins.");
+								players_for_start.get(random_player).kickPlayer(VaroMessages.kickBecauseNotRegistered);
 								continue;
 							}
 							ArrayList<VaroPlayer> teammates = plugin.getRegistration().getTeamMembers(vp.getTeam());
@@ -87,8 +86,7 @@ public class CMDstart implements CommandExecutor {
 						while(!players_for_start.isEmpty()) {
 							int random_player = new Random().nextInt(players_for_start.size());
 							if(plugin.getRegistration().getSpawn(id) == null) {
-								sender.sendMessage(ChatColor.RED + "Es ist noch kein Spawn registriert / die Spawns sind nicht in der richtigen Reihenfolge."
-										+ "Bitte benutze /varo.spawn");
+								sender.sendMessage(VaroMessages.spawnsNotProperlySetUp);
 								return true;
 							}
 							players_for_start.get(random_player).teleport(plugin.getRegistration().getSpawn(id));
@@ -101,10 +99,10 @@ public class CMDstart implements CommandExecutor {
 					
 					countdown = new Countdown(plugin, 10);
 					countdown.start(time);
-					Bukkit.broadcastMessage(Varo.prefix + ChatColor.GREEN + "Varo startet in " + time + " Sekunden, viel Erfolg an alle Teams!");
-					plugin.sendDiscordMessage("```css\n+ Varo startet in " + time + " Sekunden, viel Erfolg an alle Teams!\n```");
+					Bukkit.broadcastMessage(VaroMessages.varoStartsIn(time));
+					plugin.sendDiscordMessage(VaroMessages.DISCORD_varoStartsIn(time));
 				} else sender.sendMessage(VaroMessages.varoAlreadyRunning);
-			} else sender.sendMessage(ChatColor.RED + "Der Countdown läuft schon. Benutze /varo.start break, um ihn zu stoppen");
+			} else sender.sendMessage(VaroMessages.countdownAlreadyRunningUseBreakToCancel);
 		}
 		return true;
 	}

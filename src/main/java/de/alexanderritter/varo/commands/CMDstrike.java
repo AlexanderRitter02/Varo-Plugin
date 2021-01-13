@@ -46,7 +46,7 @@ public class CMDstrike implements CommandExecutor {
 				sender.sendMessage(VaroMessages.strikesEmpty(playerName));
 				return true;
 			}
-			sender.sendMessage(Varo.prefix + ChatColor.GREEN + "Der Spieler " + playerName + " hat folgende Strikes: ");
+			sender.sendMessage(VaroMessages.playerHasTheFollowingStrikes(playerName));
 			for(int i = 0; i < strikes.size(); i++) sender.sendMessage(ChatColor.DARK_AQUA + String.valueOf(i+1) + ": " + ChatColor.YELLOW + strikes.get(i));
 			break;
 		case "add":
@@ -55,7 +55,7 @@ public class CMDstrike implements CommandExecutor {
 				reason += args[i] + " ";
 			}
 			ip.addStrike(reason);
-			Bukkit.broadcastMessage(Varo.prefix + ChatColor.RED + playerName + " hat einen Strike erhaten für: " + ChatColor.YELLOW + reason);
+			Bukkit.broadcastMessage(VaroMessages.strikeReceived(playerName, reason));
 			sendDiscordStrikeEmbed(ip, reason, sender.getName());
 			break;
 		case "remove":
@@ -71,11 +71,11 @@ public class CMDstrike implements CommandExecutor {
 				return true;
 			}
 			if(index <= 0) {
-				sender.sendMessage(ChatColor.RED + "Der Index muss mindestens 1 betragen.");
+				sender.sendMessage(VaroMessages.strikeIndexMin1);
 				return true;
 			}
 			if(index > ip.getStrikes().size()) {
-				sender.sendMessage(ChatColor.RED + "Der Spieler " + playerName + " besitzt keinen Strike mit Index " + index);
+				sender.sendMessage(VaroMessages.strikeNotFound(playerName, index));
 				return true;
 			}
 			sender.sendMessage(VaroMessages.strikeRemoved(playerName, ip.getStrikes().get(index - 1)));
@@ -88,7 +88,7 @@ public class CMDstrike implements CommandExecutor {
 	public void sendDiscordStrikeEmbed(VaroPlayer ip, String reason, String issued_by) {
 		TextChannel channel = DiscordUtil.getTextChannelById(plugin.getSettings().getDiscordChannelId());
 		channel.sendMessage(new EmbedBuilder()
-		    .setTitle(":warning: " + ip.getName() + " hat einen Strike erhalten")
+		    .setTitle(VaroMessages.DISCORD_strikeReceived(ip.getName()))
 		    .setDescription("```\n" + reason + "\n```")
 		    .setColor(new Color(15425050))
 		    .setTimestamp(OffsetDateTime.now())

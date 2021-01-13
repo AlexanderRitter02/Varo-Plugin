@@ -44,7 +44,7 @@ public class CMDstop implements CommandExecutor {
 			}
 			
 			Bukkit.broadcastMessage(VaroMessages.varoStopped);
-			plugin.sendDiscordMessage("```diff\n- Varo wurde von einem Admin beendet!\n```");
+			plugin.sendDiscordMessage(VaroMessages.DISCORD_varoStopped);
 			
 			ArrayList<UUID> removeSpec = new ArrayList<>();
 			for(UUID uuid : PlayerManager.spectators) {

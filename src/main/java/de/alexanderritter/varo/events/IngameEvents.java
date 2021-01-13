@@ -109,7 +109,7 @@ public class IngameEvents implements Listener {
 			
 			PlayerManager.addIngamePlayer(p, ip);
 			
-		} else e.disallow(Result.KICK_BANNED, ChatColor.RED + "Du bist nicht registriert.\nBitte informiere den Admin, falls du glaubst, dies sei ein Fehler!");
+		} else e.disallow(Result.KICK_BANNED, VaroMessages.kickBecauseNotRegistered);
 	}
 	
 	@EventHandler
@@ -132,8 +132,8 @@ public class IngameEvents implements Listener {
 				p.teleport(p.getLocation().getWorld().getSpawnLocation());
 			}
 			p.setGameMode(GameMode.SPECTATOR);
-			String title_msg = "Du bist nun im Admin Modus";
-			String subtitle_msg = "Nicht zum eigenen Vorteil verwenden";
+			String title_msg = VaroMessages.adminModeTITLE;
+			String subtitle_msg = VaroMessages.adminModeSUBTITLE;
 			IChatBaseComponent chatTitle = ChatSerializer.a("{\"text\": \"" + title_msg + "\",color:" + ChatColor.DARK_GREEN.name().toLowerCase() + "}");
 			IChatBaseComponent chatSubTitle = ChatSerializer.a("{\"text\": \"" + subtitle_msg + "\",color:" + ChatColor.GREEN.name().toLowerCase() + "}");
 			PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, chatTitle);
@@ -151,7 +151,7 @@ public class IngameEvents implements Listener {
 		WorldBorder border = p.getWorld().getWorldBorder();
 		
 		if(plugin.getWorldBorder().isOutsideOfBorder(p, border)) {
-			p.sendMessage(ChatColor.RED + " [WARNING] Du bist außerhalb der Worldborder");
+			p.sendMessage(VaroMessages.outsideBorder);
 			switch(plugin.getSettings().getBorderMode()) {
 				case KILL:
 					p.setHealth(0.0);
@@ -182,9 +182,8 @@ public class IngameEvents implements Listener {
 		}
 		VaroPlayer ip = PlayerManager.getIngamePlayer(p);
 		if(ip.isAdmin()) {
-			System.out.println(p.getName() + " is Admin");
 			if(ip.isTempAdmin()) {
-				System.out.println(p.getName() + " is TEMP-Admin");
+				plugin.getLogger().info((p.getName() + " joined as TEMP-Admin"));
 				YamlConfiguration playerConfig = plugin.getPlayerConfig();
 				
 				String locString = ip.getUuid().toString() + ".admin.";
@@ -210,7 +209,7 @@ public class IngameEvents implements Listener {
 				for(VaroPlayer member : plugin.getRegistration().getTeamMembers(ip.getTeam())) {
 					if(!member.isSpectator() || !(plugin.getRegistration().isTeamAlive(ip.getTeam()))) continue;
 					if(Bukkit.getPlayer(member.getUuid()) == null) continue;
-					Bukkit.getPlayer(member.getUuid()).kickPlayer(VaroMessages.kickedBcPlayerLeft(ip.getName()) + "\n\n" + VaroMessages.spectateOnlyIfMemberOnline);
+					Bukkit.getPlayer(member.getUuid()).kickPlayer(VaroMessages.kickedMemberLeft(ip.getName()) + "\n\n" + VaroMessages.spectateOnlyIfMemberOnline);
 				}
 			}
 		}, 10*20);
@@ -253,7 +252,7 @@ public class IngameEvents implements Listener {
 		VaroPlayer ip = PlayerManager.getIngamePlayer(p);
 		if(ip.isAdmin()) return;
 		for(Player online : Bukkit.getOnlinePlayers()) {online.playSound(p.getLocation(), Sound.AMBIENCE_THUNDER, 1, 1);}
-		plugin.sendDiscordMessage("```http\n " + ip.getName() + " ist aus Varo ausgeschieden.\n ```");
+		plugin.sendDiscordMessage(VaroMessages.DISCORD_playerDied(ip.getName()));
 		p.setCanPickupItems(false);
 		ip.setDead(true);
 		ip.save();
@@ -267,8 +266,8 @@ public class IngameEvents implements Listener {
 			    
 				p.teleport(plugin.getSettings().getVaroWorld().getSpawnLocation());
 				
-				String title_msg = "Du bist gestorben";
-				String subtitle_msg = "Somit bist du aus Varo ausgeschieden";
+				String title_msg = VaroMessages.deathTITLE;
+				String subtitle_msg = VaroMessages.deathSUBTITLE;
 				IChatBaseComponent chatTitle = ChatSerializer.a("{\"text\": \"" + title_msg + "\",color:" + ChatColor.RED.name().toLowerCase() + "}");
 				IChatBaseComponent chatSubTitle = ChatSerializer.a("{\"text\": \"" + subtitle_msg + "\",color:" + ChatColor.RED.name().toLowerCase() + "}");
 				PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, chatTitle);
@@ -278,8 +277,8 @@ public class IngameEvents implements Listener {
 				((CraftPlayer) p).getHandle().playerConnection.sendPacket(subtitle);
 				((CraftPlayer) p).getHandle().playerConnection.sendPacket(length);
 				
-				p.setPlayerListName(ChatColor.GRAY + "[Spectator] " + p.getName());
-				p.sendMessage(ChatColor.RED + "Du bist gestorben!\n" + "Somit bist du aus Varo ausgeschieden.\n");
+				p.setPlayerListName(ChatColor.GRAY + VaroMessages.spectatorPrefix + " " + p.getName());
+				p.sendMessage(VaroMessages.youDied);
 				p.setCanPickupItems(true);
 				
 				p.teleport(plugin.getSettings().getLobby());
@@ -312,7 +311,7 @@ public class IngameEvents implements Listener {
 					plugin.getLogger().severe("Couldn't get inventory for " + winner.getName() + ", he never logged onto the server");
 				}
 			}
-			Bukkit.broadcastMessage(Varo.prefix + winner.getColor() + winner.getName() + " hat das Varo gewonnen (#" + winner.getTeam() + "). Gratuliere!");
+			Bukkit.broadcastMessage(VaroMessages.wonTheGame(winner));
 		}
 			
 	}
@@ -425,8 +424,8 @@ public class IngameEvents implements Listener {
 		
 		channel.sendMessage(
 		new EmbedBuilder()
-			.setTitle(ip.getName() + " hat das Varo gewonnen!", "https://de.namemc.com/profile/" + ip.getUuid())
-		    .setDescription("**@#" + ip.getTeam() + "**\n\n:medal: Ruhm und Ehre, ein Hoch auf den Sieg! :partying_face:")
+			.setTitle(VaroMessages.DISCORD_wonTheGame(ip.getName()), "https://de.namemc.com/profile/" + ip.getUuid())
+		    .setDescription("**@#" + ip.getTeam() + "**\n\n" + VaroMessages.DISCORD_winPartyMessage)
 		    .setColor(new Color(1408828))
 		    .setTimestamp(OffsetDateTime.now())
 			.setThumbnail(DiscordSRV.config().getString("Experiment_EmbedAvatarUrl")

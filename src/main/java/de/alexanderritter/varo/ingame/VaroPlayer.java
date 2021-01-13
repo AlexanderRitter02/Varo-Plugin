@@ -14,6 +14,7 @@ import org.bukkit.scoreboard.Team;
 
 import de.alexanderritter.varo.api.Actionbar;
 import de.alexanderritter.varo.api.TabList;
+import de.alexanderritter.varo.api.VaroMessages;
 import de.alexanderritter.varo.config.HUDOption;
 import de.alexanderritter.varo.main.Varo;
 
@@ -190,7 +191,7 @@ public class VaroPlayer {
 	
 	public void updateTabList(int time) {
 		String header = color + "#" + getTeam() + ChatColor.YELLOW + " - " + getTimeString();
-		String footer = ChatColor.GREEN + "Sessions: " + ChatColor.GOLD + getSessions();
+		String footer = ChatColor.GREEN + VaroMessages.sessions + ": " + ChatColor.GOLD + getSessions();
 		TabList tablist = new TabList(header, footer);
 		tablist.send(Bukkit.getPlayer(uuid));
 	}
@@ -204,7 +205,7 @@ public class VaroPlayer {
 		Objective obj = scoreboard.registerNewObjective(name, "dummy");
 		obj.setDisplayName(getTimeString());
 		obj.getScore(color + "#" + team).setScore(2);
-		obj.getScore(ChatColor.GREEN + "Sessions: "  + ChatColor.GOLD + getSessions()).setScore(1);
+		obj.getScore(ChatColor.GREEN + VaroMessages.sessions + ": " + ChatColor.GOLD + getSessions()).setScore(1);
 		obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 		Bukkit.getPlayer(uuid).setScoreboard(scoreboard);
 	}

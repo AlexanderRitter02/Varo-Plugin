@@ -1,6 +1,5 @@
 package de.alexanderritter.varo.events;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
@@ -10,6 +9,8 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+
+import de.alexanderritter.varo.api.VaroMessages;
 
 public class StandStill implements Listener {
 	
@@ -42,7 +43,7 @@ public class StandStill implements Listener {
 	
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent e) {
-		e.getPlayer().sendMessage(ChatColor.RED + "Du kannst jetzt nicht chatten");
+		e.getPlayer().sendMessage(VaroMessages.chatDisabled);
 		e.setCancelled(true);
 	}
 	
