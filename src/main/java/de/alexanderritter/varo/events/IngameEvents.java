@@ -176,10 +176,6 @@ public class IngameEvents implements Listener {
 		Player p = e.getPlayer();
 		permissions.remove(p.getUniqueId());
 		e.setQuitMessage(null);
-		if(PlayerManager.getIngamePlayer(p) == null) {
-			System.out.println(p.getName() + " is NULL");
-			return;
-		}
 		VaroPlayer ip = PlayerManager.getIngamePlayer(p);
 		if(ip.isAdmin()) {
 			if(ip.isTempAdmin()) {
