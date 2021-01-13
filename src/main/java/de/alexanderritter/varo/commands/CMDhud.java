@@ -5,10 +5,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import de.alexanderritter.varo.api.VaroMessages;
 import de.alexanderritter.varo.config.HUDOption;
 import de.alexanderritter.varo.ingame.PlayerManager;
 import de.alexanderritter.varo.ingame.VaroPlayer;
-import net.md_5.bungee.api.ChatColor;
 
 public class CMDhud implements CommandExecutor {
 	
@@ -26,7 +26,7 @@ public class CMDhud implements CommandExecutor {
 		Player p = (Player) sender;
 		VaroPlayer ip = PlayerManager.getIngamePlayer(p);
 		if(ip == null) {
-			sender.sendMessage(ChatColor.RED + "Spieler-Einstellungen lassen sich erst nach dem Start des Varos ändern.");
+			sender.sendMessage(VaroMessages.playerSettingsOnlyChangableAfterStart);
 			return true;
 		}
 		ip.setHUDOption(hudoption);

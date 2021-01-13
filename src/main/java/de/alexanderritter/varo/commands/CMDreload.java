@@ -4,8 +4,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
+import de.alexanderritter.varo.api.VaroMessages;
 import de.alexanderritter.varo.main.Varo;
-import net.md_5.bungee.api.ChatColor;
 
 public class CMDreload implements CommandExecutor{
 	
@@ -19,10 +19,9 @@ public class CMDreload implements CommandExecutor{
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if(!command.getName().equalsIgnoreCase("varo.reload")) return false;
 		if(args.length != 0) return false;
-		sender.sendMessage(ChatColor.GOLD + "Reloading...");
 		plugin.reloadPlayerConfig();
 		plugin.reloadIngamePlayers(false);
-		sender.sendMessage(ChatColor.GREEN + "Successfully reloaded players.yml");	
+		sender.sendMessage(VaroMessages.reloadedPlayerYML);	
 		return true;
 	}
 	

@@ -1,6 +1,5 @@
 package de.alexanderritter.varo.commands;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -33,13 +32,13 @@ public class CMDspawn implements CommandExecutor {
 				return false;
 			}
 			if(id <= 0) {
-				p.sendMessage(ChatColor.RED + "Die ID muss mindestens 1 betragen.");
+				p.sendMessage(VaroMessages.spawnIdMinOne);
 				return false;
 			}
 			YamlConfiguration spawns = plugin.getSpawnConfig();
 			int current_spawn_count = spawns.getKeys(false).size();
 			if(id > current_spawn_count + 1) {
-				p.sendMessage(ChatColor.RED + "Benutze die ID's in Reihenfolge! (1, 2, 3...)");
+				p.sendMessage(VaroMessages.spawnIdinOrder);
 				return false;
 			}
 			
@@ -51,7 +50,7 @@ public class CMDspawn implements CommandExecutor {
 			
 			plugin.getRegistration().registerSpawn(p.getLocation().getBlock().getLocation(), id);
 		} else if(sender instanceof ConsoleCommandSender) {
-			sender.sendMessage(ChatColor.RED + "Spawns werden ingame registriert");
+			sender.sendMessage(VaroMessages.spawnsAreRegisterdIngame);
 		}
 		return true;
 	}

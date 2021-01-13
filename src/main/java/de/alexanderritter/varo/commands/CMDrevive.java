@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -71,12 +70,12 @@ public class CMDrevive implements CommandExecutor {
 							players.set(uuid + ".reviving", Boolean.valueOf(true));
 						}
 						
-						plugin.sendDiscordMessage("```css\n Der Spieler " + playerName + " wurde wiederbelebt. Viel Glück!.\n ```");
+						plugin.sendDiscordMessage(VaroMessages.DISCORD_reviveSuccessfull(playerName));
 						sender.sendMessage(VaroMessages.reviveSuccessful(playerName));
 						
 					} else sender.sendMessage(VaroMessages.playerNotDead(playerName));
 				} else sender.sendMessage(VaroMessages.playerNotRegistered(playerName));
-			} else sender.sendMessage(ChatColor.RED + "Der Spieler " + ChatColor.GOLD + playerName + ChatColor.RED + " existiert nicht");
+			} else sender.sendMessage(VaroMessages.playerDoesntExistOrServersDown(playerName));
 		} catch (IOException e) {e.printStackTrace();}
 				
 		plugin.savePlayerConfig(players);

@@ -35,7 +35,7 @@ public class CMDstart implements CommandExecutor {
 		if(args[0].equalsIgnoreCase("break")) {
 			if(countdown.isRunning()) {
 				countdown.pause();
-			} else sender.sendMessage(ChatColor.RED + "Der Countdown läuft noch nicht");
+			} else sender.sendMessage(VaroMessages.countdownNotRunningYet);
 		} else {
 					
 			int time;

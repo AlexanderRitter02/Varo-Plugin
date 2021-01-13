@@ -13,7 +13,6 @@ import org.bukkit.entity.Player;
 import de.alexanderritter.varo.api.UUIDs;
 import de.alexanderritter.varo.api.VaroMessages;
 import de.alexanderritter.varo.main.Varo;
-import net.md_5.bungee.api.ChatColor;
 
 public class CMDmaintainence implements CommandExecutor {
 	
@@ -27,17 +26,18 @@ public class CMDmaintainence implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if(!command.getName().equalsIgnoreCase("maintainence")) return false;
 		if(args.length < 1 || args.length > 2) return false;
+		String playerName = args[0];
 		
 		UUID uuid = null;
 		try {
 			uuid = UUIDs.getUUID(args[0]);
 		} catch (IOException e) {
-			sender.sendMessage(ChatColor.RED + "Der Spieler " + args[0] + " existiert nicht oder Mojangs Auth-Server sind down");
+			sender.sendMessage(VaroMessages.playerDoesntExistOrServersDown(playerName));
 			return true;
 		}
 		
 		if(!plugin.getRegistration().getAllUUIDs().contains(uuid)) {
-			sender.sendMessage(VaroMessages.playerNotRegistered(args[0]));
+			sender.sendMessage(VaroMessages.playerNotRegistered(playerName));
 			return true;
 		}
 		
@@ -46,21 +46,21 @@ public class CMDmaintainence implements CommandExecutor {
 		if(args.length == 1) {
 			
 			players.set(uuid.toString() + ".admin.temp", true);
-			sender.sendMessage(ChatColor.GREEN + args[0] + " ist nun temporär Admin");
+			sender.sendMessage(VaroMessages.temporaryAdmin(playerName));
 			
 			if(Bukkit.getPlayer(uuid) != null) {
 				Player p = Bukkit.getPlayer(uuid);
-				p.kickPlayer(ChatColor.DARK_GREEN + "Für die nächste Session bist du temporär Admin. \nVerwende das nur, um etwas zu fixen und logge dich danach wieder aus");
+				p.kickPlayer(VaroMessages.temporaryAdminKickNotice);
 			}
 			
 		} else if (args.length == 2 && args[1].equalsIgnoreCase("forever")) {
 			
 			players.set(uuid.toString() + ".admin.temp", true);
-			sender.sendMessage(ChatColor.GREEN + args[0] + " ist nun " + ChatColor.DARK_RED + "für immer " + ChatColor.GREEN + "Admin");
+			sender.sendMessage(VaroMessages.adminForever(playerName));
 			
 			if(Bukkit.getPlayer(uuid) != null) {
 				Player p = Bukkit.getPlayer(uuid);
-				p.kickPlayer(ChatColor.DARK_RED + "Du bist nun Admin und überwachst das Spiel. Danke! \n" + ChatColor.RED + "Melde das sofort, falls du am Varo teilnehmen willst.");
+				p.kickPlayer(VaroMessages.adminForeverKickNotice);
 			}
 			
 		} else return false;

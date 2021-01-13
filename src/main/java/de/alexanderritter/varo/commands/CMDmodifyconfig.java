@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
+import de.alexanderritter.varo.api.VaroMessages;
 import de.alexanderritter.varo.main.Varo;
 
 public class CMDmodifyconfig implements CommandExecutor {
@@ -28,9 +29,9 @@ public class CMDmodifyconfig implements CommandExecutor {
 			// TODO Does contains work or should I use getString()
 			// Also does the following line save the config automagically?
 			plugin.getConfig().set(attribute, value);
-			sender.sendMessage("Das Attribut '" + attribute + "' wurde auf den Wert '" + value + "' gesetzt.");
+			sender.sendMessage(VaroMessages.changedConfig(attribute, value));
 		} else {
-			sender.sendMessage("Es liegt kein Eintrag mit dem Attribut '" + attribute + "' in der config.yml vor");
+			sender.sendMessage(VaroMessages.noConfigEntry(attribute));
 		}
 		return true;
 	}

@@ -1,6 +1,5 @@
 package de.alexanderritter.varo.commands;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -33,7 +32,7 @@ public class CMDcoordinates implements CommandExecutor {
 			return true;
 		} else if(args.length == 1) {
 			if(!sender.hasPermission("varo.coordinates.otherplayers")) {
-				sender.sendMessage(ChatColor.RED + "Du hast nicht die Berechtigung, für andere Spieler Koordinaten zu posten.");
+				sender.sendMessage(VaroMessages.noPermissionToPostCoordinates);
 				return true;
 			}
 			String playerName = args[0];

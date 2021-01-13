@@ -26,7 +26,7 @@ public class CMDregister implements CommandExecutor {
 		if(!command.getName().equalsIgnoreCase("varo.register")) return false;
 		if(args.length < 3) return false;
 				
-		sender.sendMessage(ChatColor.GREEN + "Registrierung läuft...");
+		sender.sendMessage(VaroMessages.registering);
 		String team = args[0];
 		ChatColor color = Colors.getColorfromString(args[1]);
 				
@@ -46,7 +46,7 @@ public class CMDregister implements CommandExecutor {
 			try {
 				if(UUIDs.getUUID(player) == null) {
 					plugin.getRegistration().deleteTeam(team);
-					sender.sendMessage(ChatColor.RED + "Der Spieler " + player + " existiert nicht!");
+					sender.sendMessage(VaroMessages.playerDoesntExistOrServersDown(player));
 					sender.sendMessage(VaroMessages.teamRegisteringFailed(team));
 					return true;
 				} else if(plugin.getRegistration().getAllUUIDs().contains(UUIDs.getUUID(player))) {
