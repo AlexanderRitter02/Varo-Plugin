@@ -176,7 +176,7 @@ public class IngameEvents implements Listener {
 		Player p = e.getPlayer();
 		permissions.remove(p.getUniqueId());
 		e.setQuitMessage(null);
-		VaroPlayer ip = PlayerManager.getIngamePlayer(p);
+		VaroPlayer ip = PlayerManager.getIngamePlayer(p) != null ? PlayerManager.getIngamePlayer(p) : plugin.getRegistration().loadPlayer(p);
 		if(ip.isAdmin()) {
 			if(ip.isTempAdmin()) {
 				plugin.getLogger().info((p.getName() + " joined as TEMP-Admin"));
