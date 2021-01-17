@@ -424,7 +424,7 @@ public class IngameEvents implements Listener {
 		    .setDescription("**@#" + ip.getTeam() + "**\n\n" + VaroMessages.DISCORD_winPartyMessage)
 		    .setColor(new Color(1408828))
 		    .setTimestamp(OffsetDateTime.now())
-			.setThumbnail(DiscordSRV.config().getString("Experiment_EmbedAvatarUrl")
+			.setThumbnail(DiscordSRV.config().getString("AvatarUrl")
 				.replace("{uuid}", ip.getUuid().toString())
                 .replace("{uuid-nodashes}", ip.getUuid().toString().replace("-", ""))
                 .replace("{username}", ip.getName())
