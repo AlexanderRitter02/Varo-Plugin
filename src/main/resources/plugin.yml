@@ -56,3 +56,6 @@ commands:
           description: Reload player.yml and config.yml. May be unstable, only use for testing or if necessary.
      postcoordinates:
           description: Post coordinates for yourself, a specific player or for everyone (@a)
+     varo.finalsmode:
+          permission: varo.finalsmode
+          description: Start final mode - Infinite session time for everyone and an immediate coordinate post

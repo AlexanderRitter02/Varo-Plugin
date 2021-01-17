@@ -11,7 +11,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
 
 import de.alexanderritter.varo.commands.CMDbordersize;
-import de.alexanderritter.varo.commands.CMDcoordinates;
 import de.alexanderritter.varo.commands.CMDdelete;
 import de.alexanderritter.varo.commands.CMDfinalsmode;
 import de.alexanderritter.varo.commands.CMDhud;
@@ -90,6 +89,7 @@ public class Init {
 		((PluginCommand) plugin.getCommand("varo.reload").setUsage(ChatColor.RED + "Syntax: /varo.reload")).setExecutor(new CMDreload(plugin));
 		((PluginCommand) plugin.getCommand("postcoordinates").setUsage(ChatColor.RED + "Syntax: For yourself only: /postcoordinates\n"
 				+ "For another player: /postcoordinates <player> <forced|normal>\n For everyone: /postcoordinates @a <forced|normal>")).setExecutor(new CMDpostcoordinates(plugin));
+		((PluginCommand) plugin.getCommand("varo.finalsmode").setUsage(ChatColor.RED + "Syntax: /varo.finalsmode")).setExecutor(new CMDfinalsmode(plugin));
 		plugin.getCommand("overwrite").setExecutor(new Overwrite(plugin));
 	}
 	
