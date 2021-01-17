@@ -84,9 +84,11 @@ public class SpectatorListener implements Listener {
 						inv.addItem(createPlayerSkull(member.getName()));
 					}
 				} else {
-					while(Bukkit.getOnlinePlayers().size() > invSize) invSize += 9;
+					while(PlayerManager.getAllIngamePlayers().size() > invSize) invSize += 9;
 					inv = Bukkit.createInventory(null, invSize, "Teleport to Player");
-					for(Player online : Bukkit.getOnlinePlayers()) inv.addItem(createPlayerSkull(online.getName()));
+					for(VaroPlayer online : PlayerManager.getAllIngamePlayers()) {
+						if(!online.isDead()) inv.addItem(createPlayerSkull(online.getName()));
+					}
 				}
 				
 				p.openInventory(inv);
