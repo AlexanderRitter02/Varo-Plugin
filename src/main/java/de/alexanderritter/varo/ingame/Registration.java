@@ -79,6 +79,7 @@ public class Registration {
 	
 	public VaroPlayer loadPlayer(UUID uuid) {
 		YamlConfiguration players = plugin.getPlayerConfig();
+		if(!players.getKeys(false).contains(uuid.toString())) return null;
 		String id = uuid.toString();
 		String name = players.getString(id + ".name");
 		String team = players.getString(id + ".team");
