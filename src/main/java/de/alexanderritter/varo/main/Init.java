@@ -13,9 +13,11 @@ import org.bukkit.plugin.PluginManager;
 import de.alexanderritter.varo.commands.CMDbordersize;
 import de.alexanderritter.varo.commands.CMDcoordinates;
 import de.alexanderritter.varo.commands.CMDdelete;
+import de.alexanderritter.varo.commands.CMDfinalsmode;
 import de.alexanderritter.varo.commands.CMDhud;
 import de.alexanderritter.varo.commands.CMDmaintainence;
 import de.alexanderritter.varo.commands.CMDmodifyconfig;
+import de.alexanderritter.varo.commands.CMDpostcoordinates;
 import de.alexanderritter.varo.commands.CMDregister;
 import de.alexanderritter.varo.commands.CMDreload;
 import de.alexanderritter.varo.commands.CMDrevive;
@@ -79,7 +81,6 @@ public class Init {
 		((PluginCommand) plugin.getCommand("varo.spawn").setUsage(ChatColor.RED + "Syntax: /varo.spawn <Id>")).setExecutor(new CMDspawn(plugin));
 		((PluginCommand) plugin.getCommand("varo.revive").setUsage(ChatColor.RED + "Syntax: /varo.revive <Spieler>")).setExecutor(new CMDrevive(plugin));
 		((PluginCommand) plugin.getCommand("varo.setlobby").setUsage(ChatColor.RED + "Syntax: /varo.setlobby")).setExecutor(new CMDsetlobby(plugin));
-		((PluginCommand) plugin.getCommand("coordinates").setUsage(ChatColor.RED + "Syntax: /coordinates | (Nur für Admins: /coordinates <player>)")).setExecutor(new CMDcoordinates(plugin));
 		((PluginCommand) plugin.getCommand("bordersize").setUsage(ChatColor.RED + "Syntax: /bordersize")).setExecutor(new CMDbordersize(plugin));
 		((PluginCommand) plugin.getCommand("spectators").setUsage(ChatColor.RED + "Syntax: /spectators")).setExecutor(new CMDspectators());
 		((PluginCommand) plugin.getCommand("modifyconfig").setUsage(ChatColor.RED + "Syntax: /modifyconfig <attribute> <value>")).setExecutor(new CMDmodifyconfig(plugin));
@@ -87,6 +88,8 @@ public class Init {
 		((PluginCommand) plugin.getCommand("varo.hud").setUsage(ChatColor.RED + "Syntax: /varo.hud <SCOREBOARD | ACTIONBAR | TAB | CHAT>")).setExecutor(new CMDhud());
 		((PluginCommand) plugin.getCommand("varo.strike").setUsage(ChatColor.RED + "Syntax: /varo.strike <add|remove|list> <player> ...")).setExecutor(new CMDstrike(plugin));
 		((PluginCommand) plugin.getCommand("varo.reload").setUsage(ChatColor.RED + "Syntax: /varo.reload")).setExecutor(new CMDreload(plugin));
+		((PluginCommand) plugin.getCommand("postcoordinates").setUsage(ChatColor.RED + "Syntax: For yourself only: /postcoordinates\n"
+				+ "For another player: /postcoordinates <player> <forced|normal>\n For everyone: /postcoordinates @a <forced|normal>")).setExecutor(new CMDpostcoordinates(plugin));
 		plugin.getCommand("overwrite").setExecutor(new Overwrite(plugin));
 	}
 	

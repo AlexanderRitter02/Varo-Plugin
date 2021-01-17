@@ -186,6 +186,7 @@ public class VaroMessages {
 	public static String kickBecauseNotRegistered = ChatColor.RED + "Du bist nicht registriert.\nBitte informiere den Admin, falls du glaubst, dies sei ein Fehler!";
 	public static String outsideBorder = ChatColor.RED + " [WARNING] Du bist außerhalb der Worldborder";
 	public static String chatDisabled = ChatColor.RED + "Du kannst jetzt nicht chatten";
+	public static String commandCanOnlyBeUsedIngame = ChatColor.RED + "Dieser Befehl kann nur ingame (als Spieler) ausgeführt werden.";
 	
 	public static String spectatorPrefix = "[Spectator]";
 	public static String sessions = "Sessions";

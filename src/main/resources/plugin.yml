@@ -30,8 +30,6 @@ commands:
           description: Belebe einen Spieler wieder
           permission: varo.revive
           aliases: []
-     coordinates:
-          description: Postet deine Koordinaten
      overwrite:
           description: overwrite
      bordersize:
@@ -56,3 +54,5 @@ commands:
      varo.reload:
           permission: varo.reload
           description: Reload player.yml and config.yml. May be unstable, only use for testing or if necessary.
+     postcoordinates:
+          description: Post coordinates for yourself, a specific player or for everyone (@a)
