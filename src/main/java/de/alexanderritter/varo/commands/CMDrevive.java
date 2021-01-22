@@ -9,8 +9,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_16_R3.CraftServer;
+import org.bukkit.craftbukkit.v1_16_R3.CraftWorld;
 import org.bukkit.entity.Player;
 
 import com.mojang.authlib.GameProfile;
@@ -20,9 +20,15 @@ import de.alexanderritter.varo.api.VaroMessages;
 import de.alexanderritter.varo.ingame.PlayerManager;
 import de.alexanderritter.varo.ingame.VaroPlayer;
 import de.alexanderritter.varo.main.Varo;
-import net.minecraft.server.v1_8_R3.EntityPlayer;
-import net.minecraft.server.v1_8_R3.MinecraftServer;
-import net.minecraft.server.v1_8_R3.PlayerInteractManager;
+import net.minecraft.server.v1_16_R3.EntityPlayer;
+import net.minecraft.server.v1_16_R3.MinecraftServer;
+import net.minecraft.server.v1_16_R3.PlayerInteractManager;
+import net.minecraft.server.v1_16_R3.ResourceKey;
+import net.minecraft.server.v1_16_R3.World;
+//import net.minecraft.server.v1_8_R3.EntityPlayer;
+//import net.minecraft.server.v1_8_R3.MinecraftServer;
+//import net.minecraft.server.v1_8_R3.PlayerInteractManager;
+import net.minecraft.server.v1_16_R3.WorldServer;
 
 public class CMDrevive implements CommandExecutor {
 	
@@ -87,7 +93,11 @@ public class CMDrevive implements CommandExecutor {
       GameProfile profile = new GameProfile(uuid, name);
 
       MinecraftServer server = ((CraftServer) Bukkit.getServer()).getServer();
-      EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(0), profile, new PlayerInteractManager(server.getWorldServer(0)));
+      WorldServer nmsWorld = ((CraftWorld) location.getWorld()).getHandle();
+      EntityPlayer entity = new EntityPlayer(server, nmsWorld, profile, new PlayerInteractManager(nmsWorld));
+      //server.getWorld
+      //server.getWorldServer();
+      //ResourceKey<World> key = server.getWorlds;
       entity.setPositionRotation(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
       entity.world = ((CraftWorld) location.getWorld()).getHandle();
       target = entity == null ? null : (Player) entity.getBukkitEntity();

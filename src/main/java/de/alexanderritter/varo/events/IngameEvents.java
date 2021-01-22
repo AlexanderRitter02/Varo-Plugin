@@ -17,7 +17,7 @@ import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -50,12 +50,18 @@ import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import github.scarsz.discordsrv.util.DiscordUtil;
-import net.minecraft.server.v1_8_R3.IChatBaseComponent;
-import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
-import net.minecraft.server.v1_8_R3.PacketPlayInClientCommand;
-import net.minecraft.server.v1_8_R3.PacketPlayInClientCommand.EnumClientCommand;
-import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
-import net.minecraft.server.v1_8_R3.PacketPlayOutTitle.EnumTitleAction;
+import net.minecraft.server.v1_16_R3.IChatBaseComponent;
+import net.minecraft.server.v1_16_R3.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_16_R3.PacketPlayInClientCommand;
+import net.minecraft.server.v1_16_R3.PacketPlayInClientCommand.EnumClientCommand;
+//import net.minecraft.server.v1_8_R3.IChatBaseComponent;
+//import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
+//import net.minecraft.server.v1_8_R3.PacketPlayInClientCommand;
+//import net.minecraft.server.v1_8_R3.PacketPlayInClientCommand.EnumClientCommand;
+//import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
+//import net.minecraft.server.v1_8_R3.PacketPlayOutTitle.EnumTitleAction;
+import net.minecraft.server.v1_16_R3.PacketPlayOutTitle;
+import net.minecraft.server.v1_16_R3.PacketPlayOutTitle.EnumTitleAction;
 
 public class IngameEvents implements Listener {
 	
@@ -247,7 +253,7 @@ public class IngameEvents implements Listener {
 		if(PlayerManager.getIngamePlayer(p) == null) return;
 		VaroPlayer ip = PlayerManager.getIngamePlayer(p);
 		if(ip.isAdmin()) return;
-		for(Player online : Bukkit.getOnlinePlayers()) {online.playSound(p.getLocation(), Sound.AMBIENCE_THUNDER, 1, 1);}
+		for(Player online : Bukkit.getOnlinePlayers()) {online.playSound(p.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 1, 1);}
 		plugin.sendDiscordMessage(VaroMessages.DISCORD_playerDied(ip.getName()));
 		p.setCanPickupItems(false);
 		ip.setDead(true);
@@ -320,7 +326,7 @@ public class IngameEvents implements Listener {
 		if(!(plugin.getSettings().getDisallowedItemsToUse().contains(itemString) || plugin.getSettings().getDisallowedItemsToUse().contains(itemString.split("\\(")[0]))) return;
 		e.setUseItemInHand(org.bukkit.event.Event.Result.DENY);
 		Player p = e.getPlayer();
-		p.playSound(p.getLocation(), Sound.VILLAGER_NO, 1, 1);
+		p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
 		p.sendMessage(VaroMessages.cannotUseItem);
 	}
 	
@@ -331,7 +337,7 @@ public class IngameEvents implements Listener {
 		e.setCancelled(true);
 		Player p = (Player) e.getWhoClicked();
 		p.closeInventory();
-		p.playSound(p.getLocation(), Sound.VILLAGER_NO, 1, 1);
+		p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
 		p.sendMessage(VaroMessages.cannotCraftItem);
 	}
 	
@@ -342,7 +348,7 @@ public class IngameEvents implements Listener {
 			e.getBlock().breakNaturally(); // Break the brewing stand to prevent infite loop
 			e.setCancelled(true);
 			for(Player send : getNearbyPlayers(e.getBlock().getLocation(), 20)) {
-				send.playSound(send.getLocation(), Sound.VILLAGER_NO, 1, 1);
+				send.playSound(send.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
 				send.sendMessage(VaroMessages.potionsNotAllowed);
 			}
 			return;
@@ -374,7 +380,7 @@ public class IngameEvents implements Listener {
 							if(dropped == false) {
 								e.getBlock().getWorld().dropItem(e.getBlock().getLocation().add(0, 1, 0), new ItemStack(m));
 								for(Player send : getNearbyPlayers(e.getBlock().getLocation(), 20)) {
-									send.playSound(send.getLocation(), Sound.VILLAGER_NO, 1, 1);
+									send.playSound(send.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
 									send.sendMessage(VaroMessages.potionIllegal);
 								}
 								dropped = true;

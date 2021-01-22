@@ -33,7 +33,7 @@ public class CMDstop implements CommandExecutor {
 			sender.sendMessage(VaroMessages.varoBeingStopped);
 			plugin.getSettings().setRunning(false);
 			HandlerList.unregisterAll(plugin); // alle Listener beenden
-			Bukkit.getServer().getScheduler().cancelAllTasks(); // Schutzzeit und andere Scheduler beenden
+			Bukkit.getServer().getScheduler().cancelTasks(plugin); // Schutzzeit und andere Scheduler beenden
 			plugin.initializeGametime(); // TODO why?
 			
 			for(Player online : Bukkit.getOnlinePlayers()) {

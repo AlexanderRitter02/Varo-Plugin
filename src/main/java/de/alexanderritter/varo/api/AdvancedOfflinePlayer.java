@@ -10,13 +10,17 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftInventoryPlayer;
+import org.bukkit.craftbukkit.v1_16_R3.inventory.CraftInventoryPlayer;
+//import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftInventoryPlayer;
 import org.bukkit.inventory.PlayerInventory;
 
 import de.alexanderritter.varo.main.Varo;
-import net.minecraft.server.v1_8_R3.NBTCompressedStreamTools;
-import net.minecraft.server.v1_8_R3.NBTTagCompound;
-import net.minecraft.server.v1_8_R3.NBTTagList;
+import net.minecraft.server.v1_16_R3.NBTCompressedStreamTools;
+import net.minecraft.server.v1_16_R3.NBTTagCompound;
+//import net.minecraft.server.v1_8_R3.NBTCompressedStreamTools;
+//import net.minecraft.server.v1_8_R3.NBTTagCompound;
+//import net.minecraft.server.v1_8_R3.NBTTagList;
+import net.minecraft.server.v1_16_R3.NBTTagList;
 
 public class AdvancedOfflinePlayer {
 	
@@ -48,7 +52,7 @@ public class AdvancedOfflinePlayer {
 	
 	public PlayerInventory getInventory() {
 		if(playernbt.get("Inventory") instanceof NBTTagList) {
-			net.minecraft.server.v1_8_R3.PlayerInventory inv = new net.minecraft.server.v1_8_R3.PlayerInventory(null);
+			net.minecraft.server.v1_16_R3.PlayerInventory inv = new net.minecraft.server.v1_16_R3.PlayerInventory(null);
 			inv.b((NBTTagList) playernbt.get("Inventory"));
 			return new CraftInventoryPlayer(inv);
 		}

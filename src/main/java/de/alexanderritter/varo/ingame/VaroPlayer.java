@@ -17,6 +17,8 @@ import de.alexanderritter.varo.api.TabList;
 import de.alexanderritter.varo.api.VaroMessages;
 import de.alexanderritter.varo.config.HUDOption;
 import de.alexanderritter.varo.main.Varo;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 
 public class VaroPlayer {
 	
@@ -178,15 +180,22 @@ public class VaroPlayer {
 	
 	public void setHUDOption(HUDOption hudoption) {
 		Bukkit.getPlayer(uuid).setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+		Player p = Bukkit.getPlayer(uuid);
 		new TabList("", "").send(Bukkit.getPlayer(uuid));
-		new Actionbar("").send(Bukkit.getPlayer(uuid));
+		
+		p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(""));
+		//new Actionbar("").send(Bukkit.getPlayer(uuid));
+		
 		this.hudoption = hudoption;
 		setTime(time);
 	}
 	
 	public void updateActionbar(int time) {
-		Actionbar actionbar = new Actionbar(getTimeString() + " - " + color + "#" + team + " - "  + ChatColor.GOLD + getSessions() + ChatColor.GREEN + " Sessions");
-		actionbar.send(Bukkit.getPlayer(uuid));
+		Bukkit.getPlayer(uuid).spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+				getTimeString() + " - " + color + "#" + team + " - "  + ChatColor.GOLD + getSessions() + ChatColor.GREEN + " Sessions"));
+		///Actionbar actionbar = new Actionbar(getTimeString() + " - " + color + "#" + team + " - "  + ChatColor.GOLD + getSessions() + ChatColor.GREEN + " Sessions");
+		//actionbar.send(Bukkit.getPlayer(uuid));
+		
 	}
 	
 	public void updateTabList(int time) {

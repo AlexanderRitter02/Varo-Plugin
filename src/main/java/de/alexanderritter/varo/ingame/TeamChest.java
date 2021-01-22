@@ -5,12 +5,12 @@ import java.util.Iterator;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
 import org.bukkit.block.DoubleChest;
 import org.bukkit.block.Sign;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -27,7 +27,8 @@ import de.alexanderritter.varo.main.Varo;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.minecraft.server.v1_8_R3.PacketPlayOutCloseWindow;
+import net.minecraft.server.v1_16_R3.PacketPlayOutCloseWindow;
+import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
 
 public class TeamChest implements Listener {
 	
@@ -48,7 +49,7 @@ public class TeamChest implements Listener {
 	
 	@EventHandler
 	public void onPlaceSign(BlockPlaceEvent e) {
-		if(!(e.getBlockPlaced().getType() == Material.WALL_SIGN)) return;
+		if(!Tag.WALL_SIGNS.getValues().contains(e.getBlockPlaced().getType())) return;
 		if(!(e.getBlockAgainst().getState() instanceof Chest)) return;
 		Chest chest = (Chest) e.getBlockAgainst().getState();
 		InventoryHolder ih = ((InventoryHolder) chest).getInventory().getHolder();

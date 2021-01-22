@@ -5,6 +5,7 @@ import java.util.HashMap;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.block.DoubleChest;
@@ -12,7 +13,7 @@ import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.InventoryHolder;
 
@@ -21,7 +22,7 @@ import de.alexanderritter.varo.ingame.ChestManager;
 import de.alexanderritter.varo.ingame.PlayerManager;
 import de.alexanderritter.varo.ingame.VaroPlayer;
 import de.alexanderritter.varo.main.Varo;
-import net.minecraft.server.v1_8_R3.PacketPlayOutCloseWindow;
+import net.minecraft.server.v1_16_R3.PacketPlayOutCloseWindow;
 
 public class Overwrite implements CommandExecutor {
 	
@@ -42,7 +43,7 @@ public class Overwrite implements CommandExecutor {
 		if(!players.keySet().contains(p)) {p.sendMessage(VaroMessages.noChestRequests); return false;}
 		
 		Location loc = players.get(p);
-		if(loc.getBlock().getType() != Material.WALL_SIGN) {
+		if(Tag.WALL_SIGNS.getValues().contains(loc.getBlock().getType())) {
 			p.sendMessage(VaroMessages.chestSignDoesntExist);
 			players.remove(p);
 			return false;}

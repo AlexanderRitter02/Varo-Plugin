@@ -84,7 +84,6 @@ public class Worldborder {
 			Location possible = new Location(world, x, maxHeight, z);
 			if(possible.getBlock().getType() != Material.AIR &&
 					possible.getBlock().getType() != Material.LAVA &&
-					possible.getBlock().getType() != Material.STATIONARY_LAVA &&
 					possible.add(0.0, 1.0, 0.0).getBlock().getType() == Material.AIR &&
 					possible.add(0.0, 2.0, 0.0).getBlock().getType() == Material.AIR) {
 				return maxHeight + 1;

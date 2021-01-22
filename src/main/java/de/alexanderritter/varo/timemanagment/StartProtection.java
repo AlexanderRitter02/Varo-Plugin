@@ -6,10 +6,11 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import de.alexanderritter.varo.api.Actionbar;
 import de.alexanderritter.varo.api.VaroMessages;
 import de.alexanderritter.varo.events.CancelDamage;
 import de.alexanderritter.varo.main.Varo;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 
 public class StartProtection extends BukkitRunnable {
 	
@@ -36,9 +37,8 @@ public class StartProtection extends BukkitRunnable {
 	@Override
 	public void run() {
 		time--;
-		Actionbar actionbar = new Actionbar(ChatColor.RED + "Schutzzeit: " + ChatColor.GOLD + time);
 		for(Player p : Bukkit.getOnlinePlayers()) {
-			actionbar.send(p);
+			p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "Schutzzeit: " + ChatColor.GOLD + time));
 		}
 		switch (time) {
 		case 300: case 240: case 180: case 120:
@@ -49,10 +49,9 @@ public class StartProtection extends BukkitRunnable {
 			break;
 		case 0:
 			Bukkit.broadcastMessage(VaroMessages.protectionTimeExipred);
-			actionbar.setText(VaroMessages.protectionTimeExpired_Actionbar);
 			for(Player p : Bukkit.getOnlinePlayers()) {
-				p.playSound(p.getLocation(), Sound.WITHER_DEATH, 1, 1);
-				actionbar.send(p);
+				p.playSound(p.getLocation(), Sound.ENTITY_WITHER_DEATH, 1, 1);
+				p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(VaroMessages.protectionTimeExpired_Actionbar));
 			}
 			this.stop();
 			break;

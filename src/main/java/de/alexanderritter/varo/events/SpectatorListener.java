@@ -1,5 +1,7 @@
 package de.alexanderritter.varo.events;
 
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -10,6 +12,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
@@ -19,7 +22,6 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerStatisticIncrementEvent;
 import org.bukkit.event.player.PlayerUnleashEntityEvent;
 import org.bukkit.event.vehicle.VehicleDamageEvent;
@@ -57,7 +59,7 @@ public class SpectatorListener implements Listener {
 			// Hide all existent spectators from the new joining player
 			for(Player online : Bukkit.getServer().getOnlinePlayers()) {
 				if(!PlayerManager.spectators.contains(online.getUniqueId())) continue;
-				p.hidePlayer(online);
+				p.hidePlayer(plugin, online);
 			}
 		}
 	}
@@ -81,13 +83,13 @@ public class SpectatorListener implements Listener {
 					inv = Bukkit.createInventory(null, invSize, "Teleport to Player");
 					for(VaroPlayer member : plugin.getRegistration().getTeamMembers(ip.getTeam())) {
 						if(Bukkit.getPlayer(member.getUuid()) == null) continue;
-						inv.addItem(createPlayerSkull(member.getName()));
+						inv.addItem(createPlayerSkull(member.getUuid(), member.getName()));
 					}
 				} else {
 					while(PlayerManager.getAllIngamePlayers().size() > invSize) invSize += 9;
 					inv = Bukkit.createInventory(null, invSize, "Teleport to Player");
 					for(VaroPlayer online : PlayerManager.getAllIngamePlayers()) {
-						if(!online.isDead()) inv.addItem(createPlayerSkull(online.getName()));
+						if(!online.isDead()) inv.addItem(createPlayerSkull(online.getUuid(), online.getName()));
 					}
 				}
 				
@@ -108,8 +110,8 @@ public class SpectatorListener implements Listener {
 		Player p = (Player) e.getWhoClicked();
 		ItemStack clicked = e.getCurrentItem();
 		
-		if(e.getInventory().getName().equalsIgnoreCase("Teleport to Player")) {
-			if(clicked != null && clicked.getType() == Material.SKULL_ITEM) {
+		if(e.getView().getTitle().equalsIgnoreCase("Teleport to Player")) {
+			if(clicked != null && clicked.getType() == Material.PLAYER_HEAD) {
 				Player to = Bukkit.getPlayerExact(clicked.getItemMeta().getDisplayName());
 				if(to != null) {
 					p.teleport(to);
@@ -127,12 +129,12 @@ public class SpectatorListener implements Listener {
 		p.getInventory().setItem(0, new ItemStack(Material.COMPASS));
 	}
 	
-	private ItemStack createPlayerSkull(String playername) {
+	private ItemStack createPlayerSkull(UUID uuid, String playername) {
 		
-		ItemStack playerhead = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+		ItemStack playerhead = new ItemStack(Material.PLAYER_HEAD, 1, (short) 3);
         
         SkullMeta playerheadmeta = (SkullMeta) playerhead.getItemMeta();
-        playerheadmeta.setOwner(playername);
+        playerheadmeta.setOwningPlayer(Bukkit.getOfflinePlayer(uuid));
         playerheadmeta.setDisplayName(playername);
         playerhead.setItemMeta(playerheadmeta);
         
@@ -160,8 +162,9 @@ public class SpectatorListener implements Listener {
 	}
 	
 	@EventHandler
-	public void onItemPickup(PlayerPickupItemEvent e) {
-		if(!PlayerManager.spectators.contains(e.getPlayer().getUniqueId())) return;
+	public void onItemPickup(EntityPickupItemEvent e) {
+		if(!(e.getEntity() instanceof Player)) return;
+		if(!PlayerManager.spectators.contains(e.getEntity().getUniqueId())) return;
 		e.setCancelled(true);
 	}
 	
