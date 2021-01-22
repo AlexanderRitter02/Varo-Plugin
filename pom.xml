@@ -3,7 +3,7 @@
     <groupId>de.alexanderritter.varo</groupId>
     <artifactId>Varo</artifactId>
     <!-- Version is used in plugin.yml -->
-    <version>2.2.0-alpha-ec3b0a2</version>
+    <version>2.2.0-alpha-ec3b0a2-1.16.5</version>
     <packaging>jar</packaging>
 
     <!-- Plugin Information -->
@@ -14,7 +14,7 @@
 
     <licenses>
         <license>
-            <name>Zlib License</name>
+            <name>BSD 3-Clause License</name>
             <url>https://github.com/AlexanderRitter02/varo-issues/blob/master/LICENSE</url>
         </license>
     </licenses>
@@ -37,20 +37,20 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.8-R0.1-SNAPSHOT</version>
+            <version>1.16.5-R0.1-SNAPSHOT</version>
         </dependency>
 		<dependency>
 			<groupId>com.discordsrv</groupId>
 			<artifactId>discordsrv</artifactId>
-			<version>1.19.0</version>
+			<version>1.21.3</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.spigot</groupId>
-			<artifactId>spigot-1.8.8</artifactId>
+			<artifactId>spigot-1.16.5</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/dependencies/spigot-1.8.8.jar</systemPath>
+			<systemPath>${project.basedir}/dependencies/spigot-1.16.5.jar</systemPath>
 		</dependency>
     </dependencies>
 
