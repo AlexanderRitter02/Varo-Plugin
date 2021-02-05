@@ -41,7 +41,7 @@ potions:
   disabled-potions:
      - STRENGTH
      - INVISIBILITY
-     - REGENERATION
+     - REGEN
 
 plugin:
   running: false
