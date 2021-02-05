@@ -50,18 +50,8 @@ import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import github.scarsz.discordsrv.util.DiscordUtil;
-import net.minecraft.server.v1_16_R3.IChatBaseComponent;
-import net.minecraft.server.v1_16_R3.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.v1_16_R3.PacketPlayInClientCommand;
 import net.minecraft.server.v1_16_R3.PacketPlayInClientCommand.EnumClientCommand;
-//import net.minecraft.server.v1_8_R3.IChatBaseComponent;
-//import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
-//import net.minecraft.server.v1_8_R3.PacketPlayInClientCommand;
-//import net.minecraft.server.v1_8_R3.PacketPlayInClientCommand.EnumClientCommand;
-//import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
-//import net.minecraft.server.v1_8_R3.PacketPlayOutTitle.EnumTitleAction;
-import net.minecraft.server.v1_16_R3.PacketPlayOutTitle;
-import net.minecraft.server.v1_16_R3.PacketPlayOutTitle.EnumTitleAction;
 
 public class IngameEvents implements Listener {
 	
@@ -138,16 +128,7 @@ public class IngameEvents implements Listener {
 				p.teleport(p.getLocation().getWorld().getSpawnLocation());
 			}
 			p.setGameMode(GameMode.SPECTATOR);
-			String title_msg = VaroMessages.adminModeTITLE;
-			String subtitle_msg = VaroMessages.adminModeSUBTITLE;
-			IChatBaseComponent chatTitle = ChatSerializer.a("{\"text\": \"" + title_msg + "\",color:" + ChatColor.DARK_GREEN.name().toLowerCase() + "}");
-			IChatBaseComponent chatSubTitle = ChatSerializer.a("{\"text\": \"" + subtitle_msg + "\",color:" + ChatColor.GREEN.name().toLowerCase() + "}");
-			PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, chatTitle);
-			PacketPlayOutTitle subtitle = new PacketPlayOutTitle(EnumTitleAction.SUBTITLE, chatSubTitle);
-			PacketPlayOutTitle length = new PacketPlayOutTitle(5, 60, 5);
-			((CraftPlayer) p).getHandle().playerConnection.sendPacket(title);
-			((CraftPlayer) p).getHandle().playerConnection.sendPacket(subtitle);
-			((CraftPlayer) p).getHandle().playerConnection.sendPacket(length);
+			p.sendTitle(ChatColor.DARK_GREEN + VaroMessages.adminModeTITLE, ChatColor.GREEN + VaroMessages.adminModeTITLE, 5, 60, 5);
 			return;
 		}
 		ip.setupScoreboard();
@@ -267,18 +248,7 @@ public class IngameEvents implements Listener {
 			    ((CraftPlayer)p).getHandle().playerConnection.a(packet);
 			    
 				p.teleport(plugin.getSettings().getVaroWorld().getSpawnLocation());
-				
-				String title_msg = VaroMessages.deathTITLE;
-				String subtitle_msg = VaroMessages.deathSUBTITLE;
-				IChatBaseComponent chatTitle = ChatSerializer.a("{\"text\": \"" + title_msg + "\",color:" + ChatColor.RED.name().toLowerCase() + "}");
-				IChatBaseComponent chatSubTitle = ChatSerializer.a("{\"text\": \"" + subtitle_msg + "\",color:" + ChatColor.RED.name().toLowerCase() + "}");
-				PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, chatTitle);
-				PacketPlayOutTitle subtitle = new PacketPlayOutTitle(EnumTitleAction.SUBTITLE, chatSubTitle);
-				PacketPlayOutTitle length = new PacketPlayOutTitle(5, 120, 5);
-				((CraftPlayer) p).getHandle().playerConnection.sendPacket(title);
-				((CraftPlayer) p).getHandle().playerConnection.sendPacket(subtitle);
-				((CraftPlayer) p).getHandle().playerConnection.sendPacket(length);
-				
+				p.sendTitle(ChatColor.RED + VaroMessages.deathTITLE, ChatColor.RED + VaroMessages.deathSUBTITLE, 5, 120, 5);
 				p.setPlayerListName(ChatColor.GRAY + VaroMessages.spectatorPrefix + " " + p.getName());
 				p.sendMessage(VaroMessages.youDied);
 				p.setCanPickupItems(true);

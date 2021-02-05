@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -16,10 +15,6 @@ import de.alexanderritter.varo.ingame.PlayerManager;
 import de.alexanderritter.varo.ingame.TeamChest;
 import de.alexanderritter.varo.ingame.VaroPlayer;
 import de.alexanderritter.varo.main.Varo;
-import net.minecraft.server.v1_16_R3.IChatBaseComponent;
-import net.minecraft.server.v1_16_R3.IChatBaseComponent.ChatSerializer;
-import net.minecraft.server.v1_16_R3.PacketPlayOutTitle;
-import net.minecraft.server.v1_16_R3.PacketPlayOutTitle.EnumTitleAction;
 
 public class Countdown extends BukkitRunnable {
 	
@@ -45,22 +40,14 @@ public class Countdown extends BukkitRunnable {
 					ChatColor.GOLD + time + ChatColor.DARK_GREEN + " Sekunden.");
 			for(Player online : Bukkit.getOnlinePlayers()) {
 				online.playSound(online.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1, 1);
-				IChatBaseComponent chatTitle = ChatSerializer.a("{\"text\": \"" + time + "\",color:" + ChatColor.GREEN.name().toLowerCase() + "}");
-				PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, chatTitle);
-				PacketPlayOutTitle length = new PacketPlayOutTitle(3, 20, 3);
-				((CraftPlayer) online).getHandle().playerConnection.sendPacket(title);
-				((CraftPlayer) online).getHandle().playerConnection.sendPacket(length);
+				online.sendTitle(ChatColor.GREEN + String.valueOf(time), "", 3, 20, 3);
 			}
 			break;
 		case 0:
 			Bukkit.broadcastMessage(ChatColor.RED + "Es geht los! Kämpfe um dein Überleben!");
 			for(Player online : Bukkit.getOnlinePlayers()) {
 				online.playSound(online.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1, 2);
-				IChatBaseComponent chatTitle = ChatSerializer.a("{\"text\": \"" + "START" + "\",color:" + ChatColor.DARK_GREEN.name().toLowerCase() + "}");
-				PacketPlayOutTitle title = new PacketPlayOutTitle(EnumTitleAction.TITLE, chatTitle);
-				PacketPlayOutTitle length = new PacketPlayOutTitle(3, 20, 3);
-				((CraftPlayer) online).getHandle().playerConnection.sendPacket(title);
-				((CraftPlayer) online).getHandle().playerConnection.sendPacket(length);
+				online.sendTitle(ChatColor.DARK_GREEN + "START", "", 3, 20, 3);
 			}
 			Bukkit.getServer().getScheduler().cancelTasks(plugin);;
 			
