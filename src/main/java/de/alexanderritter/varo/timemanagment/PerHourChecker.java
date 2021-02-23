@@ -1,32 +1,39 @@
 package de.alexanderritter.varo.timemanagment;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.GregorianCalendar;
+import java.util.TimerTask;
 import java.util.UUID;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import de.alexanderritter.varo.ingame.PlayerManager;
 import de.alexanderritter.varo.ingame.VaroPlayer;
 import de.alexanderritter.varo.main.Varo;
 
-public class PerHourChecker extends BukkitRunnable {
+public class PerHourChecker extends TimerTask {
 	
 	Varo plugin;
 	GregorianCalendar calendar;
-	int timeinterval; // seconds
+	ScheduledExecutorService executorService;
 	
 	public PerHourChecker(Varo plugin) {
 		this.plugin = plugin;
-		timeinterval = 60*60; //60*60 seconds
 		calendar = new GregorianCalendar();
 		calendar.setFirstDayOfWeek(GregorianCalendar.MONDAY);
 		shrinkWorldborder();
-		this.runTaskTimer(plugin, 0, timeinterval*20);
+		executorService = Executors.newScheduledThreadPool(1);
+		scheduleNextRun();
 	}
 
 	@Override
@@ -38,6 +45,20 @@ public class PerHourChecker extends BukkitRunnable {
 		updateDay();
 		checkCoordinatePost();
 		shrinkWorldborder();
+		scheduleNextRun();
+	}
+
+	private void scheduleNextRun(){
+		LocalDateTime localNow = LocalDateTime.now();
+		ZoneId zone = ZoneId.systemDefault();
+		ZonedDateTime nowWithZone = ZonedDateTime.of(localNow, zone);
+		ZonedDateTime nextTargetWithZone = nowWithZone.withHour(nowWithZone.getHour()).withMinute(0).withSecond(0).plusHours(1L);
+		Duration duration = Duration.between(nowWithZone, nextTargetWithZone);
+		if (duration.isNegative()){
+			duration = duration.plusHours(1L);
+		}
+		plugin.getLogger().info("Duration: " + duration.getSeconds());
+		executorService.schedule(this, duration.getSeconds(), TimeUnit.SECONDS);
 	}
 	
 	public void updateDay() {
@@ -93,7 +114,7 @@ public class PerHourChecker extends BukkitRunnable {
 		int endsize = plugin.getConfig().getInt("border.end-radius")*2;
 		double shrinkAmountPerHour = plugin.getSettings().getBorderShrinkPerHour();
 		
-		plugin.getLogger().info("Worldborder diameter will be shrunken by " + (double) shrinkAmountPerHour + " blocks every " + timeinterval + " seconds (" + (double) timeinterval / 3600 + " hours).");
+		plugin.getLogger().info("Worldborder diameter will be shrunken by " + (double) shrinkAmountPerHour + " blocks every 3600 seconds (1 hour).");
 		
 		String bordermsg = "";
 		for(World world : Bukkit.getWorlds()) {
@@ -108,7 +129,7 @@ public class PerHourChecker extends BukkitRunnable {
 				border.setSize(border.getSize() - (instant * shrinkAmountPerHour));
 			}
 			bordermsg += "Worldborder is shrinking from " + border.getSize() + " to " + (border.getSize() - shrinkAmountPerHour) + " in the next hour";
-			border.setSize(border.getSize() - shrinkAmountPerHour, timeinterval);
+			border.setSize(border.getSize() - shrinkAmountPerHour, 3600);
 		}
 		instant = 0;
 		plugin.getLogger().info(bordermsg);
